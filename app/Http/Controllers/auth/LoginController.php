@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\auth;
+
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -35,7 +35,7 @@ class LoginController extends Controller
         );
 
         if (Auth::attempt($data)) {
-            return redirect()->route('admin');
+            return redirect()->route('welcome');
         } else {
             $validator->errors()->add('email', 'E-mail ou senha incorretos');
 

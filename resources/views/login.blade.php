@@ -22,7 +22,7 @@
                         <input id="email" type="text"
                             class="form-control w-full rounded px-2 py-1.5 outline-none border border-solid
                              border-slate-300 focus:border focus:border-red-300 transition ease-in-out
-                             duration-600  @error('email')@enderror"
+                             duration-600  @error('email') @enderror"
                             name="email" value="{{ old('email') }}" placeholder="Informe seu e-mail" autofocus>
 
                         @error('email')

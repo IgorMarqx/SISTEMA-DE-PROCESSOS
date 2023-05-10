@@ -10,24 +10,7 @@
 @section('content')
 
     @if (session()->has('success'))
-        <script type="text/javascript">
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            Toast.fire({
-                icon: 'success',
-                title: '{{ session('success') }}'
-            })
-        </script>
+        @include('components.notification')
     @endif
 
     <div class="mb-4">
@@ -92,67 +75,37 @@
                         @endif
 
                         <td>
-                            <a href="{{ route('users.show', ['user' => $user->id]) }}"
-                                class="text-yellow-400 hover:text-yellow-500 mr-2">
+                            <x-button route="{{ route('users.show', ['user' => $user->id]) }}" color="text-yellow-400"
+                                hover="hover:text-yellow-500" margin="mr-2">
                                 <i class="fa-solid fa-circle-info text-sm mr-[0.2rem]"></i>
                                 Detalhes
-                            </a>
+                            </x-button>
 
-                            <a href="{{ route('users.edit', ['user' => $user->id]) }}"
-                                class="text-green-500 hover:text-green-600 mr-1">
+                            <x-button route="{{ route('users.edit', ['user' => $user->id]) }}" color="text-green-500"
+                                hover="hover:text-green-600" margin="mr-1">
                                 <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
                                 Editar
-                            </a>
+                            </x-button>
 
                             @if ($loggedId !== intval($user->id))
                                 <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    class="text-red-500 hover:text-red-600 ml-1" data-id="{{ $user->id }}">
+                                    class="text-red-500 hover:text-red-600 ml-1">
                                     <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                                     Excluir
                                 </a>
+                                @include('admin.modals.users')
                             @else
-                                <span class="text-green-500"><i class="fa-solid fa-globe text-sm mr-[0.2rem]"></i> Logado</span>
+                                <span class="text-green-500"><i class="fa-solid fa-globe text-sm mr-[0.2rem]"></i>
+                                    Logado</span>
                             @endif
                         </td>
                     </tr>
                 @endforeach
             </table>
         </div>
-
-
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title fs-5 text-red-500" id="exampleModalLabel">Deletando
-                            Usuário</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <span class="text-red-500">Atenção!</span>
-                        <p class="text-red-500">Tem certeza que você deseja apagar esse usuário</p>
-                    </div>
-
-                    <form id="deleteForm" method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
-                        @csrf
-                        @method('DELETE')
-
-                        <input type="text" name="users_id" id="users_id">
-                        <div class="modal-footer">
-                            <button type="button" class="bg-green-500 p-2 text-white rounded hover:bg-green-600"
-                                data-bs-dismiss="modal">Fechar</button>
-                            <input type="submit" value="Excluir"
-                                class="bg-red-500 p-2 text-white rounded hover:bg-red-600">
-                    </form>
-
-                </div>
-            </div>
-        </div>
     </div>
 
 
     {{ $users->links('pagination::bootstrap-4') }}
-    </div>
 
 @endsection

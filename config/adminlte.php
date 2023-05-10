@@ -301,14 +301,21 @@ return [
         //     'can'  => 'manage-blog',
         // ],
         [
-            'text'        => 'Dashboard',
+            'text'        => 'Bem vindo',
             'url'         => '/',
+            'icon'        => 'fa-solid fa-door-open',
+        ],
+        [
+            'text'        => 'Dashboard',
+            'url'         => '/dashboard',
             'icon'        => 'fa-solid fa-gauge',
+            'can'         => 'manager-users',
         ],
         [
             'text'        => 'Processos',
             'url'         => '/proccess',
             'icon'        => 'fa-solid fa-suitcase',
+            'can'         => 'manager-users',
         ],
         ['header' => 'Administração',  'can' => 'manager-users',],
         [
@@ -316,6 +323,12 @@ return [
             'url'         => '/users',
             'icon'        => 'fa-solid fa-users',
             'can'         => 'manager-users',
+        ],
+        ['header' => 'Usuários'],
+        [
+            'text'        => 'Meu perfil',
+            'url'         => '/profile',
+            'icon'        => 'fa-solid fa-user',
         ],
 
     ],
