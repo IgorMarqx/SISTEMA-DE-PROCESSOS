@@ -20,54 +20,21 @@
         </a>
 
         <div class="row mt-3">
+            <x-card quantity="" size="col-md-3" icon="fa-solid fa-book">
+                Quantidade de Processos
+            </x-card>
 
-            <a href="#" class="col-md-3">
-                <div class="info-box bg-white ">
-                    <span class="info-box-icon bg-danger text-white elevation-1">
-                        <i class="fa-solid fa-book"></i>
-                    </span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Quantidade de Processos</span>
-                        <span class="info-box-number"></span>
-                    </div>
-                </div>
-            </a>
+            <x-card quantity="" size="col-md-3" icon="fa-solid fa-gavel">
+                Processos em Andamento
+            </x-card>
 
-            <a href="#" class="col-md-3">
-                <div class="info-box bg-white ">
-                    <span class="info-box-icon bg-danger elevation-1">
-                        <i class="fa-solid fa-gavel"></i>
-                    </span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Processos em Andamento</span>
-                        <span class="info-box-number"></span>
-                    </div>
-                </div>
-            </a>
+            <x-card quantity="" size="col-md-3" icon="fa-solid fa-circle-check">
+                Processos Atualizados
+            </x-card>
 
-            <a href="#" class="col-md-3">
-                <div class="info-box bg-white ">
-                    <span class="info-box-icon bg-danger elevation-1">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Processos Atualizados</span>
-                        <span class="info-box-number"></span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="#" class="col-md-3">
-                <div class="info-box bg-white ">
-                    <span class="info-box-icon bg-danger elevation-1">
-                        <i class="fa-solid fa-flag-checkered"></i>
-                    </span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Processos Concluidos</span>
-                        <span class="info-box-number"></span>
-                    </div>
-                </div>
-            </a>
+            <x-card quantity="" size="col-md-3" icon="fa-solid fa-flag-checkered">
+                Processos Finalizados
+            </x-card>
         </div>
 
 
@@ -97,8 +64,8 @@
                             Detalhes
                         </x-button>
 
-                        <x-button route="{{ route('proccess.edit', ['proccess']) }}" color="text-green-500" hover="hover:text-green-600"
-                            margin="mr-1">
+                        <x-button route="{{ route('proccess.edit', ['proccess']) }}" color="text-green-500"
+                            hover="hover:text-green-600" margin="mr-1">
                             <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
                             Editar
                         </x-button>

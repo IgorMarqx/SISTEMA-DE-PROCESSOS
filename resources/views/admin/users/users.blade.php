@@ -20,31 +20,13 @@
         </a>
 
         <div class="row mt-3">
+            <x-card quantity="{{ $userCount }}" size="col-md-6" icon="fa-solid fa-users">
+                Quantidade de usuários
+            </x-card>
 
-            <a href="#" class="col-md-6">
-                <div class="info-box bg-white ">
-                    <span class="info-box-icon bg-danger text-white elevation-1">
-                        <i class="fa-solid fa-users"></i>
-                    </span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Total de Usuários</span>
-                        <span class="info-box-number">{{ $userCount }}</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="#" class="col-md-6">
-                <div class="info-box bg-white ">
-                    <span class="info-box-icon bg-danger elevation-1">
-                        <i class="fa-solid fa-crown"></i>
-                    </span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Usuários Administradores</span>
-                        <span class="info-box-number">{{ $userAdminCount }}</span>
-                    </div>
-                </div>
-            </a>
-
+            <x-card quantity="{{ $userAdminCount }}" size="col-md-6" icon="fa-solid fa-crown">
+                Usuários Administradores
+            </x-card>
         </div>
 
 
@@ -76,14 +58,14 @@
 
                         <td>
                             <x-button route="{{ route('users.show', ['user' => $user->id]) }}" color="text-yellow-400"
-                                hover="hover:text-yellow-500" margin="mr-2">
-                                <i class="fa-solid fa-circle-info text-sm mr-[0.2rem]"></i>
+                                hover="hover:text-yellow-500" margin="mr-2"
+                                icon="fa-solid fa-circle-info text-sm mr-[0.2rem] ">
+
                                 Detalhes
                             </x-button>
 
                             <x-button route="{{ route('users.edit', ['user' => $user->id]) }}" color="text-green-500"
-                                hover="hover:text-green-600" margin="mr-1">
-                                <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
+                                hover="hover:text-green-600" margin="mr-1" icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
                                 Editar
                             </x-button>
 
