@@ -37,7 +37,6 @@
             </x-card>
         </div>
 
-
         <div class="card mt-1">
             <div class="bg-red-500 h-1">
 
@@ -52,31 +51,48 @@
                     <th>Ações</th>
                 </tr>
 
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                @foreach ($proccess as $proccesses)
+                    <tr>
+                        <td>{{ $proccesses->id }}</td>
+                        <td>{{ $proccesses->name }} </td>
+                        <td><a href="{{ $proccesses->url_proccess }}" target="_blank"> {{ $proccesses->url_proccess }}</a>
+                        </td>
 
-                    <td>
-                        <x-button route="" color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
-                            icon="fa-solid fa-circle-info text-sm mr-[0.2rem]">
-                            Detalhes
-                        </x-button>
+                        @if ($proccesses->progress_proccess == 1)
+                            <x-status borderColor="border-sky-500" textColor="text-sky-500">
+                                Andamento
+                            </x-status>
+                        @elseif($proccesses->finish_proccess == 1)
+                            <x-status borderColor="border-red-500" textColor="text-red-500">
+                                Finalizado
+                            </x-status>
+                        @elseif($proccesses->update_proccess == 1)
+                            <x-status borderColor="border-green-500" textColor="text-green-500">
+                                Atualizado
+                            </x-status>
+                        @endif
 
-                        <x-button route="{{ route('proccess.edit', ['proccess']) }}" color="text-green-500"
-                            hover="hover:text-green-600" margin="mr-1" icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
-                            Editar
-                        </x-button>
+                        <td>
+                            <x-button route="{{ route('proccess.show', ['proccess']) }}" color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
+                                icon="fa-solid fa-circle-info text-sm mr-[0.2rem]">
+                                Detalhes
+                            </x-button>
 
-                        <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            class="text-red-500 hover:text-red-600 ml-1">
-                            <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
-                            Excluir
-                        </a>
-                        @include('admin.modals.proccess')
-                    </td>
-                </tr>
+                            <x-button route="{{ route('proccess.edit', ['proccess']) }}" color="text-green-500"
+                                hover="hover:text-green-600" margin="mr-1" icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                Editar
+                            </x-button>
+
+                            <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                class="text-red-500 hover:text-red-600 ml-1">
+                                <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                Excluir
+                            </a>
+                            @include('admin.modals.proccess')
+                        </td>
+                    </tr>
+                @endforeach
+
             </table>
         </div>
     </div>

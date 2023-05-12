@@ -24,9 +24,13 @@
 
         </div>
 
+
+
         <div class="card-body">
             <form action="{{ route('proccess.store') }}" method="POST">
                 @csrf
+
+                <input type="hidden" name="progress_proccess" value="1">
 
                 <div class="row g-3">
 
@@ -38,6 +42,10 @@
                         <x-inputs id="proccess" form="form-control" placeholder="Informe o nome do processo"
                             value="{{ old('proccess') }}" type="text" name="proccess" focus="{{ true }}"
                             error="proccess" />
+
+                        @error('proccess')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -48,6 +56,10 @@
                         <x-inputs id="url" form="form-control" placeholder="Informe a URL do processo"
                             value="{{ old('url') }}" type="text" name="url" focus="{{ false }}"
                             error="url" />
+
+                        @error('url')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-4">
@@ -55,9 +67,13 @@
                             E-mail Coorporativo
                         </x-labels>
 
-                        <x-inputs id="email_corp" form="form-control" placeholder="Informe a URL do processo"
+                        <x-inputs id="email_corp" form="form-control" placeholder="Informe o e-mail coorporativo"
                             value="{{ old('email_corp') }}" type="text" name="email_corp" focus="{{ false }}"
                             error="email_corp" />
+
+                        @error('email_corp')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-5">
@@ -65,22 +81,34 @@
                             E-mail do Cliente
                         </x-labels>
 
-                        <x-inputs id="email_client" form="form-control" placeholder="Informe a URL do processo"
-                            value="{{ old('email_client') }}" type="text" name="email_client" focus="{{ false }}"
-                            error="email_client" />
+                        <x-inputs id="email_client" form="form-control" placeholder="Informe o e-mail do cliente"
+                            value="{{ old('email_client') }}" type="text" name="email_client"
+                            focus="{{ false }}" error="email_client" />
+
+                        @error('email_client')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-3">
-                        <x-labels colorSpan="text-red-500" id="user">
-                            Selecione o usuário que você deseja
+                        <x-labels colorSpan="text-red-500" id="user_id">
+                            Selecione o cliente que você deseja
                         </x-labels>
 
-                        <select name="user" id="user" class="form-control">
-                            <option value="error" selected>Informe o usuário</option>
-                            <option value="">Usuario 1</option>
-                            <option value="">Usuario 2</option>
-                            <option value="">Usuario 3</option>
+                        <select name="user_id" id="user_id" class="form-control">
+                            <option value="error" selected>Informe o cliente</option>
+
+                            @foreach ($users as $user)
+                                @if ($user->admin === 1)
+                                @else
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endif
+                            @endforeach
                         </select>
+
+                        @error('user_id')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
 
                     </div>
 

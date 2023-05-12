@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proccess', function (Blueprint $table) {
+        Schema::create('proccesses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('user_id')->unsigned();
@@ -19,10 +19,12 @@ return new class extends Migration
             $table->string('url_proccess', 2048);
             $table->string('email_coorporative');
             $table->string('email_client');
-            $table->integer('qtd_update');
-            $table->integer('qtd_finish');
-            $table->integer('reopen_proccess');
-            $table->boolean('progress_process');
+            $table->integer('qtd_update')->nullable();
+            $table->integer('qtd_finish')->nullable();
+            $table->integer('reopen_proccess')->nullable();
+            $table->boolean('progress_proccess')->default(0);
+            $table->boolean('finish_proccess')->default(0);
+            $table->boolean('update_proccess')->default(0);
             $table->timestamps();
         });
     }
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proccess');
+        Schema::dropIfExists('proccesses');
     }
 };

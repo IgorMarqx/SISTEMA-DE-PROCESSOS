@@ -9,6 +9,8 @@ class Proccess extends Model
 {
     use HasFactory;
 
+    protected $table = 'proccesses';
+
     protected $fillable = [
         'name',
         'user_id',
@@ -19,5 +21,13 @@ class Proccess extends Model
         'qtd_finish',
         'reopen_proccess',
         'progress_proccess',
+        'finish_proccess',
+        'update_proccess',
+        'pending_proccess',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
