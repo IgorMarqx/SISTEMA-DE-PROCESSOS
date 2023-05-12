@@ -24,7 +24,7 @@ Este projeto é um sistema desenvolvido para a SINDJUF-PB com o intuito de auxil
 
 **2.** Certifique-se de ter o PHP e o MySQL instalados em sua máquina.
 
-**3.** Execute o comando `composer install` para instalar as dependências do Laravel.
+**3.** Execute o comando `composer create-project laravel/laravel 'nomedoprojeto'` para instalar as dependências do Laravel.
 
 **4.** Copie o arquivo `.env.example` para `.env` e configure as informações do banco de dados.
 
