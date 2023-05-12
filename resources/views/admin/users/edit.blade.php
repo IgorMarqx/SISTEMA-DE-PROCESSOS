@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @extends('layout.links')
 
-@section('title', 'Usuários')
+@section('title', 'Usuários - SINDJUF')
 
 @section('content_header')
     <div class="mb-2"></div>
@@ -15,7 +15,7 @@
         </a>
 
         <div class="bg-green-500 hover:bg-green-600 ml-2 flex items-center text-white p-2 rounded">
-            <span class="">Editar Usuário</span>
+            <span class="">Edição de Usuário</span>
         </div>
     </div>
 
@@ -106,7 +106,7 @@
 
                     <div class="col-md-12 mt-3">
                         <input type="submit"
-                            class="bg-red-500 block w-full text-white rounded p-1 hover:bg-red-600 transition ease-in-out">
+                            class="bg-red-500 block w-full text-white rounded p-1 hover:bg-red-600 transition ease-in-out" value="Editar">
                     </div>
 
                 </div>

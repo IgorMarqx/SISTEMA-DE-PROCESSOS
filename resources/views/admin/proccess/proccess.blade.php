@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @extends('layout.links')
 
-@section('title', 'Processos')
+@section('title', 'Processos - SINDJUF')
 
 @section('content_header')
     <div class="mb-2"></div>
@@ -59,14 +59,13 @@
                     <td></td>
 
                     <td>
-                        <x-button route="" color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2">
-                            <i class="fa-solid fa-circle-info text-sm mr-[0.2rem]"></i>
+                        <x-button route="" color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
+                            icon="fa-solid fa-circle-info text-sm mr-[0.2rem]">
                             Detalhes
                         </x-button>
 
                         <x-button route="{{ route('proccess.edit', ['proccess']) }}" color="text-green-500"
-                            hover="hover:text-green-600" margin="mr-1">
-                            <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
+                            hover="hover:text-green-600" margin="mr-1" icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
                             Editar
                         </x-button>
 
