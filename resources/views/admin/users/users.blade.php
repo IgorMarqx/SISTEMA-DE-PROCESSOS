@@ -37,22 +37,22 @@
 
             <table class="table table-hover">
                 <tr>
-                    <th class="w-[5rem]">ID</th>
-                    <th class="w-[15rem]">Nome</th>
-                    <th class="w-[20rem]">E-mail</th>
-                    <th class="w-[20rem]">Acesso</th>
-                    <th>Ações</th>
+                    <th class="w-[5rem] text-center">ID</th>
+                    <th class="w-[15rem] text-center">Nome</th>
+                    <th class="w-[20rem] text-center">E-mail</th>
+                    <th class="w-[20rem] text-center">Acesso</th>
+                    <th class="text-center">Ações</th>
                 </tr>
 
                 @foreach ($users as $user)
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
+                        <td class="text-center">{{ $user->id }}</td>
+                        <td class="text-center">{{ $user->name }}</td>
+                        <td class="text-center">{{ $user->email }}</td>
                         @if ($user->admin == 1)
-                            <td class="text-red-500"><i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i> Admin</td>
+                            <td class="text-red-500 text-center"><i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i> Admin</td>
                         @else
-                            <td class="text-sky-500"><i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i> Usuário
+                            <td class="text-sky-500 text-center"><i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i> Usuário
                             </td>
                         @endif
 

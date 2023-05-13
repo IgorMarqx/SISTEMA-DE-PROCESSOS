@@ -11,13 +11,14 @@
                 <p class="text-red-500">Tem certeza que você deseja apagar esse Processo</p>
             </div>
 
-            <form id="deleteForm" method="POST" action="{{ route('proccess.destroy', ['proccess' => 1]) }}">
+            <form id="deleteForm" method="POST" action="{{ route('proccess.destroy', ['proccess' => $proccesses->id]) }}">
                 @csrf
                 @method('DELETE')
                 <div class="modal-footer">
                     <button type="button" class="bg-green-500 p-2 text-white rounded hover:bg-green-600"
                         data-bs-dismiss="modal">Fechar</button>
                     <input type="submit" value="Excluir" class="bg-red-500 p-2 text-white rounded hover:bg-red-600">
+                </div>
             </form>
         </div>
     </div>

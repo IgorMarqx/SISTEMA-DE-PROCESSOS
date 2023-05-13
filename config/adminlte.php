@@ -317,7 +317,7 @@ return [
             'icon'        => 'fa-solid fa-suitcase',
             'can'         => 'manager-users',
         ],
-        ['header' => 'Administração',  'can' => 'manager-users',],
+        ['header' => 'Administração',  'can' => 'manager-users'],
         [
             'text'        => 'Usuários',
             'url'         => '/users',

@@ -21,10 +21,21 @@ class ProccessController extends Controller
      */
     public function index()
     {
-        $process = Proccess::all();
+        $proccess = Proccess::paginate(7);
+
+        $proccess_count = Proccess::count('id');
+
+        $progress_proccess_count = Proccess::where('progress_proccess', '=', '1')->count();
+        $finish_proccess_count = Proccess::where('finish_proccess', '=', '1')->count();
+        $update_proccess_count = Proccess::where('update_proccess', '=', '1')->count();
+
 
         return view('admin.proccess.proccess', [
-            'proccess' => $process
+            'proccess' => $proccess,
+            'proccessCount' => $proccess_count,
+            'progressCount' => $progress_proccess_count,
+            'finishCount' => $finish_proccess_count,
+            'updateCount' => $update_proccess_count,
         ]);
     }
 
@@ -34,6 +45,7 @@ class ProccessController extends Controller
     public function create()
     {
         $user = User::all();
+
 
         return view('admin.proccess.create', [
             'users' => $user,
@@ -75,6 +87,7 @@ class ProccessController extends Controller
         ]);
         $proccess->save();
 
+        session()->flash('success', 'Processo criado com sucesso.');
         return redirect()->route('proccess.index');
     }
 
@@ -106,7 +119,13 @@ class ProccessController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        dd($id);
+    }
+
+    public function finish(string $id)
+    {
+        session()->flash('success', 'Processo finalizado com sucesso.');
+        return redirect()->route('proccess.index');
     }
 
     public function validator($data)
