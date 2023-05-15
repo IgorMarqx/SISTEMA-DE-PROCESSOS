@@ -7,6 +7,8 @@ use App\Models\Proccess;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class ProccessController extends Controller
@@ -99,6 +101,14 @@ class ProccessController extends Controller
      */
     public function show(string $id)
     {
+        $proccess = Proccess::find($id);
+        $user = $proccess->user;
+
+
+        return view('admin.proccess.details', [
+            'proccess' => $proccess,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -125,7 +135,72 @@ class ProccessController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $proccess = Proccess::find($id);
+
+        if ($proccess) {
+            $data = $request->only('proccess', 'url', 'email_corp', 'email_client', 'user_id', 'status');
+
+            $validator = $this->validator($data);
+
+            if ($validator->fails()) {
+                return redirect()->route('proccess.edit', ['proccess' => $proccess])->withErrors($validator);
+            }
+
+            $proccess->name = $data['proccess'];
+
+            if ($proccess->email_client !== $data['email_client']) {
+                $hasEmail = Proccess::where('email_client', $data['email_client'])->get();
+                dd($hasEmail);
+
+                if (count($hasEmail) == 0) {
+                    $proccess->email_client = $data['email_client'];
+                } else {
+                    $validator->errors()->add('email', 'Já existe um e-mail com esse.');
+                }
+            }
+
+            if (count($validator->errors()) > 0) {
+                return redirect()->route('proccess.edit', ['proccess' => $id])->withErrors($validator);
+            }
+
+            if ($data['status'] == 1) {
+                $proccess->finish_proccess = 0;
+                $proccess->progress_proccess = 0;
+                $proccess->reopen_proccess = 0;
+                $proccess->update_proccess = 1;
+
+                $proccess->qtd_update += 1;
+                session()->flash('success', 'Processo Atualizado com sucesso.');
+            } else if ($data['status'] == 2) {
+
+                if ($proccess->finish_proccess == 1) {
+                    session()->flash('error', 'Esse processo ja foi finalizado.');
+                    return redirect()->route('proccess.index');
+                }
+
+                $proccess->progress_proccess = 0;
+                $proccess->update_proccess = 0;
+                $proccess->reopen_proccess = 0;
+                $proccess->finish_proccess = 1;
+
+                $proccess->qtd_finish += 1;
+                session()->flash('success', 'Processo Finalizado com sucesso.');
+            } else if ($data['status'] == 3) {
+                $proccess->finish_proccess = 0;
+                $proccess->update_proccess = 0;
+                $proccess->reopen_proccess = 0;
+                $proccess->progress_proccess = 1;
+
+                $proccess->reopen_proccess += 1;
+                session()->flash('success', 'Processo em andamento.');
+            }
+
+            $proccess->touch();
+            $proccess->save();
+        }
+
+        // session()->flash('success', 'Usuário atualizado com sucesso.');
+        return redirect()->route('proccess.index');
     }
 
     /**
@@ -140,16 +215,42 @@ class ProccessController extends Controller
     {
         $proccess = Proccess::find($id);
 
-        if ($proccess->progress_proccess == 0) {
+        if ($proccess->finish_proccess == 1) {
             session()->flash('error', 'Esse processo ja foi finalizado.');
             return redirect()->route('proccess.index');
         } else {
             $proccess->progress_proccess = 0;
+            $proccess->update_proccess = 0;
+            $proccess->reopen_proccess = 0;
             $proccess->finish_proccess = 1;
+
+            if ($proccess->finish_proccess == 1) {
+                $proccess->qtd_finish += 1;
+            }
+
             $proccess->save();
         }
 
         session()->flash('success', 'Processo finalizado com sucesso.');
+        return redirect()->route('proccess.index');
+    }
+
+    public function reopen(String $id)
+    {
+        $proccess = Proccess::find($id);
+
+        if ($proccess) {
+            $proccess->finish_proccess = 0;
+            $proccess->reopen_proccess = 1;
+
+            if ($proccess->reopen_proccess == 1) {
+                $proccess->qtd_reopen += 1;
+            }
+
+            $proccess->save();
+        }
+
+        session()->flash('success', 'Processo reaberto com sucesso.');
         return redirect()->route('proccess.index');
     }
 
@@ -177,6 +278,7 @@ class ProccessController extends Controller
                 'email_client.required' => 'Preencha esse campo.',
                 'email_client.max' => 'Máximo de 100 caracteres.',
                 'email_client.email' => 'Informe um e-mail válido.',
+                'email_client.unique' => 'Já existe um e-mail como esse.',
             ]
         );
     }

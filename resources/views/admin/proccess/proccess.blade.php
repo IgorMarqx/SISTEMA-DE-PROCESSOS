@@ -46,7 +46,7 @@
             </x-card>
         </div>
 
-        <div class="card mt-1 sm:overflow-x-scroll">
+        <div class="card mt-1">
             <div class="bg-red-500 h-1">
 
             </div>
@@ -83,6 +83,11 @@
                                 <i class="fa-solid fa-circle-check text-sm mr-1"></i>
                                 Atualizado
                             </x-status>
+                        @elseif($proccesses->reopen_proccess == 1)
+                            <x-status borderColor="border-yellow-300" textColor="text-yellow-400">
+                                <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                                Reaberto
+                            </x-status>
                         @endif
 
                         <td>
@@ -92,11 +97,26 @@
                                 Detalhes
                             </x-button>
 
-                            <x-button route="{{ route('proccess.edit', ['proccess' => $proccesses->id]) }}"
-                                color="text-green-500" hover="hover:text-green-600" margin="mr-1"
-                                icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
-                                Editar
-                            </x-button>
+                            @if ($proccesses->finish_proccess == 1)
+                                <x-button route="{{ route('reopen', ['id' => $proccesses->id]) }}"
+                                    color="text-green-500" hover="hover:text-green-600" margin="mr-1"
+                                    icon="fa-solid fa-gavel text-sm mr-[0.2rem]">
+                                    Reabrir
+                                </x-button>
+                            @else
+                                <x-button route="{{ route('proccess.edit', ['proccess' => $proccesses->id]) }}"
+                                    color="text-green-500" hover="hover:text-green-600" margin="mr-1"
+                                    icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                    Editar
+                                </x-button>
+
+                                <x-button route="{{ route('finish', ['id' => $proccesses->id]) }}" color="text-sky-500"
+                                    hover="hover:text-sky-600" margin="mr-1"
+                                    icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
+                                    Finalizar
+                                </x-button>
+                            @endif
+
 
                             {{-- <a href="" data-bs-toggle="modal" data-bs-target="#finishModal"
                                 class="text-sky-500 hover:text-sky-600 mr-1">
@@ -105,11 +125,7 @@
                             </a>
                             @include('admin.modals.finish') --}}
 
-                            <x-button route="{{ route('finish', ['id' => $proccesses->id]) }}" color="text-sky-500"
-                                hover="hover:text-sky-600" margin="mr-1"
-                                icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
-                                Finalizar
-                            </x-button>
+
 
                             <a href="{{ route('proccess.destroy', ['proccess' => $proccesses->id]) }}"
                                 data-bs-toggle="modal" data-bs-target="#deleteModal"

@@ -118,8 +118,6 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        // dd($user);
-
         if ($user) {
             $data = $request->only('name', 'email', 'admin', 'password', 'password_confirmation');
 

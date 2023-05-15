@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('email_client');
             $table->integer('qtd_update')->nullable();
             $table->integer('qtd_finish')->nullable();
-            $table->integer('reopen_proccess')->nullable();
+            $table->integer('qtd_reopen')->nullable();
+            $table->boolean('reopen_proccess')->default(0);
             $table->boolean('progress_proccess')->default(0);
             $table->boolean('finish_proccess')->default(0);
             $table->boolean('update_proccess')->default(0);

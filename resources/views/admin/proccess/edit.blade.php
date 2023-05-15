@@ -26,11 +26,13 @@
             .
         </div>
 
-        <form action="{{ route('proccess.update', ['proccess' => $proccess->id]) }}">
+        <form action="{{ route('proccess.update', ['proccess' => $proccess->id]) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="card-body">
                 <div class="row g-3">
+
+                    <input type="hidden" name="id" value="{{ $proccess->id }}">
 
 
                     <div class="col-md-6 mb-3">
@@ -39,7 +41,7 @@
                         </x-labels>
 
                         <x-inputs id="proccess" form="form-control" placeholder="Informe o nome do processo"
-                            value="{{ old('proccess') }}" type="text" name="proccess" focus="{{ true }}"
+                            value="{{ $proccess->name }}" type="text" name="proccess" focus="{{ true }}"
                             error="proccess" />
 
                         @error('proccess')
@@ -53,7 +55,7 @@
                         </x-labels>
 
                         <x-inputs id="url" form="form-control" placeholder="Informe a URL do processo"
-                            value="{{ old('url') }}" type="text" name="url" focus="{{ false }}"
+                            value="{{ $proccess->url_proccess }}" type="text" name="url" focus="{{ false }}"
                             error="url" />
 
                         @error('url')
@@ -61,27 +63,27 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <x-labels colorSpan="text-red-500" id="email_corp">
                             E-mail Coorporativo
                         </x-labels>
 
                         <x-inputs id="email_corp" form="form-control" placeholder="Informe o e-mail coorporativo"
-                            value="{{ old('email_corp') }}" type="text" name="email_corp" focus="{{ false }}"
-                            error="email_corp" />
+                            value="{{ $proccess->email_coorporative }}" type="text" name="email_corp"
+                            focus="{{ false }}" error="email_corp" />
 
                         @error('email_corp')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <x-labels colorSpan="text-red-500" id="email_client">
                             E-mail do Cliente
                         </x-labels>
 
                         <x-inputs id="email_client" form="form-control" placeholder="Informe o e-mail do cliente"
-                            value="{{ old('email_client') }}" type="text" name="email_client"
+                            value="{{ $proccess->email_client }}" type="text" name="email_client"
                             focus="{{ false }}" error="email_client" />
 
                         @error('email_client')
@@ -97,14 +99,14 @@
                         <select name="user_id" id="user_id" class="form-control">
                             @foreach ($users as $user)
                                 @if ($proccess->user_id == $user->id)
-                                    <option value="error" selected>{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}" selected>{{ ucfirst($user->name) }}</option>
                                 @endif
                             @endforeach
 
                             @foreach ($users as $user)
                                 @if ($user->admin === 1)
                                 @else
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}">{{ ucfirst($user->name) }}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -112,13 +114,24 @@
                         @error('user_id')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
+                    </div>
 
+                    <div class="col-md-3">
+                        <x-labels colorSpan="hidden" id="status">
+                            Selecione o status do processo
+                        </x-labels>
+
+                        <select class="form-control" name="status" id="status">
+                            <option class="text-green-500" value="1" selected>Atualizar</option>
+                            <option class="text-red-500" value="2">Finalizar</option>
+                            <option class="text-yellow-500" value="3">Andamento</option>
+                        </select>
                     </div>
 
                     <div class="col-md-12 mt-3">
                         <input type="submit"
                             class="bg-red-500 block w-full text-white rounded p-1 hover:bg-red-600 transition ease-in-out"
-                            value="Criar">
+                            value="Editar">
                     </div>
 
                 </div>
