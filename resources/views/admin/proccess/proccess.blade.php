@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @extends('layout.links')
 
-@section('title', 'Processos - SINDJUF')
+@section('title', 'SINDJUF - Processos')
 
 @section('content_header')
     <div class="mb-2"></div>
@@ -9,9 +9,18 @@
 
 @section('content')
 
-    @if (session()->has('success'))
-        @include('components.notification')
+    @if (session('success'))
+        @include('components.success')
     @endif
+
+    @if (session('error'))
+        @include('components.error')
+    @endif
+
+    @if (session('warning'))
+        @include('components.warning')
+    @endif
+
 
     <div class="mb-4">
         <a href="{{ route('proccess.create') }}"
@@ -89,27 +98,27 @@
                                 Editar
                             </x-button>
 
-                            <a href="" data-bs-toggle="modal" data-bs-target="#finishModal"
+                            {{-- <a href="" data-bs-toggle="modal" data-bs-target="#finishModal"
                                 class="text-sky-500 hover:text-sky-600 mr-1">
                                 <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
                                 Finalizar
                             </a>
-                            @include('admin.modals.finish')
+                            @include('admin.modals.finish') --}}
 
-                            {{-- <x-button route="{{ route('finish', ['id' => $proccesses->id]) }}" color="text-sky-500"
+                            <x-button route="{{ route('finish', ['id' => $proccesses->id]) }}" color="text-sky-500"
                                 hover="hover:text-sky-600" margin="mr-1"
                                 icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
                                 Finalizar
-                            </x-button> --}}
+                            </x-button>
 
-                            @if ($proccesses->id)
-                                <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                    class="text-red-500 hover:text-red-600 ml-1">
-                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
-                                    Excluir
-                                </a>
-                                @include('admin.modals.proccess')
-                            @endif
+                            <a href="{{ route('proccess.destroy', ['proccess' => $proccesses->id]) }}"
+                                data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                class="text-red-500 hover:text-red-600 ml-1">
+                                <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                Excluir
+                            </a>
+                            @include('admin.modals.proccess')
+
                         </td>
                     </tr>
                 @endforeach

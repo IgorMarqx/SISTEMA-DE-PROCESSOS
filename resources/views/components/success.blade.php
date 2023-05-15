@@ -1,18 +1,19 @@
 <script type="text/javascript">
-    const Toast = Swal.mixin({
+    const success = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        didOpen: (success) => {
+            success.addEventListener('mouseenter', Swal.stopTimer)
+            success.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
 
-    Toast.fire({
+    success.fire({
         icon: 'success',
         title: '{{ session('success') }}'
     })
 </script>
+

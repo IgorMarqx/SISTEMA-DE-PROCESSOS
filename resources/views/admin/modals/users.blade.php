@@ -8,7 +8,8 @@
             </div>
             <div class="modal-body">
                 <span class="text-red-500">Atenção!</span>
-                <p class="text-red-500">Tem certeza que você deseja apagar esse usuário</p>
+                <p class="text-red-500">Tem certeza que você deseja apagar esse usuário?</p>
+                <p class="text-red-500">Apagando esse usuário você estará apagando tambem todos os processos que pertence a esse usuário.</p>
             </div>
 
             <form id="deleteForm" method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">

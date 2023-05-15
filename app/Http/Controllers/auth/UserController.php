@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Proccess;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,29 +52,7 @@ class UserController extends Controller
     {
         $data = $request->only('name', 'email', 'admin',  'password', 'password_confirmation');
 
-
-        $validator = Validator::make(
-            $data,
-            [
-                'name' => ['required', 'min:5', 'string', 'max:100'],
-                'email' => ['required', 'email', 'string', 'max:100', 'unique:users'],
-                'password' => ['required', 'string', 'min:5', 'confirmed'],
-            ],
-            [
-                'name.required' => 'Preencha esse campo.',
-                'name.min' => 'Minimo 5 caracteres.',
-                'name.max' => 'Máximo 100 caracteres.',
-
-                'email.required' => 'Preencha esse campo.',
-                'email.email' => 'Preencha o campo com um e-mail válido.',
-                'email.max' => 'Máximo 100 caracteres.',
-                'email.unique' => 'Já possui um e-mail como esse.',
-
-                'password.required' => 'Preencha esse campo.',
-                'password.min' => 'Minimo 5 caracteres.',
-                'password.confirmed' => 'Senhas não coincidem.',
-            ]
-        );
+        $validator = $this->validator($data);
 
         if ($data['admin'] == 'error') {
             $validator->errors()->add('admin', 'Escolha uma opção');
@@ -144,26 +123,7 @@ class UserController extends Controller
         if ($user) {
             $data = $request->only('name', 'email', 'admin', 'password', 'password_confirmation');
 
-            $validator = Validator::make(
-                [
-                    'name' => $data['name'],
-                    'email' => $data['email'],
-                    'admin' => $data['admin'],
-                ],
-                [
-                    'name' => ['required', 'min:5', 'string', 'max:100'],
-                    'email' => ['required', 'email', 'string', 'max:100'],
-                ],
-                [
-                    'name.required' => 'Preencha esse campo.',
-                    'name.min' => 'Minimo 5 caracteres.',
-                    'name.max' => 'Máximo 100 caracteres.',
-
-                    'email.required' => 'Preencha esse campo.',
-                    'email.email' => 'Preencha o campo com um e-mail válido.',
-                    'email.max' => 'Máximo 100 caracteres.',
-                ]
-            );
+            $validator = $this->validatorUpdate($data);
 
             if ($validator->fails()) {
                 return redirect()->route('users.edit', ['user' => $id])->withErrors($validator);
@@ -215,10 +175,63 @@ class UserController extends Controller
 
         if ($loggedId != intval($id)) {
             $user = User::find($id);
+            $proccess = Proccess::where('user_id', $user->id);
+
             $user->delete();
+            $proccess->delete();
         }
 
         session()->flash('success', 'Usuário deletado com sucesso.');
         return redirect()->route('users.index');
+    }
+
+    public function validator($data)
+    {
+        return Validator::make(
+            $data,
+            [
+                'name' => ['required', 'min:5', 'string', 'max:100'],
+                'email' => ['required', 'email', 'string', 'max:100', 'unique:users'],
+                'password' => ['required', 'string', 'min:5', 'confirmed'],
+            ],
+            [
+                'name.required' => 'Preencha esse campo.',
+                'name.min' => 'Minimo 5 caracteres.',
+                'name.max' => 'Máximo 100 caracteres.',
+
+                'email.required' => 'Preencha esse campo.',
+                'email.email' => 'Preencha o campo com um e-mail válido.',
+                'email.max' => 'Máximo 100 caracteres.',
+                'email.unique' => 'Já possui um e-mail como esse.',
+
+                'password.required' => 'Preencha esse campo.',
+                'password.min' => 'Minimo 5 caracteres.',
+                'password.confirmed' => 'Senhas não coincidem.',
+            ]
+        );
+    }
+
+    public function validatorUpdate($data)
+    {
+        return Validator::make(
+            [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'admin' => $data['admin'],
+            ],
+            [
+                'name' => ['required', 'min:5', 'string', 'max:100'],
+                'email' => ['required', 'email', 'string', 'max:100'],
+            ],
+            [
+                'name.required' => 'Preencha esse campo.',
+                'name.min' => 'Minimo 5 caracteres.',
+                'name.max' => 'Máximo 100 caracteres.',
+
+                'email.required' => 'Preencha esse campo.',
+                'email.email' => 'Preencha o campo com um e-mail válido.',
+                'email.max' => 'Máximo 100 caracteres.',
+            ]
+        );
     }
 }

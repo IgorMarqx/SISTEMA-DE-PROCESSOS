@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Proccess;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ProccessController extends Controller
@@ -22,6 +23,7 @@ class ProccessController extends Controller
     public function index()
     {
         $proccess = Proccess::paginate(7);
+        $loggedId = intval(Auth::id());
 
         $proccess_count = Proccess::count('id');
 
@@ -32,6 +34,7 @@ class ProccessController extends Controller
 
         return view('admin.proccess.proccess', [
             'proccess' => $proccess,
+            'loggedId' => $loggedId,
             'proccessCount' => $proccess_count,
             'progressCount' => $progress_proccess_count,
             'finishCount' => $finish_proccess_count,
@@ -103,7 +106,18 @@ class ProccessController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $proccess = Proccess::find($id);
+        $user = User::all();
+
+        if ($proccess) {
+            return view('admin.proccess.edit', [
+                'proccess' => $proccess,
+                'users' => $user,
+            ]);
+        }
+
+        session()->flash('warning', 'Usuário não encontrado.');
+        return redirect()->route('proccess.index');
     }
 
     /**
@@ -124,6 +138,17 @@ class ProccessController extends Controller
 
     public function finish(string $id)
     {
+        $proccess = Proccess::find($id);
+
+        if ($proccess->progress_proccess == 0) {
+            session()->flash('error', 'Esse processo ja foi finalizado.');
+            return redirect()->route('proccess.index');
+        } else {
+            $proccess->progress_proccess = 0;
+            $proccess->finish_proccess = 1;
+            $proccess->save();
+        }
+
         session()->flash('success', 'Processo finalizado com sucesso.');
         return redirect()->route('proccess.index');
     }

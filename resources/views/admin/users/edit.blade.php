@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @extends('layout.links')
 
-@section('title', 'Usuários - SINDJUF')
+@section('title', 'SINDJUF - Usuários')
 
 @section('content_header')
     <div class="mb-2"></div>

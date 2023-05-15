@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @extends('layout.links')
 
-@section('title', 'Usuários - SINDJUF')
+@section('title', 'SINDJUF - Usuários')
 
 @section('content_header')
     <div class="mb-2"></div>
@@ -10,7 +10,7 @@
 @section('content')
 
     @if (session()->has('success'))
-        @include('components.notification')
+        @include('components.success')
     @endif
 
     <div class="mb-4">
@@ -47,12 +47,14 @@
                 @foreach ($users as $user)
                     <tr>
                         <td class="text-center">{{ $user->id }}</td>
-                        <td class="text-center">{{ $user->name }}</td>
+                        <td class="text-center">{{ ucfirst($user->name) }}</td>
                         <td class="text-center">{{ $user->email }}</td>
                         @if ($user->admin == 1)
-                            <td class="text-red-500 text-center"><i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i> Admin</td>
+                            <td class="text-red-500 text-center"><i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i>
+                                Admin</td>
                         @else
-                            <td class="text-sky-500 text-center"><i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i> Usuário
+                            <td class="text-sky-500 text-center"><i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i>
+                                Usuário
                             </td>
                         @endif
 

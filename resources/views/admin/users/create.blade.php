@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @extends('layout.links')
 
-@section('title', 'Usuários - SINDJUF')
+@section('title', 'SINDJUF - Usuários')
 
 @section('content_header')
     <div class="mb-2"></div>
@@ -63,8 +63,8 @@
 
                         <select name="admin" id="admin" class="form-control @error('admin') is-invalid @enderror">
                             <option value="error" selected>Informe um acesso</option>
-                            <option value="0">Usuário</option>
-                            <option value="1">Administrador</option>
+                            <option value="0" class="text-sky-500">Usuário</option>
+                            <option value="1" class="text-red-500">Administrador</option>
                         </select>
 
                         @error('admin')
