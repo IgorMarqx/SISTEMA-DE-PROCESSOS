@@ -54,7 +54,7 @@
             </x-card>
 
             <x-card quantity="{{ $proccess->qtd_reopen }}" size="col-md-4" icon="fa-solid fa-gavel">
-                Reabertos
+                Reaberto
             </x-card>
         </div>
 
@@ -104,24 +104,29 @@
                         {{ ucfirst($proccess->name) }}
                     </x-details>
 
-                    <x-details title="E-mail da coorporação">
+                    <x-details title="E-mail da Coorporação">
                         {{ $proccess->email_coorporative }}
                     </x-details>
 
-                    <x-detailsLink title="Data de criação" url="{{ $proccess->url_proccess }}">
+                    <x-detailsLink title="URL do Processo" url="{{ $proccess->url_proccess }}">
                         {{ $proccess->url_proccess }}
                     </x-detailsLink>
 
-                    <x-details title="Data de criação">
+                    <x-details title="Data de Criação">
                         {{ date('d/m/Y H:i', strtotime($proccess->created_at)) }}
                     </x-details>
 
-                    <x-details title="Data de atualização">
+                    <x-details title="Data de Atualização">
                         {{ date('d/m/Y H:i', strtotime($proccess->updated_at)) }}
                     </x-details>
 
                 </div>
+
+                <div class="flex items-center justify-center text-white bg-red-500 mt-4">
+                    <h4 class="m-0 text-bold">Anexos</h4>
+                </div>
             </div>
+
 
         </div>
     </div>

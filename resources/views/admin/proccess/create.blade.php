@@ -8,6 +8,11 @@
 @endsection
 
 @section('content')
+
+    @if (session('error'))
+        @include('components.error')
+    @endif
+
     <div class="mb-2 flex">
         <a href="{{ route('proccess.index') }}"
             class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600">
@@ -27,7 +32,7 @@
 
 
         <div class="card-body">
-            <form action="{{ route('proccess.store') }}" method="POST">
+            <form action="{{ route('proccess.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <input type="hidden" name="progress_proccess" value="1">
@@ -62,7 +67,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <x-labels colorSpan="text-red-500" id="email_corp">
                             E-mail Coorporativo
                         </x-labels>
@@ -76,7 +81,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <x-labels colorSpan="text-red-500" id="email_client">
                             E-mail do Cliente
                         </x-labels>
@@ -110,6 +115,14 @@
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
 
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels colorSpan="hidden" id="file">
+                            Selecione um arquivo
+                        </x-labels>
+
+                        <x-file name="file" />
                     </div>
 
                     <div class="col-md-12 mt-3">

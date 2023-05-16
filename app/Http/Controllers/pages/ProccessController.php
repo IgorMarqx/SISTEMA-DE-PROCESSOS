@@ -63,6 +63,8 @@ class ProccessController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request->file('file'), $request->all());
+
         $data = $request->only(['proccess', 'user_id', 'url', 'email_corp', 'email_client', 'progress_proccess']);
         $progress = $data['progress_proccess'];
 
@@ -80,6 +82,13 @@ class ProccessController extends Controller
             return redirect()->route('proccess.create')
                 ->withErrors($validator)
                 ->withInput();
+        }
+
+        if ($request->file == " ") {
+            session()->flash('error', 'Arquivo não encontrado.');
+            return redirect()->route('proccess.create');
+        } else {
+            $request->file('file')->store('contents');
         }
 
         $proccess = Proccess::create([
@@ -199,7 +208,6 @@ class ProccessController extends Controller
             $proccess->save();
         }
 
-        // session()->flash('success', 'Usuário atualizado com sucesso.');
         return redirect()->route('proccess.index');
     }
 
