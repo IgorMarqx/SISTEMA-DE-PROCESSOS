@@ -59,7 +59,7 @@ Para utilizar o sistema de processos da SINDJUF-PB, siga as instruções abaixo:
 
 **7. Notificações:** O sistema enviará notificações por e-mail sempre que houver uma atualização importante em um processo ou quando um prazo estiver próximo de expirar. Certifique-se de manter seu e-mail atualizado para receber essas notificações.
 
-**8. Visualização de PDF:** O advogado poderá inserir arquivos tipo PDF e imagens para que o usuário que esteja cadastrado no sistema possa visualizar ou baixar caso queira.
+**8. Visualização de PDF:** Está disponivel no sistema a funcionalidade na qual a pessoa que tiver autorização poderá inserir arquivos tipo PDF e imagens para que o usuário que esteja cadastrado no sistema possa visualizar ou baixar caso queira.
 
 # Personalização
 O sistema de processos foi desenvolvido com o intuito de atender às necessidades específicas da SINDJUF-PB. No entanto, é possível personalizá-lo e adaptá-lo às suas necessidades.
