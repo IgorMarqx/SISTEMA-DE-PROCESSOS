@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attachment;
 use App\Models\Proccess;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,7 +64,6 @@ class ProccessController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->file('file'), $request->all());
 
         $data = $request->only(['proccess', 'user_id', 'url', 'email_corp', 'email_client', 'progress_proccess']);
         $progress = $data['progress_proccess'];
@@ -82,13 +82,6 @@ class ProccessController extends Controller
             return redirect()->route('proccess.create')
                 ->withErrors($validator)
                 ->withInput();
-        }
-
-        if ($request->file == " ") {
-            session()->flash('error', 'Arquivo não encontrado.');
-            return redirect()->route('proccess.create');
-        } else {
-            $request->file('file')->store('contents');
         }
 
         $proccess = Proccess::create([
@@ -113,11 +106,35 @@ class ProccessController extends Controller
         $proccess = Proccess::find($id);
         $user = $proccess->user;
 
+        $attachment = Attachment::where('user_id', '=', $user->id, 'and', 'proccess_id', '=', $id)->get();
 
         return view('admin.proccess.details', [
             'proccess' => $proccess,
-            'user' => $user
+            'user' => $user,
+            'attachment' => $attachment
         ]);
+    }
+
+    public function attachment(Request $request, string $id)
+    {
+        if ($request->file == "") {
+            session()->flash('error', 'Arquivo não encontrado.');
+            return redirect()->route('proccess.show', ['proccess' => $id]);
+        } else {
+            $originalName = $request->file('file')->getClientOriginalName();
+
+            $attachment = Attachment::create([
+                'title' => $originalName,
+                'proccess_id' => $request->proccess_id,
+                'user_id' => $request->user_id,
+                'path' => $request->file('file')->store(),
+            ]);
+
+        }
+        $attachment->save();
+
+        session()->flash('success', 'Anexado com sucesso.');
+        return redirect()->route('proccess.show', ['proccess' => $id]);
     }
 
     /**

@@ -42,6 +42,12 @@
             </a>
         @endif
 
+        <a href="" data-bs-toggle="modal" data-bs-target="#fileModal"
+            class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
+            Anexar Arquivo
+        </a>
+        @include('admin.modals.file')
+
 
 
         <div class="row mt-3">
@@ -125,6 +131,23 @@
                 <div class="flex items-center justify-center text-white bg-red-500 mt-4">
                     <h4 class="m-0 text-bold">Anexos</h4>
                 </div>
+
+                <div class="flex justify-center items-center flex-wrap mt-2 gap-3">
+                    @foreach ($attachment as $attachments)
+                        <div class="bg-red-500 hover:bg-red-600 rounded p-4 cursor-pointer text-white"
+                            data-bs-toggle="modal" data-bs-target="#pdfModal">
+                            <i class="fa-solid fa-file-pdf text-lg"></i>
+                            {{ $attachments->title }}
+                            @include('admin.modals.pdf')
+                        </div>
+                        <div class="flex items-center justify-center">
+                            <a href="{{ $attachments->id }}" class="text-red-500 hover:text-gray-500">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
             </div>
 
 

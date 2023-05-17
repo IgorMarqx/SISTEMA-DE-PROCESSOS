@@ -32,7 +32,7 @@
 
 
         <div class="card-body">
-            <form action="{{ route('proccess.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('proccess.store') }}" method="POST" >
                 @csrf
 
                 <input type="hidden" name="progress_proccess" value="1">
@@ -115,14 +115,6 @@
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
 
-                    </div>
-
-                    <div class="col-md-3">
-                        <x-labels colorSpan="hidden" id="file">
-                            Selecione um arquivo
-                        </x-labels>
-
-                        <x-file name="file" />
                     </div>
 
                     <div class="col-md-12 mt-3">

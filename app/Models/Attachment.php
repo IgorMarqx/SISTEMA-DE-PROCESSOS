@@ -13,6 +13,8 @@ class Attachment extends Model
 
     protected $fillable = [
         'title',
+        'proccess_id',
+        'user_id',
         'path',
     ];
 
