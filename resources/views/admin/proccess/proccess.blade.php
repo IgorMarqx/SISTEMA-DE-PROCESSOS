@@ -46,79 +46,80 @@
             </x-card>
         </div>
 
-        <div class="card mt-1">
+        <div class="card mt-1 ">
             <div class="bg-red-500 h-1">
 
             </div>
 
-            <table class="table table-hover">
-                <tr>
-                    <th class="w-[5rem] text-center">ID</th>
-                    <th class="w-[15rem] text-center">Nome do Processo</th>
-                    <th class="w-[20rem] text-center">URL do Processo</th>
-                    <th class="w-[15rem] text-center">Status do Processo</th>
-                    <th class="text-center">Ações</th>
-                </tr>
-
-                @foreach ($proccess as $proccesses)
+            <div class="table-responsive">
+                <table class="table table-hover table-valign-middle">
                     <tr>
-                        <td class="text-center">{{ $proccesses->id }}</td>
-                        <td class="text-center">{{ ucfirst($proccesses->name) }} </td>
-                        <td class="text-center"><a href="{{ $proccesses->url_proccess }}" target="_blank">
-                                {{ $proccesses->url_proccess }}</a>
-                        </td>
+                        <th class="w-[5rem] text-center">ID</th>
+                        <th class="w-[15rem] text-center">Nome do Processo</th>
+                        <th class="w-[20rem] text-center">URL do Processo</th>
+                        <th class="w-[15rem] text-center">Status do Processo</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
 
-                        @if ($proccesses->progress_proccess == 1)
-                            <x-status borderColor="border-sky-500" textColor="text-sky-500">
-                                <i class="fa-solid fa-gavel text-sm mr-1"></i>
-                                Andamento
-                            </x-status>
-                        @elseif($proccesses->finish_proccess == 1)
-                            <x-status borderColor="border-red-500" textColor="text-red-500">
-                                <i class="fa-solid fa-flag-checkered text-sm mr-1"></i>
-                                Finalizado
-                            </x-status>
-                        @elseif($proccesses->update_proccess == 1)
-                            <x-status borderColor="border-green-500" textColor="text-green-500">
-                                <i class="fa-solid fa-circle-check text-sm mr-1"></i>
-                                Atualizado
-                            </x-status>
-                        @elseif($proccesses->reopen_proccess == 1)
-                            <x-status borderColor="border-yellow-300" textColor="text-yellow-400">
-                                <i class="fa-solid fa-gavel text-sm mr-1"></i>
-                                Reaberto
-                            </x-status>
-                        @endif
+                    @foreach ($proccess as $proccesses)
+                        <tr>
+                            <td class="text-center">{{ $proccesses->id }}</td>
+                            <td class="text-center">{{ ucfirst($proccesses->name) }} </td>
+                            <td class="text-center"><a href="{{ $proccesses->url_proccess }}" target="_blank">
+                                    {{ $proccesses->url_proccess }}</a>
+                            </td>
 
-                        <td>
-                            <x-button route="{{ route('proccess.show', ['proccess' => $proccesses->id]) }}"
-                                color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
-                                icon="fa-solid fa-circle-info text-sm mr-[0.2rem]">
-                                Detalhes
-                            </x-button>
-
-                            @if ($proccesses->finish_proccess == 1)
-                                <x-button route="{{ route('reopen', ['id' => $proccesses->id]) }}"
-                                    color="text-green-500" hover="hover:text-green-600" margin="mr-1"
-                                    icon="fa-solid fa-gavel text-sm mr-[0.2rem]">
-                                    Reabrir
-                                </x-button>
-                            @else
-                                <x-button route="{{ route('proccess.edit', ['proccess' => $proccesses->id]) }}"
-                                    color="text-green-500" hover="hover:text-green-600" margin="mr-1"
-                                    icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
-                                    Editar
-                                </x-button>
-
-                                <x-button route="{{ route('finish', ['id' => $proccesses->id]) }}" color="text-sky-500"
-                                    hover="hover:text-sky-600" margin="mr-1"
-                                    icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
-                                    Finalizar
-                                </x-button>
+                            @if ($proccesses->progress_proccess == 1)
+                                <x-status textCenter="text-center" borderColor="border-sky-500" textColor="text-sky-500">
+                                    <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                                    Andamento
+                                </x-status>
+                            @elseif($proccesses->finish_proccess == 1)
+                                <x-status textCenter="text-center" borderColor="border-red-500" textColor="text-red-500">
+                                    <i class="fa-solid fa-flag-checkered text-sm mr-1"></i>
+                                    Finalizado
+                                </x-status>
+                            @elseif($proccesses->update_proccess == 1)
+                                <x-status textCenter="text-center" borderColor="border-green-500" textColor="text-green-500">
+                                    <i class="fa-solid fa-circle-check text-sm mr-1"></i>
+                                    Atualizado
+                                </x-status>
+                            @elseif($proccesses->reopen_proccess == 1)
+                                <x-status textCenter="text-center" borderColor="border-yellow-300" textColor="text-yellow-400">
+                                    <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                                    Reaberto
+                                </x-status>
                             @endif
 
+                            <td>
+                                <x-button route="{{ route('proccess.show', ['proccess' => $proccesses->id]) }}"
+                                    color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
+                                    icon="fa-solid fa-file-lines text-sm mr-[0.2rem]">
+                                    Detalhes
+                                </x-button>
 
-                            {{-- <a href="" data-bs-toggle="modal" data-bs-target="#finishModal"
+                                @if ($proccesses->finish_proccess == 1)
+                                    <x-button route="{{ route('reopen', ['id' => $proccesses->id]) }}"
+                                        color="text-green-500" hover="hover:text-green-600" margin="mr-1"
+                                        icon="fa-solid fa-gavel text-sm mr-[0.2rem]">
+                                        Reabrir
+                                    </x-button>
+                                @else
+                                    <x-button route="{{ route('proccess.edit', ['proccess' => $proccesses->id]) }}"
+                                        color="text-green-500" hover="hover:text-green-600" margin="mr-1"
+                                        icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                        Editar
+                                    </x-button>
+
+                                    <x-button route="{{ route('finish', ['id' => $proccesses->id]) }}" color="text-sky-500"
+                                        hover="hover:text-sky-600" margin="mr-1"
+                                        icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
+                                        Finalizar
+                                    </x-button>
+                                @endif
+
+
+                                {{-- <a href="" data-bs-toggle="modal" data-bs-target="#finishModal"
                                 class="text-sky-500 hover:text-sky-600 mr-1">
                                 <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
                                 Finalizar
@@ -127,18 +128,19 @@
 
 
 
-                            <a href="{{ route('proccess.destroy', ['proccess' => $proccesses->id]) }}"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                class="text-red-500 hover:text-red-600 ml-1">
-                                <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
-                                Excluir
-                            </a>
-                            @include('admin.modals.proccess')
+                                <a href="{{ route('proccess.destroy', ['proccess' => $proccesses->id]) }}"
+                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                    class="text-red-500 hover:text-red-600 ml-1">
+                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                    Excluir
+                                </a>
+                                @include('admin.modals.proccess')
 
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
         </div>
     </div>
 

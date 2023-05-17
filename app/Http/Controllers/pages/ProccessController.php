@@ -38,8 +38,10 @@ class ProccessController extends Controller
         return view('admin.proccess.proccess', [
             'proccess' => $proccess,
             'loggedId' => $loggedId,
+
             'proccessCount' => $proccess_count,
             'progressCount' => $progress_proccess_count,
+
             'finishCount' => $finish_proccess_count,
             'updateCount' => $update_proccess_count,
         ]);
@@ -176,7 +178,6 @@ class ProccessController extends Controller
 
             if ($proccess->email_client !== $data['email_client']) {
                 $hasEmail = Proccess::where('email_client', $data['email_client'])->get();
-                dd($hasEmail);
 
                 if (count($hasEmail) == 0) {
                     $proccess->email_client = $data['email_client'];

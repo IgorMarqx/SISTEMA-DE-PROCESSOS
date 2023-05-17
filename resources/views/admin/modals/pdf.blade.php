@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="height: 300px; width: 100px;">
-                <embed src="{{ $attachments->title }}" type="application/pdf">
+                <embed src="{{ $attachments->path }}" type="application/pdf">
             </div>
 
             <div class="modal-footer">
