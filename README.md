@@ -61,6 +61,8 @@ Para utilizar o sistema de processos da SINDJUF-PB, siga as instruções abaixo:
 
 **8. Visualização de PDF:** Está disponivel no sistema a funcionalidade na qual a pessoa que tiver autorização poderá inserir arquivos tipo PDF e imagens para que o usuário que esteja cadastrado no sistema possa visualizar ou baixar caso queira.
 
+**9. Novas Abas de processos:** Foi implementado no sistema duas novas abas de processos (Processos coletivos e individuais) e foi implementado na criação do processo um campo onde o advogado poderá informar para qual tipo de processo ele deseja que seja atribuido.
+
 # Personalização
 O sistema de processos foi desenvolvido com o intuito de atender às necessidades específicas da SINDJUF-PB. No entanto, é possível personalizá-lo e adaptá-lo às suas necessidades.
 
