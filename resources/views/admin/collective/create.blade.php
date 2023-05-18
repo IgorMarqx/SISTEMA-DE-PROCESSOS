@@ -14,7 +14,7 @@
     @endif
 
     <div class="mb-2 flex">
-        <a href="{{ route('proccess.index') }}"
+        <a href="{{ route('collective.index') }}"
             class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600">
             <i class="fa-solid fa-reply"></i>
         </a>
@@ -32,23 +32,23 @@
 
 
         <div class="card-body">
-            <form action="{{ route('proccess.store') }}" method="POST" >
+            <form action="{{ route('collective.store') }}" method="POST" >
                 @csrf
 
-                <input type="hidden" name="progress_proccess" value="1">
+                <input type="hidden" name="progress_collective" value="1">
 
                 <div class="row g-3">
 
                     <div class="col-md-6 mb-3">
-                        <x-labels colorSpan="text-red-500" id="proccess">
+                        <x-labels colorSpan="text-red-500" id="collective">
                             Nome do Processo
                         </x-labels>
 
-                        <x-inputs id="proccess" form="form-control" placeholder="Informe o nome do processo"
-                            value="{{ old('proccess') }}" type="text" name="proccess" focus="{{ true }}"
-                            error="proccess" />
+                        <x-inputs id="collective" form="form-control" placeholder="Informe o nome do processo"
+                            value="{{ old('collective') }}" type="text" name="collective" focus="{{ true }}"
+                            error="collective" />
 
-                        @error('proccess')
+                        @error('collective')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
@@ -67,7 +67,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <x-labels colorSpan="text-red-500" id="email_corp">
                             E-mail Coorporativo
                         </x-labels>
@@ -81,7 +81,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <x-labels colorSpan="text-red-500" id="email_client">
                             E-mail do Cliente
                         </x-labels>
@@ -106,7 +106,7 @@
                             @foreach ($users as $user)
                                 @if ($user->admin === 1)
                                 @else
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}">{{ ucfirst($user->name) }}</option>
                                 @endif
                             @endforeach
                         </select>

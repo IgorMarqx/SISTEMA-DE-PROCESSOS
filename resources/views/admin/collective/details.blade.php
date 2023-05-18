@@ -25,7 +25,7 @@
     <div class="mb-4">
         <div class="flex justify-between">
             <div>
-                <a href="{{ route('proccess.index') }}"
+                <a href="{{ route('collective.index') }}"
                     class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600 mr-2">
                     <i class="fa-solid fa-reply"></i>
                 </a>
@@ -38,38 +38,36 @@
                     </a>
                 @else
                     <a
-                        href="{{ route('proccess.edit', ['proccess' => $proccess->id]) }}"class="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition ease-in-out duration-600 mr-2">
+                        href="{{ route('collective.edit', ['collective' => $proccess->id]) }}"class="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition ease-in-out duration-600 mr-2">
                         <i class="fa-solid fa-pen text-sm mr-1"></i>
                         Editar Processo
                     </a>
                 @endif
 
-                <a href="" data-bs-toggle="modal" data-bs-target="#fileModal"
-                    class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
-                    Anexar Arquivo
-                </a>
+                @if ($proccess->finish_proccess == 1)
+                @else
+                    <a href="" data-bs-toggle="modal" data-bs-target="#fileModal"
+                        class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
+                        Anexar Arquivo
+                    </a>
+                @endif
             </div>
 
             <div>
-                @if ($proccess->progress_proccess == 1)
+                @if ($proccess->progress_collective == 1)
                     <x-status textCenter="text-center" borderColor="border-sky-500" textColor="text-sky-500">
                         <i class="fa-solid fa-gavel text-sm mr-1"></i>
                         Andamento
                     </x-status>
-                @elseif($proccess->finish_proccess == 1)
+                @elseif($proccess->finish_collective == 1)
                     <x-status textCenter="text-center" borderColor="border-red-500" textColor="text-red-500">
                         <i class="fa-solid fa-flag-checkered text-sm mr-1"></i>
                         Finalizado
                     </x-status>
-                @elseif($proccess->update_proccess == 1)
+                @elseif($proccess->update_collective == 1)
                     <x-status textCenter="text-center" borderColor="border-green-500" textColor="text-green-500">
                         <i class="fa-solid fa-circle-check text-sm mr-1"></i>
                         Atualizado
-                    </x-status>
-                @elseif($proccess->reopen_proccess == 1)
-                    <x-status textCenter="text-center" borderColor="border-yellow-300" textColor="text-yellow-400">
-                        <i class="fa-solid fa-gavel text-sm mr-1"></i>
-                        Reaberto
                     </x-status>
                 @endif
             </div>
@@ -144,8 +142,8 @@
                         {{ $proccess->email_coorporative }}
                     </x-details>
 
-                    <x-detailsLink title="URL do Processo" url="{{ $proccess->url_proccess }}">
-                        {{ $proccess->url_proccess }}
+                    <x-detailsLink title="URL do Processo" url="{{ $proccess->url_collective }}">
+                        {{ $proccess->url_collective }}
                     </x-detailsLink>
 
                     <x-details title="Data de Criação">

@@ -13,14 +13,14 @@ class Attachment extends Model
 
     protected $fillable = [
         'title',
-        'proccess_id',
+        'collective_id',
         'user_id',
         'path',
     ];
 
     public function proccess()
     {
-        return $this->belongsTo(Proccess::class, 'proccess_id', 'id');
+        return $this->belongsTo(Collective::class, 'collective_id', 'id');
     }
 
     public function user()

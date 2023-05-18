@@ -301,22 +301,26 @@ return [
         //     'can'  => 'manage-blog',
         // ],
         [
-            'text'        => 'Bem vindo',
-            'url'         => '/',
-            'icon'        => 'fa-solid fa-door-open',
-        ],
-        [
             'text'        => 'Dashboard',
             'url'         => '/dashboard',
             'icon'        => 'fa-solid fa-gauge',
             'can'         => 'manager-users',
         ],
+        ['header' => 'Processos',  'can' => 'manager-users'],
+
         [
-            'text'        => 'Processos',
-            'url'         => '/proccess',
-            'icon'        => 'fa-solid fa-suitcase',
-            'can'         => 'manager-users',
+            'text' => 'Coletivos',
+            'url' => '/collective',
+            'icon' => 'fa-solid fa-user-tie',
+            'can' => 'manager-users',
         ],
+        [
+            'text' => 'Individuais',
+            'url' => '/individual',
+            'icon' => 'fa-brands fa-black-tie',
+            'can' => 'manager-users',
+        ],
+
         ['header' => 'Administração',  'can' => 'manager-users'],
         [
             'text'        => 'Usuários',
@@ -324,7 +328,12 @@ return [
             'icon'        => 'fa-solid fa-users',
             'can'         => 'manager-users',
         ],
-        ['header' => 'Usuários'],
+        ['header' => 'Bem vindo'],
+        [
+            'text'        => 'Bem vindo',
+            'url'         => '/',
+            'icon'        => 'fa-solid fa-door-open',
+        ],
         [
             'text'        => 'Meu perfil',
             'url'         => '/profile',

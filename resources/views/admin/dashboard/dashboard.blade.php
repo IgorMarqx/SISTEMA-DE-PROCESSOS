@@ -63,7 +63,7 @@
 
                 <div class="card col-md-7">
                     <div class="card-header border-0">
-                        <h3 class="card-title">Processos em andamento</h3>
+                        <h3 class="card-title">Processos Coletivos em Andamento</h3>
                     </div>
 
                     <div class="card-body table-responsive p-0 w-full">
@@ -80,11 +80,11 @@
                             </thead>
                             <tbody>
                                 @foreach ($limit_proccess as $proccesses)
-                                    @if ($proccesses->progress_proccess == 1 || $proccesses->update_proccess == 1)
+                                    @if ($proccesses->progress_collective == 1 || $proccesses->update_collective == 1)
                                         <tr>
                                             <td class="text-center">{{ $proccesses->id }}</td>
                                             <td class="text-center">{{ $proccesses->name }}</td>
-                                            @if ($proccesses->progress_proccess == 1)
+                                            @if ($proccesses->progress_collective == 1)
                                                 <x-status textCenter="text-center" borderColor="border-sky-500"
                                                     textColor="text-sky-500">
                                                     <i class="fa-solid fa-gavel text-sm mr-1"></i>
@@ -99,7 +99,7 @@
                                             @endif
 
                                             <td class="text-center">
-                                                <a href="{{ route('proccess.show', ['proccess' => $proccesses->id]) }}">
+                                                <a href="{{ route('collective.show', ['collective' => $proccesses->id]) }}">
                                                     <i class="fa-solid fa-file-lines text-sm mr-1"></i>
                                                     Detalhes
                                                 </a>
@@ -122,10 +122,10 @@
         new Chart(bar, {
             type: 'bar',
             data: {
-                labels: ['QTD: ATUALIZADOS', 'QTD: FINALIZADOS', 'QTD: REABERTOS'],
+                labels: ['QTD: ATUALIZADOS', 'QTD: FINALIZADOS'],
                 datasets: [{
                     label: 'Situação dos Processos',
-                    data: [{!! $qtd_values !!}, {!! $qtd_finish !!}, {!! $qtd_reopen !!}],
+                    data: [{!! $qtd_values !!}, {!! $qtd_finish !!}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(255, 159, 64, 0.2)',

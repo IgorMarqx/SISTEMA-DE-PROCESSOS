@@ -6,8 +6,9 @@
     <div class="h-[38rem] w-screen flex justify-center items-center">
 
         <div class="w-[26rem]">
-            <div class="mb-16 mr-6 m-0 flex justify-center items-center">
-                <img class="w-[12rem]" src="assets/img/logoSind.png" alt="">
+            <div class="mb-8 mr-6 m-0 flex flex-col justify-center items-center">
+                <img class="w-[12rem] mr-10 mb-8" src="assets/img/logoSind.png" alt="">
+                <h3 class="font-bold text-xl"><span class="text-red-500">SGP</span> - Sistema de Gerenciamento de Processos</h3>
             </div>
 
             <div>

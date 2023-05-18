@@ -7,7 +7,7 @@
             </div>
             <form action="{{ route('attachment', ['id' => $proccess->id]) }}" method="POST"
                 enctype="multipart/form-data">
-                <input type="hidden" name="proccess_id" value="{{ $proccess->id }}">
+                <input type="hidden" name="collective_id" value="{{ $proccess->id }}">
                 <input type="hidden" name="user_id" value="{{ $user->id }}">
                 @csrf
                 <div class="modal-body">

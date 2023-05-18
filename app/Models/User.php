@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     public function proccess()
     {
-        return $this->hasMany(Proccess::class, 'user_id', 'id');
+        return $this->hasMany(Collective::class, 'user_id', 'id');
     }
 
     public function attachment()

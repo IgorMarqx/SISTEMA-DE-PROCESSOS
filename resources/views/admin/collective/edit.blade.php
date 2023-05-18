@@ -10,7 +10,7 @@
 @section('content')
 
     <div class="mb-2 flex">
-        <a href="{{ route('proccess.index') }}"
+        <a href="{{ route('collective.index') }}"
             class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600">
             <i class="fa-solid fa-reply"></i>
         </a>
@@ -26,7 +26,7 @@
             .
         </div>
 
-        <form action="{{ route('proccess.update', ['proccess' => $proccess->id]) }}" method="POST">
+        <form action="{{ route('collective.update', ['collective' => $proccess->id]) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="card-body">
@@ -36,15 +36,15 @@
 
 
                     <div class="col-md-6 mb-3">
-                        <x-labels colorSpan="text-red-500" id="proccess">
+                        <x-labels colorSpan="text-red-500" id="collective">
                             Nome do Processo
                         </x-labels>
 
-                        <x-inputs id="proccess" form="form-control" placeholder="Informe o nome do processo"
-                            value="{{ $proccess->name }}" type="text" name="proccess" focus="{{ true }}"
-                            error="proccess" />
+                        <x-inputs id="collective" form="form-control" placeholder="Informe o nome do processo"
+                            value="{{ $proccess->name }}" type="text" name="collective" focus="{{ true }}"
+                            error="collective" />
 
-                        @error('proccess')
+                        @error('collective')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
@@ -55,7 +55,7 @@
                         </x-labels>
 
                         <x-inputs id="url" form="form-control" placeholder="Informe a URL do processo"
-                            value="{{ $proccess->url_proccess }}" type="text" name="url" focus="{{ false }}"
+                            value="{{ $proccess->url_collective }}" type="text" name="url" focus="{{ false }}"
                             error="url" />
 
                         @error('url')

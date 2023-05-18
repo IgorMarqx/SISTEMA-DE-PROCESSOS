@@ -5,25 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Proccess extends Model
+class Collective extends Model
 {
     use HasFactory;
-
-    protected $table = 'proccesses';
+    protected $table = 'collectives';
 
     protected $fillable = [
         'name',
         'user_id',
-        'url_proccess',
+        'url_collective',
         'email_coorporative',
         'email_client',
         'qtd_update',
         'qtd_finish',
-        'reopen_proccess',
-        'progress_proccess',
-        'finish_proccess',
-        'update_proccess',
-        'pending_proccess',
+        'reopen_collective',
+        'progress_collective',
+        'finish_collective',
+        'update_collective',
     ];
 
     public function user()
@@ -33,6 +31,6 @@ class Proccess extends Model
 
     public function attachment()
     {
-        return $this->hasMany(Attachment::class, 'proccess_id', 'id');
+        return $this->hasMany(Attachment::class, 'collective_id', 'id');
     }
 }

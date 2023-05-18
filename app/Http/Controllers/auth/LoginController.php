@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,7 +36,16 @@ class LoginController extends Controller
             ]
         );
 
+        $user = DB::select("select admin from users where email = '$request->email' ");
+
         if (Auth::attempt($data)) {
+
+            foreach ($user as $user) {
+                if ($user->admin == 1) {
+                    return redirect()->route('dashboard');
+                }
+            }
+
             return redirect()->route('welcome');
         } else {
             $validator->errors()->add('email', 'E-mail ou senha incorretos');

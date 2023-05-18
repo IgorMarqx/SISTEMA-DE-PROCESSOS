@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\UserController;
-
 use App\Http\Controllers\pages\DashboardController;
-use App\Http\Controllers\pages\ProccessController;
+
+use App\Http\Controllers\pages\CollectiveController;
+use App\Http\Controllers\pages\IndividualController;
+
 
 use App\Http\Controllers\profile\ProfileController;
 
@@ -22,12 +24,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('users', [UserController::class, 'index'])->name('users');
     Route::resource('users', UserController::class);
 
-    Route::get('proccess', [ProccessController::class, 'index'])->name('proccess');
-    Route::get('finish/{id}', [ProccessController::class, 'finish'])->name('finish');
-    Route::get('reopen/{id}', [ProccessController::class, 'reopen'])->name('reopen');
-    Route::post('attachment/{id}', [ProccessController::class, 'attachment'])->name('attachment');
-    Route::get('deletAttachment/{id}', [ProccessController::class, 'deletAttachment'])->name('deletAttachment');
-    Route::resource('proccess', ProccessController::class);
+    Route::get('collective', [CollectiveController::class, 'index'])->name('collective');
+    Route::resource('collective', CollectiveController::class);
+    Route::get('finish/{id}', [CollectiveController::class, 'finish'])->name('finish');
+    Route::get('reopen/{id}', [CollectiveController::class, 'reopen'])->name('reopen');
+    Route::post('attachment/{id}', [CollectiveController::class, 'attachment'])->name('attachment');
+    Route::get('deletAttachment/{id}', [CollectiveController::class, 'deletAttachment'])->name('deletAttachment');
+
+    Route::get('individual', [IndividualController::class, 'index'])->name('individual');
+    Route::resource('individual', IndividualController::class);
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
 });

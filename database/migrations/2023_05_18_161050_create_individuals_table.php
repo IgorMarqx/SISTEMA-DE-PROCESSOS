@@ -11,21 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proccesses', function (Blueprint $table) {
+        Schema::create('individuals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('url_proccess', 2048);
+            $table->string('url_individuals', 2048);
             $table->string('email_coorporative');
             $table->string('email_client');
             $table->integer('qtd_update')->nullable();
             $table->integer('qtd_finish')->nullable();
-            $table->integer('qtd_reopen')->nullable();
-            $table->boolean('reopen_proccess')->default(0);
-            $table->boolean('progress_proccess')->default(0);
-            $table->boolean('finish_proccess')->default(0);
-            $table->boolean('update_proccess')->default(0);
+            $table->boolean('progress_individuals')->default(0);
+            $table->boolean('finish_individuals')->default(0);
+            $table->boolean('update_individuals')->default(0);
             $table->timestamps();
         });
     }
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proccesses');
+        Schema::dropIfExists('individuals');
     }
 };

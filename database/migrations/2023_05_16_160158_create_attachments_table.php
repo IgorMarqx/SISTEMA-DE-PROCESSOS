@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->integer('proccess_id')->unsigned();
-            $table->foreign('proccess_id')->references('id')->on('proccesses');
+            $table->integer('collective_id')->unsigned();
+            $table->foreign('collective_id')->references('id')->on('collectives');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('path');

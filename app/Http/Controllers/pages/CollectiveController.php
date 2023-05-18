@@ -4,15 +4,13 @@ namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attachment;
-use App\Models\Proccess;
+use App\Models\Collective;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class ProccessController extends Controller
+class CollectiveController extends Controller
 {
 
     public function __construct()
@@ -25,17 +23,17 @@ class ProccessController extends Controller
      */
     public function index()
     {
-        $proccess = Proccess::paginate(7);
+        $proccess = Collective::paginate(7);
         $loggedId = intval(Auth::id());
 
-        $proccess_count = Proccess::count('id');
+        $proccess_count = Collective::count('id');
 
-        $progress_proccess_count = Proccess::where('progress_proccess', '=', '1')->count();
-        $finish_proccess_count = Proccess::where('finish_proccess', '=', '1')->count();
-        $update_proccess_count = Proccess::where('update_proccess', '=', '1')->count();
+        $progress_proccess_count = Collective::where('progress_collective', '=', '1')->count();
+        $finish_proccess_count = Collective::where('finish_collective', '=', '1')->count();
+        $update_proccess_count = Collective::where('update_collective', '=', '1')->count();
 
 
-        return view('admin.proccess.proccess', [
+        return view('admin.collective.collective', [
             'proccess' => $proccess,
             'loggedId' => $loggedId,
 
@@ -55,7 +53,7 @@ class ProccessController extends Controller
         $user = User::all();
 
 
-        return view('admin.proccess.create', [
+        return view('admin.collective.create', [
             'users' => $user,
         ]);
     }
@@ -67,37 +65,37 @@ class ProccessController extends Controller
     {
 
 
-        $data = $request->only(['proccess', 'user_id', 'url', 'email_corp', 'email_client', 'progress_proccess']);
-        $progress = $data['progress_proccess'];
+        $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective']);
+        $progress = $data['progress_collective'];
 
         $validator = $this->validator($data);
 
         if ($data['user_id'] == 'error') {
             $validator->errors()->add('user_id', 'Escolha um cliente');
 
-            return redirect()->route('proccess.create')
+            return redirect()->route('collective.create')
                 ->withErrors($validator)
                 ->withInput();
         }
 
         if ($validator->fails()) {
-            return redirect()->route('proccess.create')
+            return redirect()->route('collective.create')
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        $proccess = Proccess::create([
-            'name' => $data['proccess'],
+        $collective = Collective::create([
+            'name' => $data['collective'],
             'user_id' => $data['user_id'],
-            'url_proccess' => $data['url'],
+            'url_collective' => $data['url'],
             'email_coorporative' => $data['email_corp'],
             'email_client' => $data['email_client'],
-            'progress_proccess' => intval($progress),
+            'progress_collective' => intval($progress),
         ]);
-        $proccess->save();
+        $collective->save();
 
         session()->flash('success', 'Processo criado com sucesso.');
-        return redirect()->route('proccess.index');
+        return redirect()->route('collective.index');
     }
 
     /**
@@ -105,12 +103,12 @@ class ProccessController extends Controller
      */
     public function show(string $id)
     {
-        $proccess = Proccess::find($id);
-        $user = $proccess->user;
-        $attachment = Attachment::where('proccess_id', '=', $id)->get();
+        $collective = Collective::find($id);
+        $user = $collective->user;
+        $attachment = Attachment::where('collective_id', '=', $id)->get();
 
-        return view('admin.proccess.details', [
-            'proccess' => $proccess,
+        return view('admin.collective.details', [
+            'proccess' => $collective,
             'user' => $user,
             'attachment' => $attachment
         ]);
@@ -120,13 +118,13 @@ class ProccessController extends Controller
     {
         if ($request->file == "") {
             session()->flash('error', 'Arquivo não encontrado.');
-            return redirect()->route('proccess.show', ['proccess' => $id]);
+            return redirect()->route('collective.show', ['collective' => $id]);
         } else {
             $originalName = $request->file('file')->getClientOriginalName();
 
             $attachment = Attachment::create([
                 'title' => $originalName,
-                'proccess_id' => $request->proccess_id,
+                'collective_id' => $request->collective_id,
                 'user_id' => $request->user_id,
                 'path' => $request->file('file')->store(),
             ]);
@@ -134,7 +132,7 @@ class ProccessController extends Controller
         $attachment->save();
 
         session()->flash('success', 'Anexado com sucesso.');
-        return redirect()->route('proccess.show', ['proccess' => $id]);
+        return redirect()->route('collective.show', ['collective' => $id]);
     }
 
     public function deletAttachment(Request $request, string $id)
@@ -143,9 +141,12 @@ class ProccessController extends Controller
 
         if ($attachment) {
             $attachment->delete();
+
+            session()->flash('success', 'Anexo deletado com sucesso.');
+            return redirect()->back();
         }
 
-        session()->flash('success', 'Anexo deletado com sucesso.');
+        session()->flash('warning', 'Anexo não encontrado');
         return redirect()->back();
     }
 
@@ -154,18 +155,18 @@ class ProccessController extends Controller
      */
     public function edit(string $id)
     {
-        $proccess = Proccess::find($id);
+        $collective = Collective::find($id);
         $user = User::all();
 
-        if ($proccess) {
-            return view('admin.proccess.edit', [
-                'proccess' => $proccess,
+        if ($collective) {
+            return view('admin.collective.edit', [
+                'proccess' => $collective,
                 'users' => $user,
             ]);
         }
 
         session()->flash('warning', 'Usuário não encontrado.');
-        return redirect()->route('proccess.index');
+        return redirect()->route('collective.index');
     }
 
     /**
@@ -173,70 +174,66 @@ class ProccessController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $proccess = Proccess::find($id);
+        $collective = Collective::find($id);
 
-        if ($proccess) {
-            $data = $request->only('proccess', 'url', 'email_corp', 'email_client', 'user_id', 'status');
+        if ($collective) {
+            $data = $request->only('collective', 'url', 'email_corp', 'email_client', 'user_id', 'status');
 
             $validator = $this->validator($data);
 
             if ($validator->fails()) {
-                return redirect()->route('proccess.edit', ['proccess' => $proccess])->withErrors($validator);
+                return redirect()->route('collective.edit', ['collective' => $collective])->withErrors($validator);
             }
 
-            $proccess->name = $data['proccess'];
+            $collective->name = $data['collective'];
 
-            if ($proccess->email_client !== $data['email_client']) {
-                $hasEmail = Proccess::where('email_client', $data['email_client'])->get();
+            if ($collective->email_client !== $data['email_client']) {
+                $hasEmail = Collective::where('email_client', $data['email_client'])->get();
 
                 if (count($hasEmail) == 0) {
-                    $proccess->email_client = $data['email_client'];
+                    $collective->email_client = $data['email_client'];
                 } else {
                     $validator->errors()->add('email', 'Já existe um e-mail com esse.');
                 }
             }
 
             if (count($validator->errors()) > 0) {
-                return redirect()->route('proccess.edit', ['proccess' => $id])->withErrors($validator);
+                return redirect()->route('collective.edit', ['collective' => $id])->withErrors($validator);
             }
 
             if ($data['status'] == 1) {
-                $proccess->finish_proccess = 0;
-                $proccess->progress_proccess = 0;
-                $proccess->reopen_proccess = 0;
-                $proccess->update_proccess = 1;
+                $collective->finish_collective = 0;
+                $collective->progress_collective = 0;
+                $collective->update_collective = 1;
 
-                $proccess->qtd_update += 1;
+                $collective->qtd_update += 1;
                 session()->flash('success', 'Processo Atualizado com sucesso.');
             } else if ($data['status'] == 2) {
 
-                if ($proccess->finish_proccess == 1) {
+                if ($collective->finish_collective == 1) {
                     session()->flash('error', 'Esse processo ja foi finalizado.');
-                    return redirect()->route('proccess.index');
+                    return redirect()->route('collective.index');
                 }
 
-                $proccess->progress_proccess = 0;
-                $proccess->update_proccess = 0;
-                $proccess->reopen_proccess = 0;
-                $proccess->finish_proccess = 1;
+                $collective->progress_collective = 0;
+                $collective->update_collective = 0;
+                $collective->finish_collective = 1;
 
-                $proccess->qtd_finish += 1;
+                $collective->qtd_finish += 1;
                 session()->flash('success', 'Processo Finalizado com sucesso.');
             } else if ($data['status'] == 3) {
-                $proccess->finish_proccess = 0;
-                $proccess->update_proccess = 0;
-                $proccess->reopen_proccess = 0;
-                $proccess->progress_proccess = 1;
+                $collective->finish_collective = 0;
+                $collective->update_collective = 0;
+                $collective->progress_collective = 1;
 
-                $proccess->reopen_proccess += 1;
                 session()->flash('success', 'Processo em andamento.');
             }
 
-            $proccess->touch();
-            $proccess->save();
+            $collective->touch();
+            $collective->save();
         }
 
-        return redirect()->route('proccess.index');
+        return redirect()->route('collective.index');
     }
 
     /**
@@ -244,11 +241,11 @@ class ProccessController extends Controller
      */
     public function destroy(string $id)
     {
-        $proccess = Proccess::find($id);
-        $attachment = Attachment::where('proccess_id', $proccess->id);
+        $collective = Collective::find($id);
+        $attachment = Attachment::where('collective_id', $collective->id);
 
-        if ($proccess) {
-            $proccess->delete();
+        if ($collective) {
+            $collective->delete();
             $attachment->delete();
         }
 
@@ -258,60 +255,41 @@ class ProccessController extends Controller
 
     public function finish(string $id)
     {
-        $proccess = Proccess::find($id);
+        $collective = Collective::find($id);
 
-        if ($proccess->finish_proccess == 1) {
+        if ($collective->finish_collective == 1) {
             session()->flash('error', 'Esse processo ja foi finalizado.');
-            return redirect()->route('proccess.index');
+            return redirect()->route('collective.index');
         } else {
-            $proccess->progress_proccess = 0;
-            $proccess->update_proccess = 0;
-            $proccess->reopen_proccess = 0;
-            $proccess->finish_proccess = 1;
+            $collective->progress_collective = 0;
+            $collective->update_collective = 0;
+            $collective->finish_collective = 1;
 
-            if ($proccess->finish_proccess == 1) {
-                $proccess->qtd_finish += 1;
+            if ($collective->finish_collective == 1) {
+                $collective->qtd_finish += 1;
             }
 
-            $proccess->save();
+            $collective->save();
         }
 
         session()->flash('success', 'Processo finalizado com sucesso.');
-        return redirect()->route('proccess.index');
+        return redirect()->route('collective.index');
     }
 
-    public function reopen(String $id)
-    {
-        $proccess = Proccess::find($id);
-
-        if ($proccess) {
-            $proccess->finish_proccess = 0;
-            $proccess->reopen_proccess = 1;
-
-            if ($proccess->reopen_proccess == 1) {
-                $proccess->qtd_reopen += 1;
-            }
-
-            $proccess->save();
-        }
-
-        session()->flash('success', 'Processo reaberto com sucesso.');
-        return redirect()->route('proccess.index');
-    }
 
     public function validator($data)
     {
         return Validator::make(
             $data,
             [
-                'proccess' => ['required', 'max:100'],
+                'collective' => ['required', 'max:100'],
                 'url' => ['active_url', 'max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
                 'email_client' => ['required', 'max:100', 'email'],
             ],
             [
-                'proccess.required' => 'Preencha esse campo.',
-                'proccess.max' => 'Máximo de 100 caracteres.',
+                'collective.required' => 'Preencha esse campo.',
+                'collective.max' => 'Máximo de 100 caracteres.',
 
                 'url.active_url' => 'Informe uma URL válida.',
                 'url.max' => 'Máximo de 2048 caracteres.',
