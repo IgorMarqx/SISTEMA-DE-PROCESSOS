@@ -23,29 +23,59 @@
 
 
     <div class="mb-4">
-        <a href="{{ route('proccess.index') }}"
-            class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600 mr-2">
-            <i class="fa-solid fa-reply"></i>
-        </a>
+        <div class="flex justify-between">
+            <div>
+                <a href="{{ route('proccess.index') }}"
+                    class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600 mr-2">
+                    <i class="fa-solid fa-reply"></i>
+                </a>
 
-        @if ($proccess->finish_proccess == 1)
-            <a href="{{ route('reopen', ['id' => $proccess->id]) }}"
-                class="bg-yellow-400 text-white p-2 rounded hover:bg-yellow-500 transition ease-in-out duration-600 mr-2">
-                <i class="fa-solid fa-gavel text-sm mr-1"></i>
-                Reabrir Processo
-            </a>
-        @else
-            <a
-                href="{{ route('proccess.edit', ['proccess' => $proccess->id]) }}"class="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition ease-in-out duration-600 mr-2">
-                <i class="fa-solid fa-pen text-sm mr-1"></i>
-                Editar Processo
-            </a>
-        @endif
+                @if ($proccess->finish_proccess == 1)
+                    <a href="{{ route('reopen', ['id' => $proccess->id]) }}"
+                        class="bg-yellow-400 text-white p-2 rounded hover:bg-yellow-500 transition ease-in-out duration-600 mr-2">
+                        <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                        Reabrir Processo
+                    </a>
+                @else
+                    <a
+                        href="{{ route('proccess.edit', ['proccess' => $proccess->id]) }}"class="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition ease-in-out duration-600 mr-2">
+                        <i class="fa-solid fa-pen text-sm mr-1"></i>
+                        Editar Processo
+                    </a>
+                @endif
 
-        <a href="" data-bs-toggle="modal" data-bs-target="#fileModal"
-            class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
-            Anexar Arquivo
-        </a>
+                <a href="" data-bs-toggle="modal" data-bs-target="#fileModal"
+                    class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
+                    Anexar Arquivo
+                </a>
+            </div>
+
+            <div>
+                @if ($proccess->progress_proccess == 1)
+                    <x-status textCenter="text-center" borderColor="border-sky-500" textColor="text-sky-500">
+                        <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                        Andamento
+                    </x-status>
+                @elseif($proccess->finish_proccess == 1)
+                    <x-status textCenter="text-center" borderColor="border-red-500" textColor="text-red-500">
+                        <i class="fa-solid fa-flag-checkered text-sm mr-1"></i>
+                        Finalizado
+                    </x-status>
+                @elseif($proccess->update_proccess == 1)
+                    <x-status textCenter="text-center" borderColor="border-green-500" textColor="text-green-500">
+                        <i class="fa-solid fa-circle-check text-sm mr-1"></i>
+                        Atualizado
+                    </x-status>
+                @elseif($proccess->reopen_proccess == 1)
+                    <x-status textCenter="text-center" borderColor="border-yellow-300" textColor="text-yellow-400">
+                        <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                        Reaberto
+                    </x-status>
+                @endif
+            </div>
+
+        </div>
+
         @include('admin.modals.file')
 
 
@@ -70,7 +100,7 @@
             </div>
 
             <div class="card-body">
-                <div class="flex items-center justify-center text-white bg-red-500">
+                <div class="flex items-center justify-center text-black bg-gray-200">
                     <h4 class="m-0 text-bold">Informações do cliente</h4>
                 </div>
 
@@ -95,8 +125,8 @@
 
                 </div>
 
-                <div class="flex items-center justify-center text-white bg-red-500 mt-4">
-                    <h4 class="m-0 text-bold">Informações do processo</h4>
+                <div class="flex items-center justify-center bg-gray-200 mt-4">
+                    <h4 class=" text-black m-0 text-bold">Informações do processo</h4>
                 </div>
 
                 <div
@@ -128,22 +158,25 @@
 
                 </div>
 
-                <div class="flex items-center justify-center text-white bg-red-500 mt-4">
+                <div class="flex items-center justify-center text-black bg-gray-200 mt-4">
                     <h4 class="m-0 text-bold">Anexos</h4>
                 </div>
 
-                <div class="flex justify-center items-center flex-wrap mt-2 gap-3">
+                <div class="flex justify-center items-center flex-wrap mt-3 mb-3 gap-3">
                     @foreach ($attachment as $attachments)
-                        <div class="bg-red-500 hover:bg-red-600 rounded p-4 cursor-pointer text-white"
-                            data-bs-toggle="modal" data-bs-target="#pdfModal">
-                            <i class="fa-solid fa-file-pdf text-lg"></i>
-                            {{ $attachments->title }}
-                            @include('admin.modals.pdf')
-                        </div>
-                        <div class="flex items-center justify-center">
-                            <a href="{{ $attachments->id }}" class="text-red-500 hover:text-gray-500">
-                                <i class="fa-solid fa-trash"></i>
-                            </a>
+                        <div class="flex flex-col">
+                            <div class="bg-gray-200 hover:bg-gray-300 rounded p-4 cursor-pointer text-black">
+                                <i class="fa-solid fa-file-pdf text-lg"></i>
+                                {{ $attachments->title }}
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <a href="{{ route('deletAttachment', ['id' => $attachments->id]) }}"
+                                    class="text-red-500 hover:text-red-600">
+                                    <i class="fa-solid fa-trash-can text-sm mr-1"></i>
+                                    Excluir anexo
+                                </a>
+                                @include('admin.modals.pdf')
+                            </div>
                         </div>
                     @endforeach
                 </div>

@@ -26,6 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('finish/{id}', [ProccessController::class, 'finish'])->name('finish');
     Route::get('reopen/{id}', [ProccessController::class, 'reopen'])->name('reopen');
     Route::post('attachment/{id}', [ProccessController::class, 'attachment'])->name('attachment');
+    Route::get('deletAttachment/{id}', [ProccessController::class, 'deletAttachment'])->name('deletAttachment');
     Route::resource('proccess', ProccessController::class);
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');

@@ -29,6 +29,7 @@ class DashboardController extends Controller
         $sum_reopen = json_encode($reopenPie);
 
         $status_proccess = Proccess::all();
+        $limit_proccess = Proccess::limit(8)->get();
 
 
         return view('admin.dashboard.dashboard', [
@@ -37,6 +38,7 @@ class DashboardController extends Controller
             'qtd_reopen' => $sum_reopen,
 
             'proccess' => $status_proccess,
+            'limit_proccess' => $limit_proccess,
         ]);
     }
 }

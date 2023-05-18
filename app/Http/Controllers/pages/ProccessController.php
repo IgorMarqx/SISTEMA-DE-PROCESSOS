@@ -107,8 +107,7 @@ class ProccessController extends Controller
     {
         $proccess = Proccess::find($id);
         $user = $proccess->user;
-
-        $attachment = Attachment::where('user_id', '=', $user->id, 'and', 'proccess_id', '=', $id)->get();
+        $attachment = Attachment::where('proccess_id', '=', $id)->get();
 
         return view('admin.proccess.details', [
             'proccess' => $proccess,
@@ -131,12 +130,23 @@ class ProccessController extends Controller
                 'user_id' => $request->user_id,
                 'path' => $request->file('file')->store(),
             ]);
-
         }
         $attachment->save();
 
         session()->flash('success', 'Anexado com sucesso.');
         return redirect()->route('proccess.show', ['proccess' => $id]);
+    }
+
+    public function deletAttachment(Request $request, string $id)
+    {
+        $attachment = Attachment::find($id);
+
+        if ($attachment) {
+            $attachment->delete();
+        }
+
+        session()->flash('success', 'Anexo deletado com sucesso.');
+        return redirect()->back();
     }
 
     /**
@@ -234,7 +244,16 @@ class ProccessController extends Controller
      */
     public function destroy(string $id)
     {
-        dd($id);
+        $proccess = Proccess::find($id);
+        $attachment = Attachment::where('proccess_id', $proccess->id);
+
+        if ($proccess) {
+            $proccess->delete();
+            $attachment->delete();
+        }
+
+        session()->flash('success', 'Processo deletado com sucesso.');
+        return redirect()->back();
     }
 
     public function finish(string $id)

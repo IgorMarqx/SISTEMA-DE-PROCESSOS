@@ -68,7 +68,7 @@
 
                     <div class="card-body table-responsive p-0 w-full">
 
-                        <table class="table table-hover table-valign-middle">
+                        <table class="table table-hover table-valign-middle mb-2">
                             <thead>
                                 <tr>
                                     <th class="text-center">ID</th>
@@ -78,17 +78,26 @@
                                 </tr>
 
                             </thead>
-                            @foreach ($proccess as $proccesses)
-                                @if ($proccesses->progress_proccess == 1)
-                                    <tbody>
+                            <tbody>
+                                @foreach ($limit_proccess as $proccesses)
+                                    @if ($proccesses->progress_proccess == 1 || $proccesses->update_proccess == 1)
                                         <tr>
                                             <td class="text-center">{{ $proccesses->id }}</td>
                                             <td class="text-center">{{ $proccesses->name }}</td>
-                                            <x-status textCenter="text-center" borderColor="border-sky-500"
-                                                textColor="text-sky-500">
-                                                <i class="fa-solid fa-gavel text-sm mr-1"></i>
-                                                Andamento
-                                            </x-status>
+                                            @if ($proccesses->progress_proccess == 1)
+                                                <x-status textCenter="text-center" borderColor="border-sky-500"
+                                                    textColor="text-sky-500">
+                                                    <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                                                    Andamento
+                                                </x-status>
+                                            @else
+                                                <x-status textCenter="text-center" borderColor="border-green-500"
+                                                    textColor="text-green-500">
+                                                    <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                                                    Atualizado
+                                                </x-status>
+                                            @endif
+
                                             <td class="text-center">
                                                 <a href="{{ route('proccess.show', ['proccess' => $proccesses->id]) }}">
                                                     <i class="fa-solid fa-file-lines text-sm mr-1"></i>
@@ -96,9 +105,9 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                    </tbody>
-                                @endif
-                            @endforeach
+                                    @endif
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
