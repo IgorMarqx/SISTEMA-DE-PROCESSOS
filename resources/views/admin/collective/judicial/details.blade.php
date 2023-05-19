@@ -168,13 +168,14 @@
                                 {{ $attachments->title }}
                             </div>
                             <div class="flex items-center justify-center">
-                                <a href="{{ route('deletAttachment', ['id' => $attachments->id]) }}"
+                                <a href="" data-bs-toggle="modal"
+                                    onclick="exibirModalExclusao({{ $attachments->id }})"
                                     class="text-red-500 hover:text-red-600">
                                     <i class="fa-solid fa-trash-can text-sm mr-1"></i>
                                     Excluir anexo
                                 </a>
-                                @include('admin.modals.pdf')
                             </div>
+                            @include('admin.modals.pdf')
                         </div>
                     @endforeach
                 </div>

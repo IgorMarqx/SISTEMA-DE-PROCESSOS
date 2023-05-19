@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('lawyers', function (Blueprint $table) {
             $table->id();
             $table->string('email_lawyer');
-            $table->integer('collectives_id')->nullable();
-            $table->integer('individuals_id')->nullable();
+            $table->integer('judicial_collectives_id')->nullable();
+            $table->integer('administrative_collectives_id')->nullable();
+            $table->integer('judicial_individuals_id')->nullable();
+            $table->integer('administrative_individuals_id')->nullable();
             $table->timestamps();
         });
     }

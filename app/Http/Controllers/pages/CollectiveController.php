@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
 use App\Models\Collective;
+use App\Models\JudicialCollective;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,17 +25,17 @@ class CollectiveController extends Controller
      */
     public function index()
     {
-        $proccess = Collective::paginate(7);
+        $proccess = JudicialCollective::paginate(7);
         $loggedId = intval(Auth::id());
 
-        $proccess_count = Collective::count('id');
+        $proccess_count = JudicialCollective::count();
 
-        $progress_proccess_count = Collective::where('progress_collective', '=', '1')->count();
-        $finish_proccess_count = Collective::where('finish_collective', '=', '1')->count();
-        $update_proccess_count = Collective::where('update_collective', '=', '1')->count();
+        $progress_proccess_count = JudicialCollective::where('progress_collective', '=', '1')->count();
+        $finish_proccess_count = JudicialCollective::where('finish_collective', '=', '1')->count();
+        $update_proccess_count = JudicialCollective::where('update_collective', '=', '1')->count();
 
 
-        return view('admin.collective.collective', [
+        return view('admin.collective.judicial.index', [
             'proccess' => $proccess,
             'loggedId' => $loggedId,
 
@@ -53,7 +55,7 @@ class CollectiveController extends Controller
         $user = User::all();
 
 
-        return view('admin.collective.create', [
+        return view('admin.collective.judicial.create', [
             'users' => $user,
         ]);
     }
@@ -63,39 +65,89 @@ class CollectiveController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->type == 1) {
+            $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective', 'type']);
+            $progress = $data['progress_collective'];
 
+            $validator = $this->validator($data);
 
-        $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective']);
-        $progress = $data['progress_collective'];
+            if ($data['user_id'] == 'error') {
+                $validator->errors()->add('user_id', 'Escolha um cliente');
 
-        $validator = $this->validator($data);
+                return redirect()->route('judicialc.collective.create')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
 
-        if ($data['user_id'] == 'error') {
-            $validator->errors()->add('user_id', 'Escolha um cliente');
+            if ($data['type'] == 'error') {
+                $validator->errors()->add('type', 'Escolha um tipo de processo');
 
-            return redirect()->route('collective.create')
-                ->withErrors($validator)
-                ->withInput();
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            if ($validator->fails()) {
+                return redirect()->route('judicialc.collective.create')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            $collective = JudicialCollective::create([
+                'name' => $data['collective'],
+                'user_id' => $data['user_id'],
+                'url_collective' => $data['url'],
+                'email_coorporative' => $data['email_corp'],
+                'email_client' => $data['email_client'],
+                'progress_collective' => intval($progress),
+                'type_collective' => $data['type'],
+            ]);
+            $collective->save();
+
+            session()->flash('success', 'Processo Judicial criado com sucesso.');
+            return redirect()->route('collective.index');
+        }else{
+            $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective', 'type']);
+            $progress = $data['progress_collective'];
+
+            $validator = $this->validator($data);
+
+            if ($data['user_id'] == 'error') {
+                $validator->errors()->add('user_id', 'Escolha um cliente');
+
+                return redirect()->route('collective.create')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            if ($data['type'] == 'error') {
+                $validator->errors()->add('type', 'Escolha um tipo de processo');
+
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            if ($validator->fails()) {
+                return redirect()->route('collective.create')
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            $collective = AdministrativeCollective::create([
+                'name' => $data['collective'],
+                'user_id' => $data['user_id'],
+                'url_collective' => $data['url'],
+                'email_coorporative' => $data['email_corp'],
+                'email_client' => $data['email_client'],
+                'progress_collective' => intval($progress),
+                'type_collective' => $data['type'],
+            ]);
+            $collective->save();
+
+            session()->flash('success', 'Processo Administrativo criado com sucesso.');
+            return redirect()->route('collective.index');
         }
-
-        if ($validator->fails()) {
-            return redirect()->route('collective.create')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $collective = Collective::create([
-            'name' => $data['collective'],
-            'user_id' => $data['user_id'],
-            'url_collective' => $data['url'],
-            'email_coorporative' => $data['email_corp'],
-            'email_client' => $data['email_client'],
-            'progress_collective' => intval($progress),
-        ]);
-        $collective->save();
-
-        session()->flash('success', 'Processo criado com sucesso.');
-        return redirect()->route('collective.index');
     }
 
     /**
@@ -103,11 +155,11 @@ class CollectiveController extends Controller
      */
     public function show(string $id)
     {
-        $collective = Collective::find($id);
+        $collective = JudicialCollective::find($id);
         $user = $collective->user;
-        $attachment = Attachment::where('collective_id', '=', $id)->get();
+        $attachment = Attachment::where('judicial_collective_id', '=', $id)->get();
 
-        return view('admin.collective.details', [
+        return view('admin.collective.judicial.details', [
             'proccess' => $collective,
             'user' => $user,
             'attachment' => $attachment
@@ -124,7 +176,7 @@ class CollectiveController extends Controller
 
             $attachment = Attachment::create([
                 'title' => $originalName,
-                'collective_id' => $request->collective_id,
+                'judicial_collective_id' => $request->collective_id,
                 'user_id' => $request->user_id,
                 'path' => $request->file('file')->store(),
             ]);
@@ -155,11 +207,11 @@ class CollectiveController extends Controller
      */
     public function edit(string $id)
     {
-        $collective = Collective::find($id);
+        $collective = JudicialCollective::find($id);
         $user = User::all();
 
         if ($collective) {
-            return view('admin.collective.edit', [
+            return view('admin.collective.judicial.edit', [
                 'proccess' => $collective,
                 'users' => $user,
             ]);
@@ -174,7 +226,7 @@ class CollectiveController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $collective = Collective::find($id);
+        $collective = JudicialCollective::find($id);
 
         if ($collective) {
             $data = $request->only('collective', 'url', 'email_corp', 'email_client', 'user_id', 'status');
@@ -188,7 +240,7 @@ class CollectiveController extends Controller
             $collective->name = $data['collective'];
 
             if ($collective->email_client !== $data['email_client']) {
-                $hasEmail = Collective::where('email_client', $data['email_client'])->get();
+                $hasEmail = JudicialCollective::where('email_client', $data['email_client'])->get();
 
                 if (count($hasEmail) == 0) {
                     $collective->email_client = $data['email_client'];
@@ -241,8 +293,8 @@ class CollectiveController extends Controller
      */
     public function destroy(string $id)
     {
-        $collective = Collective::find($id);
-        $attachment = Attachment::where('collective_id', $collective->id);
+        $collective = JudicialCollective::find($id);
+        $attachment = Attachment::where('judicial_collective_id', $collective->id);
 
         if ($collective) {
             $collective->delete();
@@ -255,7 +307,7 @@ class CollectiveController extends Controller
 
     public function finish(string $id)
     {
-        $collective = Collective::find($id);
+        $collective = JudicialCollective::find($id);
 
         if ($collective->finish_collective == 1) {
             session()->flash('error', 'Esse processo ja foi finalizado.');

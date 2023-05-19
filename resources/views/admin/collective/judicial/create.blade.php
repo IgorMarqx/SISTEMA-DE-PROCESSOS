@@ -32,7 +32,7 @@
 
 
         <div class="card-body">
-            <form action="{{ route('collective.store') }}" method="POST" >
+            <form action="{{ route('collective.store') }}" method="POST">
                 @csrf
 
                 <input type="hidden" name="progress_collective" value="1">
@@ -67,7 +67,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6 mb-3">
                         <x-labels colorSpan="text-red-500" id="email_corp">
                             E-mail Coorporativo
                         </x-labels>
@@ -81,7 +81,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-6 mb-3">
                         <x-labels colorSpan="text-red-500" id="email_client">
                             E-mail do Cliente
                         </x-labels>
@@ -101,7 +101,7 @@
                         </x-labels>
 
                         <select name="user_id" id="user_id" class="form-control">
-                            <option value="error" selected>Informe o cliente</option>
+                            <option value="error" selected></option>
 
                             @foreach ($users as $user)
                                 @if ($user->admin === 1)
@@ -112,6 +112,23 @@
                         </select>
 
                         @error('user_id')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels colorSpan="text-red-500" id="type">
+                            Informe o tipo do processo
+                        </x-labels>
+
+                        <select name="type" id="type" class="form-control">
+                            <option value="error" selected></option>
+                            <option value="1">Processo Judicial</option>
+                            <option value="2">Processo Administrativo</option>
+                        </select>
+
+                        @error('type')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
 

@@ -1,5 +1,6 @@
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="collectiveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title fs-5 text-red-500" id="exampleModalLabel">Deletando
@@ -11,7 +12,7 @@
                 <p class="text-red-500">Tem certeza que você deseja apagar esse Processo</p>
             </div>
 
-            <form id="deleteForm" method="POST" action="{{ route('proccess.destroy', ['proccess' => $proccesses->id]) }}">
+            <form id="deleteForm" method="POST">
                 @csrf
                 @method('DELETE')
                 <div class="modal-footer">
@@ -23,3 +24,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function exibirModalExclusao(id) {
+        $('#collectiveModal').modal('show');
+
+        var form = document.getElementById('deleteForm');
+        var rota = "{{ route('collective.destroy', ['collective' => ':id']) }}";
+
+        rota = rota.replace(':id', id);
+        form.setAttribute('action', rota);
+    }
+</script>

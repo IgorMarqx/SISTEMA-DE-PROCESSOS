@@ -4,7 +4,9 @@
 @section('title', 'SINDJUF - Processos')
 
 @section('content_header')
-    <div class="mb-2"></div>
+    <div class="mb-2">
+        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Processos Judiciais</h3>
+    </div>
 @endsection
 
 @section('content')
@@ -44,6 +46,14 @@
             <x-card quantity="{{ $finishCount }}" size="col-md-3" icon="fa-solid fa-flag-checkered">
                 Processos Finalizados
             </x-card>
+        </div>
+
+        <div class="flex justify-center items-center gap-4 font-bold mb-3">
+            <a id="judicial" class="border-2 border-red-500 p-2 rounded text-red-500 hover:bg-red-500 hover:text-white"
+                href="{{ route('collective.index') }}">Judiciais</a>
+            <a id="administrative"
+                class="border-2 border-red-500 p-2 rounded text-red-500 hover:bg-red-500 hover:text-white"
+                href="{{ route('administrative_collective.index') }}">Administrativos</a>
         </div>
 
         <div class="card mt-1 ">
@@ -108,15 +118,13 @@
                                     Finalizar
                                 </x-button>
 
-                                <form action="{{ route('collective.destroy', ['collective' => $proccesses->id]) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-600 ml-1">
-                                        <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
-                                        Excluir
-                                    </button>
-                                </form>
+                                <a href="" data-bs-toggle="modal"
+                                    onclick="exibirModalExclusao({{ $proccesses->id }})"
+                                    class="text-red-500 hover:text-red-600 ml-1">
+                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                    Excluir
+                                </a>
+                                @include('admin.modals.collective')
                             </td>
                         </tr>
                     @endforeach

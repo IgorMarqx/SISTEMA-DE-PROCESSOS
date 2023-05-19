@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Collective extends Model
+class AdministrativeCollective extends Model
 {
     use HasFactory;
-    protected $table = 'collectives';
+
+    protected $table = 'administrative_collectives';
 
     protected $fillable = [
         'name',
@@ -18,19 +19,13 @@ class Collective extends Model
         'email_client',
         'qtd_update',
         'qtd_finish',
-        'reopen_collective',
         'progress_collective',
         'finish_collective',
         'update_collective',
     ];
 
-    public function user()
+    public function attachmentAdministrativeCollective()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    public function attachment()
-    {
-        return $this->hasMany(Attachment::class, 'collective_id', 'id');
+        return $this->hasMany(Attachment::class, 'administrative_collective_id', 'id');
     }
 }

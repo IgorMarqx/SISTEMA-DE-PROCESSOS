@@ -13,14 +13,32 @@ class Attachment extends Model
 
     protected $fillable = [
         'title',
-        'collective_id',
+        'judicial_collective_id',
+        'administrative_collective_id',
+        'judicial_individual_id',
+        'administrative_individual_id',
         'user_id',
         'path',
     ];
 
-    public function proccess()
+    public function judicialCollective()
     {
-        return $this->belongsTo(Collective::class, 'collective_id', 'id');
+        return $this->belongsTo(JudicialCollective::class, 'judicial_collective_id', 'id');
+    }
+
+    public function administrativeCollective()
+    {
+        return $this->belongsTo(AdministrativeCollective::class, 'administrative_collective_id', 'id');
+    }
+
+    public function judicialIndividuals()
+    {
+        return $this->belongsTo(JudicialIndividual::class, 'judicial_individual_id', 'id');
+    }
+
+    public function administrativeIndividuals()
+    {
+        return $this->belongsTo(AdministrativeIndividual::class, 'administrative_individual_id', 'id');
     }
 
     public function user()

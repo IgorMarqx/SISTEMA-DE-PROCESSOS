@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Individual extends Model
+class JudicialIndividual extends Model
 {
     use HasFactory;
 
-    protected $table = 'individuals';
+    protected $table = 'judicial_individuals';
 
     protected $fillable = [
         'name',
@@ -23,4 +23,10 @@ class Individual extends Model
         'finish_individuals',
         'update_individuals',
     ];
+
+
+    public function attachmentJudicialIndividuals()
+    {
+        return $this->hasMany(Attachment::class, 'judicial_collective_id', 'id');
+    }
 }

@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('individuals', function (Blueprint $table) {
+        Schema::create('judicial_collectives', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('url_individuals', 2048);
+            $table->string('url_collective', 2048);
             $table->string('email_coorporative');
             $table->string('email_client');
             $table->integer('qtd_update')->nullable();
             $table->integer('qtd_finish')->nullable();
-            $table->boolean('progress_individuals')->default(0);
-            $table->boolean('finish_individuals')->default(0);
-            $table->boolean('update_individuals')->default(0);
+            $table->boolean('progress_collective')->default(0);
+            $table->boolean('finish_collective')->default(0);
+            $table->boolean('update_collective')->default(0);
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('individuals');
+        Schema::dropIfExists('judicial_collectives');
     }
 };
