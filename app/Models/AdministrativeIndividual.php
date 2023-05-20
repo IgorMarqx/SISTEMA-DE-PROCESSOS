@@ -29,4 +29,9 @@ class AdministrativeIndividual extends Model
     {
         return $this->hasMany(Attachment::class, 'administrative_collective_id', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

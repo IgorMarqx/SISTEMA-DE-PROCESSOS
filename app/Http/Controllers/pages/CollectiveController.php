@@ -115,7 +115,7 @@ class CollectiveController extends Controller
             if ($data['user_id'] == 'error') {
                 $validator->errors()->add('user_id', 'Escolha um cliente');
 
-                return redirect()->route('collective.create')
+                return redirect()->route('administrative_collective.create')
                     ->withErrors($validator)
                     ->withInput();
             }
@@ -129,7 +129,7 @@ class CollectiveController extends Controller
             }
 
             if ($validator->fails()) {
-                return redirect()->route('collective.create')
+                return redirect()->route('administrative_collective.create')
                     ->withErrors($validator)
                     ->withInput();
             }
@@ -146,7 +146,7 @@ class CollectiveController extends Controller
             $collective->save();
 
             session()->flash('success', 'Processo Administrativo criado com sucesso.');
-            return redirect()->route('collective.index');
+            return redirect()->route('administrative_collective.index');
         }
     }
 

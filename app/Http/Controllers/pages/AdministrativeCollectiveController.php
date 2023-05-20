@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdministrativeCollective;
+use App\Models\Attachment;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdministrativeCollectiveController extends Controller
@@ -12,7 +15,23 @@ class AdministrativeCollectiveController extends Controller
      */
     public function index()
     {
-        return view('admin.collective.administrative.index');
+        $administrative =  AdministrativeCollective::paginate(7);
+
+        $administrative_count = AdministrativeCollective::count();
+
+        $progress_administrative = AdministrativeCollective::where('progress_collective', '1')->count();
+        $update_administrative = AdministrativeCollective::where('update_collective', '1')->count();
+        $finish_administrative = AdministrativeCollective::where('finish_collective', '1')->count();
+
+        return view('admin.collective.administrative.index', [
+            'administrative' => $administrative,
+
+            'administrative_count' =>  $administrative_count,
+            'progress_administrative' => $progress_administrative,
+
+            'update_administrative' => $update_administrative,
+            'finish_administrative' => $finish_administrative,
+        ]);
     }
 
     /**
@@ -20,7 +39,11 @@ class AdministrativeCollectiveController extends Controller
      */
     public function create()
     {
-        //
+        $user = User::all();
+
+        return view('admin.collective.administrative.create', [
+            'users' =>  $user
+        ]);
     }
 
     /**
@@ -28,7 +51,6 @@ class AdministrativeCollectiveController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -36,7 +58,15 @@ class AdministrativeCollectiveController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $administrative = AdministrativeCollective::find($id);
+        $user = $administrative->user;
+        $attachment = Attachment::where('administrative_collective_id', $id)->get();
+
+        return view('admin.collective.administrative.details', [
+            'administrative' => $administrative,
+            'user' => $user,
+            'attachment' => $attachment,
+        ]);
     }
 
     /**

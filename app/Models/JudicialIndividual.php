@@ -29,4 +29,9 @@ class JudicialIndividual extends Model
     {
         return $this->hasMany(Attachment::class, 'judicial_collective_id', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

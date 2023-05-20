@@ -32,7 +32,7 @@
 
         <div class="row mt-3">
             <x-card quantity="{{ $proccessCount }}" size="col-md-3" icon="fa-solid fa-book">
-                Processos Coletivos
+                Processos Judiciais
             </x-card>
 
             <x-card quantity="{{ $progressCount }}" size="col-md-3" icon="fa-solid fa-gavel">

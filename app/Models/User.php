@@ -43,9 +43,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function proccess()
+    public function judicialCollective()
     {
-        return $this->hasMany(Collective::class, 'user_id', 'id');
+        return $this->hasMany(JudicialCollective::class, 'user_id', 'id');
+    }
+
+    public function administrativeCollective()
+    {
+        return $this->hasMany(AdministrativeCollective::class, 'user_id', 'id');
     }
 
     public function attachment()
