@@ -31,21 +31,13 @@
                 </a>
 
                 @if ($administrative->finish_collective == 1)
-                    <a href="{{ route('reopen', ['id' => $administrative->id]) }}"
-                        class="bg-yellow-400 text-white p-2 rounded hover:bg-yellow-500 transition ease-in-out duration-600 mr-2">
-                        <i class="fa-solid fa-gavel text-sm mr-1"></i>
-                        Reabrir Processo
-                    </a>
                 @else
                     <a
                         href="{{ route('collective.edit', ['collective' => $administrative->id]) }}"class="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition ease-in-out duration-600 mr-2">
                         <i class="fa-solid fa-pen text-sm mr-1"></i>
                         Editar Processo
                     </a>
-                @endif
 
-                @if ($administrative->finish_collective == 1)
-                @else
                     <a href="" data-bs-toggle="modal" data-bs-target="#fileModal"
                         class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
                         Anexar Arquivo
@@ -145,6 +137,14 @@
                     <x-detailsLink title="URL do Processo" url="{{ $administrative->url_collective }}">
                         {{ $administrative->url_collective }}
                     </x-detailsLink>
+
+                    <x-details title="Tipo da ação">
+                        @if ($administrative->action_type == 1)
+                            Processo Coletivo Judicial Funcional
+                        @else
+                            Processo Coletivo Judicial Particular
+                        @endif
+                    </x-details>
 
                     <x-details title="Data de Criação">
                         {{ date('d/m/Y H:i', strtotime($administrative->created_at)) }}

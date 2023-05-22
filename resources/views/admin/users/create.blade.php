@@ -100,7 +100,12 @@
                             Orgão
                         </x-labels>
 
-                        <input placeholder="Informe o orgão" id="organ" name="organ" type="text" class="form-control">
+                        <input placeholder="Informe o orgão" id="organ" name="organ" type="text"
+                            class="form-control @error('organ') is-invalid @enderror">
+
+                        @error('organ')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-3">
@@ -108,7 +113,12 @@
                             Cargo
                         </x-labels>
 
-                        <input placeholder="Informe o Cargo" id="office" name="office" type="text" class="form-control">
+                        <input placeholder="Informe o Cargo" id="office" name="office" type="text"
+                            class="form-control @error('office') is-invalid @enderror">
+
+                        @error('office')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-3">
@@ -116,7 +126,12 @@
                             Lotação
                         </x-labels>
 
-                        <input placeholder="Informe a lotação" id="capacity" name="capacity" type="text" class="form-control">
+                        <input placeholder="Informe a lotação" id="capacity" name="capacity" type="text"
+                            class="form-control @error('capacity') is-invalid @enderror">
+
+                        @error('capacity')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-3">
@@ -124,7 +139,12 @@
                             Telefone
                         </x-labels>
 
-                        <input placeholder="Informe o telefone" id="telephone" name="telephone" type="text" class="form-control">
+                        <input placeholder="Informe o telefone" id="telephone" name="telephone" type="text"
+                            class="form-control @error('telephone') is-invalid @enderror">
+
+                        @error('telephone')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-12 mt-3">
@@ -137,4 +157,8 @@
             </div>
         </form>
     </div>
+
+    <script>
+        $('#telephone').mask('(00) 00000-0000');
+    </script>
 @endsection

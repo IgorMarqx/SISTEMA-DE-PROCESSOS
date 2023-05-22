@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(5);
+        $users = User::paginate(8);
         $loggedId = intval(Auth::id());
 
         $userCount = User::count();
@@ -54,7 +54,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('name', 'email', 'admin',  'password', 'password_confirmation');
+        $data = $request->only('name', 'email', 'organ', 'office', 'capacity', 'telephone', 'password', 'password_confirmation', 'admin');
 
         $validator = $this->validator($data);
 
@@ -78,6 +78,10 @@ class UserController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'admin' => $data['admin'],
+            'organ' => $data['organ'],
+            'office' => $data['office'],
+            'capacity' => $data['capacity'],
+            'telephone' => $data['telephone'],
         ]);
         $user->save();
 
@@ -265,6 +269,10 @@ class UserController extends Controller
                 'name' => ['required', 'min:5', 'string', 'max:100'],
                 'email' => ['required', 'email', 'string', 'max:100', 'unique:users'],
                 'password' => ['required', 'string', 'min:5', 'confirmed'],
+                'organ' => ['required', 'string'],
+                'office' =>  ['required', 'string'],
+                'capacity' =>  ['required', 'string'],
+                'telephone' =>  ['required'],
             ],
             [
                 'name.required' => 'Preencha esse campo.',
@@ -279,6 +287,11 @@ class UserController extends Controller
                 'password.required' => 'Preencha esse campo.',
                 'password.min' => 'Minimo 5 caracteres.',
                 'password.confirmed' => 'Senhas não coincidem.',
+
+                'organ.required' => 'Preencha esse campo',
+                'office.required' => 'Preencha esse campo',
+                'capacity.required' => 'Preencha esse campo',
+                'telephone.required' => 'Preencha esse campo'
             ]
         );
     }
