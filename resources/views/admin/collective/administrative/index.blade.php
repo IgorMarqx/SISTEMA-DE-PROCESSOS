@@ -104,7 +104,7 @@
                             Editar
                         </x-button>
 
-                        <x-button route="{{ route('finish', ['id' => $administratives->id]) }}" color="text-sky-500"
+                        <x-button route="{{ route('adm_finish', ['id' => $administratives->id]) }}" color="text-sky-500"
                             hover="hover:text-sky-600" margin="mr-1" icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
                             Finalizar
                         </x-button>

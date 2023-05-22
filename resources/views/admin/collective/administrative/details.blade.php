@@ -51,7 +51,7 @@
                         Anexar Arquivo
                     </a>
                 @endif
-                {{-- @include('admin.modals.file') --}}
+                @include('admin.modals.admFile')
             </div>
 
             <div>
@@ -175,7 +175,7 @@
                                     Excluir anexo
                                 </a>
                             </div>
-                            @include('admin.modals.pdf')
+                            @include('admin.modals.admPdf')
                         </div>
                     @endforeach
                 </div>

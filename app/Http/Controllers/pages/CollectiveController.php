@@ -66,21 +66,29 @@ class CollectiveController extends Controller
     public function store(Request $request)
     {
         if ($request->type == 1) {
-            $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective', 'type']);
+            $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
             $progress = $data['progress_collective'];
 
             $validator = $this->validator($data);
 
-            if ($data['user_id'] == 'error') {
-                $validator->errors()->add('user_id', 'Escolha um cliente');
+            if ($data['action_type'] == 'error') {
+                $validator->errors()->add('action_type', 'Escolha um tipo de ação.');
 
-                return redirect()->route('judicialc.collective.create')
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            if ($data['user_id'] == 'error') {
+                $validator->errors()->add('user_id', 'Escolha um cliente.');
+
+                return redirect()->route('collective.create')
                     ->withErrors($validator)
                     ->withInput();
             }
 
             if ($data['type'] == 'error') {
-                $validator->errors()->add('type', 'Escolha um tipo de processo');
+                $validator->errors()->add('type', 'Escolha um tipo de processo.');
 
                 return redirect()->back()
                     ->withErrors($validator)
@@ -88,7 +96,7 @@ class CollectiveController extends Controller
             }
 
             if ($validator->fails()) {
-                return redirect()->route('judicialc.collective.create')
+                return redirect()->route('collective.create')
                     ->withErrors($validator)
                     ->withInput();
             }
@@ -100,14 +108,14 @@ class CollectiveController extends Controller
                 'email_coorporative' => $data['email_corp'],
                 'email_client' => $data['email_client'],
                 'progress_collective' => intval($progress),
-                'type_collective' => $data['type'],
+                'action_type' => $data['type'],
             ]);
             $collective->save();
 
             session()->flash('success', 'Processo Judicial criado com sucesso.');
             return redirect()->route('collective.index');
-        }else{
-            $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective', 'type']);
+        } else {
+            $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
             $progress = $data['progress_collective'];
 
             $validator = $this->validator($data);
@@ -141,7 +149,7 @@ class CollectiveController extends Controller
                 'email_coorporative' => $data['email_corp'],
                 'email_client' => $data['email_client'],
                 'progress_collective' => intval($progress),
-                'type_collective' => $data['type'],
+                'action_type' => $data['type'],
             ]);
             $collective->save();
 

@@ -16,14 +16,15 @@ return new class extends Migration
             $table->string('name');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('url_individuals', 2048);
+            $table->string('url_individuals', 2048)->nullable();
             $table->string('email_coorporative');
-            $table->string('email_client');
+            $table->string('email_client')->nullable();
             $table->integer('qtd_update')->nullable();
             $table->integer('qtd_finish')->nullable();
             $table->boolean('progress_individuals')->default(0);
             $table->boolean('finish_individuals')->default(0);
             $table->boolean('update_individuals')->default(0);
+            $table->string('action_type');
             $table->timestamps();
         });
     }

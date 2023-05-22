@@ -9,6 +9,10 @@
 
 @section('content')
 
+    @if (session('success'))
+        @include('components.success')
+    @endif
+
     @if (session('error'))
         @include('components.error')
     @endif
@@ -22,15 +26,27 @@
         <div class="bg-green-500 hover:bg-green-600 ml-2 flex items-center text-white p-2 rounded">
             <span class="">Criação de Processo</span>
         </div>
+
+        <div class="rounded ml-2 p-2 bg-sky-500 hover:bg-sky-600 text-white transition-all">
+            <input type="button" id="client" class="text-white" data-bs-toggle="modal" data-bs-target="#clientModal"
+                value="Novo Cliente" />
+            @include('admin.modals.createClient.client')
+        </div>
     </div>
+
+    @if ($errors->any())
+        <script>
+            $(document).ready(function() {
+                $('#clientModal').modal('show');
+            });
+        </script>
+    @endif
+
 
     <div class="card mt-4">
         <div class="bg-red-500 h-1">
 
         </div>
-
-
-
         <div class="card-body">
             <form action="{{ route('collective.store') }}" method="POST">
                 @csrf
@@ -54,7 +70,7 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <x-labels colorSpan="text-red-500" id="url">
+                        <x-labels colorSpan="hidden" id="url">
                             URL do Processo
                         </x-labels>
 
@@ -82,7 +98,7 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <x-labels colorSpan="text-red-500" id="email_client">
+                        <x-labels colorSpan="hidden" id="email_client">
                             E-mail do Cliente
                         </x-labels>
 
@@ -95,21 +111,31 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <x-labels colorSpan="text-red-500" id="user_id">
                             Selecione o cliente que você deseja
                         </x-labels>
 
-                        <select name="user_id" id="user_id" class="form-control">
-                            <option value="error" selected></option>
+                        <div class="input-group">
+                            <select name="user_id" id="user_id" class="form-control">
+                                <option value="error" selected>Selecione um cliente</option>
 
-                            @foreach ($users as $user)
-                                @if ($user->admin === 1)
-                                @else
-                                    <option value="{{ $user->id }}">{{ ucfirst($user->name) }}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                                @foreach ($users as $user)
+                                    @if ($user->admin === 1)
+                                    @else
+                                        <option value="{{ $user->id }}">{{ ucfirst($user->name) }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+
+                            <div>
+                                <label
+                                    class="p-[7px] bg-sky-500 hover:bg-sky-600 text-white transition-all cursor-pointer rounded-ee-xl"
+                                    for="client">
+                                    Novo Cliente
+                                </label>
+                            </div>
+                        </div>
 
                         @error('user_id')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -117,13 +143,13 @@
 
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <x-labels colorSpan="text-red-500" id="type">
                             Informe o tipo do processo
                         </x-labels>
 
                         <select name="type" id="type" class="form-control">
-                            <option value="error" selected></option>
+                            <option value="error" selected>Informe o tipo do processo</option>
                             <option value="1">Processo Judicial</option>
                             <option value="2">Processo Administrativo</option>
                         </select>
@@ -131,8 +157,24 @@
                         @error('type')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
-
                     </div>
+
+                    <div class="col-md-3">
+                        <x-labels colorSpan="text-red-500" id="action_type">
+                            Tipo da ação
+                        </x-labels>
+
+                        <select name="action_type" id="action_type" class="form-control">
+                            <option value="error" selected>Informe o tipo da ação</option>
+                            <option value="1">Ação Coletivo Judicial Funcional</option>
+                            <option value="2">Ação Coletivo Judicial Particular</option>
+                        </select>
+
+                        @error('action_type')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
 
                     <div class="col-md-12 mt-3">
                         <input type="submit"

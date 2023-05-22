@@ -22,6 +22,10 @@ class User extends Authenticatable
         'email',
         'password',
         'admin',
+        'organ',
+        'office',
+        'capacity',
+        'telephone',
     ];
 
     /**

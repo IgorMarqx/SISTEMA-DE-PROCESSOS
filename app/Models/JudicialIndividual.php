@@ -22,6 +22,7 @@ class JudicialIndividual extends Model
         'progress_individuals',
         'finish_individuals',
         'update_individuals',
+        'action_type',
     ];
 
 

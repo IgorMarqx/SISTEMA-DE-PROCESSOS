@@ -69,6 +69,62 @@ class AdministrativeCollectiveController extends Controller
         ]);
     }
 
+    public function attachment(Request $request, string $id)
+    {
+        if ($request->file == "") {
+            session()->flash('error', 'Arquivo não encontrado.');
+            return redirect()->route('administrative_collective.show', ['administrative_collective' => $id]);
+        } else {
+            $originalName = $request->file('file')->getClientOriginalName();
+
+            $attachment = Attachment::create([
+                'title' => $originalName,
+                'administrative_collective_id' => $request->administrative_collective_id,
+                'user_id' => $request->user_id,
+                'path' => $request->file('file')->store(),
+            ]);
+        }
+        $attachment->save();
+
+        session()->flash('success', 'Anexado com sucesso.');
+        return redirect()->route('administrative_collective.show', ['administrative_collective' => $id]);
+    }
+
+    public function deletAttachment(string $id)
+    {
+        $attachment = Attachment::find($id);
+
+        if($attachment){
+            $attachment->delete();
+        }
+
+        session()->flash('success', 'Anexo apagado com sucesso.');
+        return redirect()->back();
+    }
+
+    public function finish(string $id)
+    {
+        $collective = AdministrativeCollective::find($id);
+
+        if ($collective->finish_collective == 1) {
+            session()->flash('error', 'Esse processo ja foi finalizado.');
+            return redirect()->back();
+        } else {
+            $collective->progress_collective = 0;
+            $collective->update_collective = 0;
+            $collective->finish_collective = 1;
+
+            if ($collective->finish_collective == 1) {
+                $collective->qtd_finish += 1;
+            }
+
+            $collective->save();
+        }
+
+        session()->flash('success', 'Processo finalizado com sucesso.');
+        return redirect()->back();
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

@@ -72,7 +72,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mt-2">
+                    <div class="col-md-6 mt-2 mb-2">
                         <label for="password">
                             Senha <span class="text-red-500">*</span>
                         </label>
@@ -85,7 +85,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mt-2">
+                    <div class="col-md-6 mt-2 mb-2">
                         <label for="password_confirmation">
                             Confirme sua senha <span class="text-red-500">*</span>
                         </label>
@@ -93,6 +93,38 @@
                         <input id="password_confirmation" type="text"
                             class="form-control @error('password') is-invalid @enderror" name="password_confirmation"
                             placeholder="Confirme a senha">
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels id="organ" colorSpan="text-red-500">
+                            Orgão
+                        </x-labels>
+
+                        <input placeholder="Informe o orgão" id="organ" name="organ" type="text" class="form-control">
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels id="office" colorSpan="text-red-500">
+                            Cargo
+                        </x-labels>
+
+                        <input placeholder="Informe o Cargo" id="office" name="office" type="text" class="form-control">
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels id="capacity" colorSpan="text-red-500">
+                            Lotação
+                        </x-labels>
+
+                        <input placeholder="Informe a lotação" id="capacity" name="capacity" type="text" class="form-control">
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels id="telephone" colorSpan="text-red-500">
+                            Telefone
+                        </x-labels>
+
+                        <input placeholder="Informe o telefone" id="telephone" name="telephone" type="text" class="form-control">
                     </div>
 
                     <div class="col-md-12 mt-3">
@@ -104,6 +136,5 @@
                 </div>
             </div>
         </form>
-
     </div>
 @endsection

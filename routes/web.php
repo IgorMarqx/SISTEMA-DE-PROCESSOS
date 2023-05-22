@@ -23,16 +23,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('users', [UserController::class, 'index'])->name('users');
+    Route::post('store_modal', [UserController::class, 'storeModal'])->name('store_modal');
     Route::resource('users', UserController::class);
 
     Route::get('collective', [CollectiveController::class, 'index'])->name('collective');
-    Route::resource('collective', CollectiveController::class);
     Route::get('finish/{id}', [CollectiveController::class, 'finish'])->name('finish');
-    Route::get('reopen/{id}', [CollectiveController::class, 'reopen'])->name('reopen');
     Route::post('attachment/{id}', [CollectiveController::class, 'attachment'])->name('attachment');
     Route::delete('deletAttachment/{id}', [CollectiveController::class, 'deletAttachment'])->name('deletAttachment');
+    Route::resource('collective', CollectiveController::class);
 
     Route::get('administrative_collective', [AdministrativeCollectiveController::class])->name('administrative_collective.index');
+    Route::get('adm_finish/{id}', [AdministrativeCollectiveController::class, 'finish'])->name('adm_finish');
+    Route::post('adm_attachment/{id}', [AdministrativeCollectiveController::class, 'attachment'])->name('adm_attachment');
+    Route::delete('adm_deletAttachment/{id}', [AdministrativeCollectiveController::class, 'deletAttachment'])->name('adm_deletAttachment');
     Route::resource('administrative_collective', AdministrativeCollectiveController::class);
 
     Route::get('individual', [IndividualController::class, 'index'])->name('individual');

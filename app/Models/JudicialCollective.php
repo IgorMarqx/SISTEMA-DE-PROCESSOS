@@ -22,6 +22,7 @@ class JudicialCollective extends Model
         'progress_collective',
         'finish_collective',
         'update_collective',
+        'action_type',
     ];
 
     public function user()

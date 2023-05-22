@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdministrativeCollective;
+use App\Models\AdministrativeIndividual;
+use App\Models\JudicialCollective;
+use App\Models\JudicialIndividual;
 use App\Models\Proccess;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -81,14 +85,41 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
+    public function storeModal(Request $request)
+    {
+        $data = $request->only('name', 'email', 'organ', 'office', 'capacity', 'telephone', 'password', 'password_confirmation', 'admin');
+
+        $validator = $this->modalValidator($data);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'admin' => $data['admin'],
+            'organ' => $data['organ'],
+            'office' => $data['office'],
+            'capacity' => $data['capacity'],
+            'telephone' => $data['telephone']
+        ]);
+        $user->save();
+
+
+        session()->flash('success', 'Usuário criado com sucesso.');
+        return redirect()->back();
+    }
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
         $user = User::find($id);
-
-
 
         return view('admin.users.details', [
             'users' => $user,
@@ -173,14 +204,57 @@ class UserController extends Controller
 
         if ($loggedId != intval($id)) {
             $user = User::find($id);
-            $proccess = Proccess::where('user_id', $user->id);
+            $judicialCollective = JudicialCollective::where('user_id', $user->id);
+            $admCollective = AdministrativeCollective::where('user_id', $user->id);
+
+            $judicialIndividual = JudicialIndividual::where('user_id', $user->id);
+            $admIndividual = AdministrativeIndividual::where('user_id', $user->id);
 
             $user->delete();
-            $proccess->delete();
+
+            $judicialCollective->delete();
+            $admCollective->delete();
+
+            $judicialIndividual->delete();
+            $admIndividual->delete();
         }
 
         session()->flash('success', 'Usuário deletado com sucesso.');
         return redirect()->route('users.index');
+    }
+
+    public function modalValidator($data)
+    {
+        return Validator::make(
+            $data,
+            [
+                'name' => ['required', 'string', 'max:100'],
+                'email' => ['required', 'email', 'string', 'max:100', 'unique:users'],
+                'password' => ['required', 'string', 'min:5', 'confirmed'],
+                'organ' => ['required', 'string'],
+                'office' =>  ['required', 'string'],
+                'capacity' =>  ['required', 'string'],
+                'telephone' =>  ['required'],
+            ],
+            [
+                'name.required' => 'Preencha esse campo.',
+                'name.max' => 'Máximo 100 caracteres.',
+
+                'email.required' => 'Preencha esse campo.',
+                'email.email' => 'Preencha o campo com um e-mail válido.',
+                'email.max' => 'Máximo 100 caracteres.',
+                'email.unique' => 'Já possui um e-mail como esse.',
+
+                'password.required' => 'Preencha esse campo.',
+                'password.min' => 'Minimo 5 caracteres.',
+                'password.confirmed' => 'Senhas não coincidem.',
+
+                'organ.required' => 'Preencha esse campo',
+                'office.required' => 'Preencha esse campo',
+                'capacity.required' => 'Preencha esse campo',
+                'telephone.required' => 'Preencha esse campo'
+            ]
+        );
     }
 
     public function validator($data)
