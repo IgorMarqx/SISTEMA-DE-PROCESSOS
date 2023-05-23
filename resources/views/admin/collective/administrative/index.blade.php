@@ -98,7 +98,7 @@
                             Detalhes
                         </x-button>
 
-                        <x-button route="{{ route('collective.edit', ['collective' => $administratives->id]) }}"
+                        <x-button route="{{ route('administrative_collective.edit', ['administrative_collective' => $administratives->id]) }}"
                             color="text-green-500" hover="hover:text-green-600" margin="mr-2"
                             icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
                             Editar

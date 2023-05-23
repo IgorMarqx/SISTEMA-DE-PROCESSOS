@@ -66,7 +66,7 @@
                     <tr>
                         <th class="w-[5rem] text-center">ID</th>
                         <th class="w-[15rem] text-center">Nome do Processo</th>
-                        <th class="w-[15rem] text-center">URL do Processo</th>
+                        <th class="w-[15rem] text-center">Tipo da ação</th>
                         <th class="w-[20rem] text-center">Status do Processo</th>
                         <th class="text-center">Ações</th>
                     </tr>
@@ -76,9 +76,11 @@
                             <td class="text-center">{{ $proccesses->id }}</td>
                             <td class="text-center">{{ ucfirst($proccesses->name) }} </td>
                             <td class="text-center">
-                                <a href="{{ $proccesses->url_collective }}" target="_blank">
-                                    {{ $proccesses->url_collective }}
-                                </a>
+                                @if ($proccesses->action_type == 1)
+                                    Coletivo Judicial Funcional
+                                @else
+                                    Coletivo Judicial Particular
+                                @endif
                             </td>
 
                             @if ($proccesses->progress_collective == 1)

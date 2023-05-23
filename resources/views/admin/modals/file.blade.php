@@ -12,6 +12,10 @@
                 @csrf
                 <div class="modal-body">
                     <x-file name="file" />
+
+                    @error('file')
+                        <span class="text-red-500 flex">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="modal-footer">

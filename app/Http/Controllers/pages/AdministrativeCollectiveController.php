@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class AdministrativeCollectiveController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:manager-users');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -94,7 +99,7 @@ class AdministrativeCollectiveController extends Controller
     {
         $attachment = Attachment::find($id);
 
-        if($attachment){
+        if ($attachment) {
             $attachment->delete();
         }
 

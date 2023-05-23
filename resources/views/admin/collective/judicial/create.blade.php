@@ -34,14 +34,7 @@
         </div>
     </div>
 
-    @if ($errors->any())
-        <script>
-            $(document).ready(function() {
-                $('#clientModal').modal('show');
-            });
-        </script>
-    @endif
-
+    @include('admin.modals.createClient.error')
 
     <div class="card mt-4">
         <div class="bg-red-500 h-1">
@@ -121,7 +114,7 @@
                                 <option value="error" selected>Selecione um cliente</option>
 
                                 @foreach ($users as $user)
-                                    @if ($user->admin === 1)
+                                    @if ($user->admin == 1)
                                     @else
                                         <option value="{{ $user->id }}">{{ ucfirst($user->name) }}</option>
                                     @endif
@@ -150,8 +143,8 @@
 
                         <select name="type" id="type" class="form-control">
                             <option value="error" selected>Informe o tipo do processo</option>
-                            <option value="1">Processo Judicial</option>
-                            <option value="2">Processo Administrativo</option>
+                            <option value="Processo Judicial">Processo Judicial</option>
+                            <option value="Processo Administrativo">Processo Administrativo</option>
                         </select>
 
                         @error('type')

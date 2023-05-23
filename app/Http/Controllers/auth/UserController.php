@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(8);
+        $users = User::paginate(7);
         $loggedId = intval(Auth::id());
 
         $userCount = User::count();
@@ -154,7 +154,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if ($user) {
-            $data = $request->only('name', 'email', 'admin', 'password', 'password_confirmation');
+            $data = $request->only('name', 'email','organ', 'office', 'capacity', 'telephone', 'password', 'password_confirmation', 'admin');
 
             $validator = $this->validatorUpdate($data);
 
@@ -163,6 +163,10 @@ class UserController extends Controller
             }
 
             $user->name = $data['name'];
+            $user->organ = $data['organ'];
+            $user->office =  $data['office'];
+            $user->capacity = $data['capacity'];
+            $user->telephone = $data['telephone'];
 
             if ($user->email !== $data['email']) {
                 $hasEmail = User::where('email', $data['email'])->get();
@@ -303,10 +307,18 @@ class UserController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'admin' => $data['admin'],
+                'organ' => $data['organ'],
+                'office' => $data['office'],
+                'capacity' => $data['capacity'],
+                'telephone' => $data['telephone']
             ],
             [
                 'name' => ['required', 'min:5', 'string', 'max:100'],
                 'email' => ['required', 'email', 'string', 'max:100'],
+                'organ' => ['required', 'string'],
+                'office' =>  ['required', 'string'],
+                'capacity' =>  ['required', 'string'],
+                'telephone' =>  ['required'],
             ],
             [
                 'name.required' => 'Preencha esse campo.',
@@ -316,6 +328,11 @@ class UserController extends Controller
                 'email.required' => 'Preencha esse campo.',
                 'email.email' => 'Preencha o campo com um e-mail válido.',
                 'email.max' => 'Máximo 100 caracteres.',
+
+                'organ.required' => 'Preencha esse campo',
+                'office.required' => 'Preencha esse campo',
+                'capacity.required' => 'Preencha esse campo',
+                'telephone.required' => 'Preencha esse campo'
             ]
         );
     }

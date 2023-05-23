@@ -5,11 +5,11 @@ namespace App\Http\Controllers\pages;
 use App\Http\Controllers\Controller;
 use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
-use App\Models\Collective;
 use App\Models\JudicialCollective;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Validator;
 
 class CollectiveController extends Controller
@@ -176,9 +176,14 @@ class CollectiveController extends Controller
 
     public function attachment(Request $request, string $id)
     {
-        if ($request->file == "") {
-            session()->flash('error', 'Arquivo não encontrado.');
-            return redirect()->route('collective.show', ['collective' => $id]);
+        $data = $request->only('file');
+
+        $validator = $this->validatorFile($data);
+
+        if ($validator->fails()) {
+            return redirect()->route('collective.show', ['collective' => $id])
+                ->withErrors($validator)
+                ->withInput();
         } else {
             $originalName = $request->file('file')->getClientOriginalName();
 
@@ -195,7 +200,7 @@ class CollectiveController extends Controller
         return redirect()->route('collective.show', ['collective' => $id]);
     }
 
-    public function deletAttachment(Request $request, string $id)
+    public function deletAttachment(string $id)
     {
         $attachment = Attachment::find($id);
 
@@ -246,6 +251,8 @@ class CollectiveController extends Controller
             }
 
             $collective->name = $data['collective'];
+            $collective->url_collective = $data['url'];
+            $collective->user_id = $data['user_id'];
 
             if ($collective->email_client !== $data['email_client']) {
                 $hasEmail = JudicialCollective::where('email_client', $data['email_client'])->get();
@@ -343,25 +350,41 @@ class CollectiveController extends Controller
             $data,
             [
                 'collective' => ['required', 'max:100'],
-                'url' => ['active_url', 'max:2048'],
+                'url' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
-                'email_client' => ['required', 'max:100', 'email'],
+                'email_client' => ['max:100'],
             ],
             [
                 'collective.required' => 'Preencha esse campo.',
                 'collective.max' => 'Máximo de 100 caracteres.',
 
-                'url.active_url' => 'Informe uma URL válida.',
                 'url.max' => 'Máximo de 2048 caracteres.',
 
                 'email_corp.required' => 'Preencha esse campo.',
                 'email_corp.max' => 'Máximo de 100 caracteres.',
                 'email_corp.email' => 'Informe um e-mail válido.',
 
-                'email_client.required' => 'Preencha esse campo.',
                 'email_client.max' => 'Máximo de 100 caracteres.',
-                'email_client.email' => 'Informe um e-mail válido.',
                 'email_client.unique' => 'Já existe um e-mail como esse.',
+            ]
+        );
+    }
+
+    public function validatorFile($data)
+    {
+        return Validator::make(
+            $data,
+            [
+                'file' => [
+                    'required',
+                    'mimes:pdf',
+                    'max:9048',
+                ]
+            ],
+            [
+                'file.required' => 'Escolha algum arquivo.',
+                'file.mimes' => 'Tipo de arquivo não suportado.',
+                'file.max' => 'Máximo de 9MB.'
             ]
         );
     }

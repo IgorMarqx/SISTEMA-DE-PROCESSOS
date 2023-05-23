@@ -59,7 +59,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4 mb-2">
                         <label for="admin">
                             Acesso <span class="text-red-500">*</span>
                         </label>
@@ -72,11 +72,64 @@
                                     <span class="text-sky-500">Usuário</span>
                                 @endif
                             </option>
-                            <option value="0" class="text-sky-500"><i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i> Usuário</option>
+                            <option value="0" class="text-sky-500"><i
+                                    class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i> Usuário</option>
                             <option value="1" class="text-red-500">Administrador</option>
                         </select>
 
                         @error('admin')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels id="organ" colorSpan="text-red-500">
+                            Orgão
+                        </x-labels>
+
+                        <input placeholder="Informe o orgão" id="organ" name="organ" type="text"
+                            class="form-control @error('organ') is-invalid @enderror" value="{{ $users->organ }}">
+
+                        @error('organ')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels id="office" colorSpan="text-red-500">
+                            Cargo
+                        </x-labels>
+
+                        <input placeholder="Informe o Cargo" id="office" name="office" type="text"
+                            class="form-control @error('office') is-invalid @enderror" value="{{ $users->office }}">
+
+                        @error('office')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels id="capacity" colorSpan="text-red-500">
+                            Lotação
+                        </x-labels>
+
+                        <input placeholder="Informe a lotação" id="capacity" name="capacity" type="text"
+                            class="form-control @error('capacity') is-invalid @enderror" value="{{ $users->capacity }}">
+
+                        @error('capacity')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3">
+                        <x-labels id="telephone" colorSpan="text-red-500">
+                            Telefone
+                        </x-labels>
+
+                        <input placeholder="Informe o telefone" id="telephone" name="telephone" type="text"
+                            class="form-control @error('telephone') is-invalid @enderror" value="{{ $users->telephone }}">
+
+                        @error('telephone')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
@@ -106,12 +159,15 @@
 
                     <div class="col-md-12 mt-3">
                         <input type="submit"
-                            class="bg-red-500 block w-full text-white rounded p-1 hover:bg-red-600 transition ease-in-out" value="Editar">
+                            class="bg-red-500 block w-full text-white rounded p-1 hover:bg-red-600 transition ease-in-out"
+                            value="Editar">
                     </div>
-
                 </div>
             </div>
         </form>
-
     </div>
+
+    <script>
+        $('#telephone').mask('(00) 00000-0000');
+    </script>
 @endsection

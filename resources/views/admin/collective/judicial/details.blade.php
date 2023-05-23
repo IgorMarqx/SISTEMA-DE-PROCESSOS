@@ -21,6 +21,14 @@
         @include('components.warning')
     @endif
 
+    @if ($errors->any())
+        <script>
+            $(document).ready(function() {
+                $('#fileModal').modal('show');
+            });
+        </script>
+    @endif
+
 
     <div class="mb-4">
         <div class="flex justify-between">
@@ -142,9 +150,24 @@
                         {{ $proccess->email_coorporative }}
                     </x-details>
 
-                    <x-detailsLink title="URL do Processo" url="{{ $proccess->url_collective }}">
-                        {{ $proccess->url_collective }}
-                    </x-detailsLink>
+                    @if ($proccess->url_collective == null)
+                        <x-details title="URL do Processo">
+                            <span class="text-red-500">URL não definida</span>
+                        </x-details>
+                    @else
+                        <x-detailsLink title="URL do Processo" url="{{ $proccess->url_collective }}">
+
+                            {{ $proccess->url_collective }}
+                        </x-detailsLink>
+                    @endif
+
+                    <x-details title="Tipo da ação">
+                        @if ($proccess->action_type == 1)
+                            Processo Coletivo Judicial Funcional
+                        @else
+                            Processo Coletivo Judicial Particular
+                        @endif
+                    </x-details>
 
                     <x-details title="Data de Criação">
                         {{ date('d/m/Y H:i', strtotime($proccess->created_at)) }}

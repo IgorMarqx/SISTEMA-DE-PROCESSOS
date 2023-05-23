@@ -50,13 +50,13 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <x-labels colorSpan="text-red-500" id="url">
+                        <x-labels colorSpan="hidden" id="url">
                             URL do Processo
                         </x-labels>
 
                         <x-inputs id="url" form="form-control" placeholder="Informe a URL do processo"
-                            value="{{ $proccess->url_collective }}" type="text" name="url" focus="{{ false }}"
-                            error="url" />
+                            value="{{ $proccess->url_collective }}" type="text" name="url"
+                            focus="{{ false }}" error="url" />
 
                         @error('url')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -78,7 +78,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <x-labels colorSpan="text-red-500" id="email_client">
+                        <x-labels colorSpan="hidden" id="email_client">
                             E-mail do Cliente
                         </x-labels>
 
