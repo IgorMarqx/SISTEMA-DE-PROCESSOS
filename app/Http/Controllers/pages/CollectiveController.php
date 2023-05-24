@@ -9,8 +9,8 @@ use App\Models\JudicialCollective;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class CollectiveController extends Controller
 {
@@ -200,12 +200,32 @@ class CollectiveController extends Controller
         return redirect()->route('collective.show', ['collective' => $id]);
     }
 
-    public function deletAttachment(string $id)
+    public function downloadAttachment(string $id)
     {
         $attachment = Attachment::find($id);
 
+        $path = $attachment->path;
+        $fileName = $attachment->title;
+
+        if (Storage::exists($path)) {
+            return Storage::download($path, $fileName);
+        }
+
+        session()->flash('warning', 'Anexo não encontrado. Delete esse anexo e insira de novo.');
+        return redirect()->back();
+    }
+
+    public function deletAttachment(string $id)
+    {
+        $attachment = Attachment::find($id);
+        $path = $attachment->path;
+
         if ($attachment) {
             $attachment->delete();
+
+            if(Storage::exists($path)){
+                Storage::delete($path);
+            }
 
             session()->flash('success', 'Anexo deletado com sucesso.');
             return redirect()->back();

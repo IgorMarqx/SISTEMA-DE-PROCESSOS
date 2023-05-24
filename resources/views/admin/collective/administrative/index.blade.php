@@ -58,7 +58,7 @@
             <tr>
                 <th class="w-[5rem] text-center">ID</th>
                 <th class="w-[15rem] text-center">Nome do Processo</th>
-                <th class="w-[15rem] text-center">URL do Processo</th>
+                <th class="w-[15rem] text-center">Tipo do ação</th>
                 <th class="w-[20rem] text-center">Status do Processo</th>
                 <th class="text-center">Ações</th>
             </tr>
@@ -68,24 +68,26 @@
                     <td class="text-center">{{ $administratives->id }}</td>
                     <td class="text-center">{{ ucfirst($administratives->name) }} </td>
                     <td class="text-center">
-                        <a href="{{ $administratives->url_collective }}" target="_blank">
-                            {{ $administratives->url_collective }}
-                        </a>
+                        @if ($administratives->action_type == 1)
+                            Coletivo Judicial Funcional
+                        @else
+                            Coletivo Judicial Particular
+                        @endif
                     </td>
 
                     @if ($administratives->progress_collective == 1)
-                        <x-status textCenter="text-center" borderColor="border-sky-500" textColor="text-sky-500">
-                            <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                        <x-status textCenter="text-center" color="bg-primary">
+                            <i class="fa-solid fa-gavel text-xs mr-1"></i>
                             Andamento
                         </x-status>
                     @elseif($administratives->finish_collective == 1)
-                        <x-status textCenter="text-center" borderColor="border-red-500" textColor="text-red-500">
-                            <i class="fa-solid fa-flag-checkered text-sm mr-1"></i>
+                        <x-status textCenter="text-center" color="bg-danger">
+                            <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
                             Finalizado
                         </x-status>
                     @elseif($administratives->update_collective == 1)
-                        <x-status textCenter="text-center" borderColor="border-green-500" textColor="text-green-500">
-                            <i class="fa-solid fa-circle-check text-sm mr-1"></i>
+                        <x-status textCenter="text-center" color="bg-success">
+                            <i class="fa-solid fa-circle-check text-xs mr-1"></i>
                             Atualizado
                         </x-status>
                     @endif
@@ -98,7 +100,8 @@
                             Detalhes
                         </x-button>
 
-                        <x-button route="{{ route('administrative_collective.edit', ['administrative_collective' => $administratives->id]) }}"
+                        <x-button
+                            route="{{ route('administrative_collective.edit', ['administrative_collective' => $administratives->id]) }}"
                             color="text-green-500" hover="hover:text-green-600" margin="mr-2"
                             icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
                             Editar

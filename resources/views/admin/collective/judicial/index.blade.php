@@ -84,19 +84,18 @@
                             </td>
 
                             @if ($proccesses->progress_collective == 1)
-                                <x-status textCenter="text-center" borderColor="border-sky-500" textColor="text-sky-500">
-                                    <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                                <x-status textCenter="text-center" color="bg-primary">
+                                    <i class="fa-solid fa-gavel text-xs mr-1"></i>
                                     Andamento
                                 </x-status>
                             @elseif($proccesses->finish_collective == 1)
-                                <x-status textCenter="text-center" borderColor="border-red-500" textColor="text-red-500">
-                                    <i class="fa-solid fa-flag-checkered text-sm mr-1"></i>
+                                <x-status textCenter="text-center" color="bg-danger">
+                                    <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
                                     Finalizado
                                 </x-status>
                             @elseif($proccesses->update_collective == 1)
-                                <x-status textCenter="text-center" borderColor="border-green-500"
-                                    textColor="text-green-500">
-                                    <i class="fa-solid fa-circle-check text-sm mr-1"></i>
+                                <x-status textCenter="text-center" color="bg-success">
+                                    <i class="fa-solid fa-circle-check text-xs mr-1"></i>
                                     Atualizado
                                 </x-status>
                             @endif

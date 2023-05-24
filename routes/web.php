@@ -30,12 +30,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('finish/{id}', [CollectiveController::class, 'finish'])->name('finish');
     Route::post('attachment/{id}', [CollectiveController::class, 'attachment'])->name('attachment');
     Route::delete('deletAttachment/{id}', [CollectiveController::class, 'deletAttachment'])->name('deletAttachment');
+    Route::get('downloadAttachment/{id}', [CollectiveController::class, 'downloadAttachment'])->name('downloadAttachment');
     Route::resource('collective', CollectiveController::class);
 
     Route::get('administrative_collective', [AdministrativeCollectiveController::class])->name('administrative_collective.index');
     Route::get('adm_finish/{id}', [AdministrativeCollectiveController::class, 'finish'])->name('adm_finish');
     Route::post('adm_attachment/{id}', [AdministrativeCollectiveController::class, 'attachment'])->name('adm_attachment');
     Route::delete('adm_deletAttachment/{id}', [AdministrativeCollectiveController::class, 'deletAttachment'])->name('adm_deletAttachment');
+    Route::get('adm_downloadAttachment/{id}', [AdministrativeCollectiveController::class, 'downloadAttachment'])->name('adm_downloadAttachment');
     Route::resource('administrative_collective', AdministrativeCollectiveController::class);
 
     Route::get('individual', [IndividualController::class, 'index'])->name('individual');

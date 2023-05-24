@@ -85,15 +85,13 @@
                                             <td class="text-center">{{ $proccesses->id }}</td>
                                             <td class="text-center">{{ $proccesses->name }}</td>
                                             @if ($proccesses->progress_collective == 1)
-                                                <x-status textCenter="text-center" borderColor="border-sky-500"
-                                                    textColor="text-sky-500">
-                                                    <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                                                <x-status textCenter="text-center" color="bg-primary">
+                                                    <i class="fa-solid fa-gavel text-xs mr-1"></i>
                                                     Andamento
                                                 </x-status>
                                             @else
-                                                <x-status textCenter="text-center" borderColor="border-green-500"
-                                                    textColor="text-green-500">
-                                                    <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                                                <x-status textCenter="text-center" color="bg-success">
+                                                    <i class="fa-solid fa-circle-check text-xs mr-1"></i>
                                                     Atualizado
                                                 </x-status>
                                             @endif

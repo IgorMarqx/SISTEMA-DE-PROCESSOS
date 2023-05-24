@@ -7,6 +7,9 @@ use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+
 
 class AdministrativeCollectiveController extends Controller
 {
@@ -95,12 +98,32 @@ class AdministrativeCollectiveController extends Controller
         return redirect()->route('administrative_collective.show', ['administrative_collective' => $id]);
     }
 
-    public function deletAttachment(string $id)
+    public function downloadAttachment(string $id)
     {
         $attachment = Attachment::find($id);
 
+        $path = $attachment->path;
+        $fileName = $attachment->title;
+
+        if (Storage::exists($path)) {
+            return Storage::download($path, $fileName);
+        }
+
+        session()->flash('warning', 'Anexo não encontrado. Delete esse anexo e insira de novo.');
+        return redirect()->back();
+    }
+
+    public function deletAttachment(string $id)
+    {
+        $attachment = Attachment::find($id);
+        $path = $attachment->path;
+
         if ($attachment) {
             $attachment->delete();
+
+            if (Storage::exists($path)) {
+                Storage::delete($path);
+            }
         }
 
         session()->flash('success', 'Anexo apagado com sucesso.');
@@ -135,7 +158,18 @@ class AdministrativeCollectiveController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $adm_collective = AdministrativeCollective::find($id);
+        $user = User::all();
+
+        if ($adm_collective) {
+            return view('admin.collective.administrative.edit', [
+                'administrative' => $adm_collective,
+                'users' => $user,
+            ]);
+        }
+
+        session()->flash('warning', 'Usuário não encontrado.');
+        return redirect()->route('administrative_collective.index');
     }
 
     /**
@@ -143,7 +177,78 @@ class AdministrativeCollectiveController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $adm_collective = AdministrativeCollective::find($id);
+
+        if ($adm_collective) {
+            $data = $request->only('collective', 'url', 'email_corp', 'email_client', 'user_id', 'status');
+
+            $validator = $this->validator($data);
+
+            if ($validator->fails()) {
+                return redirect()->route('administrative_collective.edit', ['administrative_collective' => $adm_collective])->withErrors($validator);
+            }
+
+            $adm_collective->name = $data['collective'];
+            $adm_collective->url_collective = $data['url'];
+            $adm_collective->user_id = $data['user_id'];
+
+            if ($adm_collective->email_client !== $data['email_client']) {
+                $hasEmail = AdministrativeCollective::where('email_client', $data['email_client'])->get();
+
+                if (count($hasEmail) == 0) {
+                    $adm_collective->email_client = $data['email_client'];
+                } else {
+                    $validator->errors()->add('email', 'Já existe um e-mail com esse.');
+                }
+            }
+
+            if ($adm_collective->email_coorporative !== $data['email_corp']) {
+                $hasEmail = AdministrativeCollective::where('email_coorporative', $data['email_corp'])->get();
+
+                if (count($hasEmail) == 0) {
+                    $adm_collective->email_coorporative = $data['email_corp'];
+                } else {
+                    $validator->errors()->add('email_corp', 'Já existe um e-mail com esse.');
+                }
+            }
+
+            if (count($validator->errors()) > 0) {
+                return redirect()->route('administrative_collective.edit', ['administrative_collective' => $id])->withErrors($validator);
+            }
+
+            if ($data['status'] == 1) {
+                $adm_collective->finish_collective = 0;
+                $adm_collective->progress_collective = 0;
+                $adm_collective->update_collective = 1;
+
+                $adm_collective->qtd_update += 1;
+                session()->flash('success', 'Processo Atualizado com sucesso.');
+            } else if ($data['status'] == 2) {
+
+                if ($adm_collective->finish_collective == 1) {
+                    session()->flash('error', 'Esse processo ja foi finalizado.');
+                    return redirect()->route('administrative_collective.index');
+                }
+
+                $adm_collective->progress_collective = 0;
+                $adm_collective->update_collective = 0;
+                $adm_collective->finish_collective = 1;
+
+                $adm_collective->qtd_finish += 1;
+                session()->flash('success', 'Processo Finalizado com sucesso.');
+            } else if ($data['status'] == 3) {
+                $adm_collective->finish_collective = 0;
+                $adm_collective->update_collective = 0;
+                $adm_collective->progress_collective = 1;
+
+                session()->flash('success', 'Processo em andamento.');
+            }
+
+            $adm_collective->touch();
+            $adm_collective->save();
+        }
+
+        return redirect()->route('administrative_collective.index');
     }
 
     /**
@@ -152,5 +257,31 @@ class AdministrativeCollectiveController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function validator($data)
+    {
+        return Validator::make(
+            $data,
+            [
+                'collective' => ['required', 'max:100'],
+                'url' => ['max:2048'],
+                'email_corp' => ['required', 'max:100', 'email'],
+                'email_client' => ['max:100'],
+            ],
+            [
+                'collective.required' => 'Preencha esse campo.',
+                'collective.max' => 'Máximo de 100 caracteres.',
+
+                'url.max' => 'Máximo de 2048 caracteres.',
+
+                'email_corp.required' => 'Preencha esse campo.',
+                'email_corp.max' => 'Máximo de 100 caracteres.',
+                'email_corp.email' => 'Informe um e-mail válido.',
+
+                'email_client.max' => 'Máximo de 100 caracteres.',
+                'email_client.unique' => 'Já existe um e-mail como esse.',
+            ]
+        );
     }
 }

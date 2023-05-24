@@ -63,18 +63,18 @@
 
             <div>
                 @if ($proccess->progress_collective == 1)
-                    <x-status textCenter="text-center" borderColor="border-sky-500" textColor="text-sky-500">
-                        <i class="fa-solid fa-gavel text-sm mr-1"></i>
+                    <x-status textCenter="text-center" color="bg-primary">
+                        <i class="fa-solid fa-gavel text-xs mr-1"></i>
                         Andamento
                     </x-status>
                 @elseif($proccess->finish_collective == 1)
-                    <x-status textCenter="text-center" borderColor="border-red-500" textColor="text-red-500">
-                        <i class="fa-solid fa-flag-checkered text-sm mr-1"></i>
+                    <x-status textCenter="text-center" color="bg-danger">
+                        <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
                         Finalizado
                     </x-status>
                 @elseif($proccess->update_collective == 1)
-                    <x-status textCenter="text-center" borderColor="border-green-500" textColor="text-green-500">
-                        <i class="fa-solid fa-circle-check text-sm mr-1"></i>
+                    <x-status textCenter="text-center" color="bg-success">
+                        <i class="fa-solid fa-circle-check text-xs mr-1"></i>
                         Atualizado
                     </x-status>
                 @endif
@@ -125,9 +125,31 @@
                         {{ ucfirst($user->email) }}
                     </x-details>
 
-                    <x-details title="Data de criação">
-                        {{ date('d/m/Y H:i', strtotime($user->created_at)) }}
+                    <x-details title="Orgão">
+                        {{ ucfirst($user->organ) }}
                     </x-details>
+
+                    <x-details title="Cargo">
+                        {{ ucfirst($user->office) }}
+                    </x-details>
+
+                    <x-details title="Lotação">
+                        {{ ucfirst($user->capacity) }}
+                    </x-details>
+
+                    <x-details title="Telefone">
+                        {{ ucfirst($user->telephone) }}
+                    </x-details>
+
+                    @if ($user->created_at == null)
+                        <x-details title="E-mail do Cliente">
+                            <span class="text-red-500">Data não informada</span>
+                        </x-details>
+                    @else
+                        <x-details title="Data de criação">
+                            {{ date('d/m/Y H:i', strtotime($user->created_at)) }}
+                        </x-details>
+                    @endif
 
                 </div>
 
@@ -152,7 +174,7 @@
 
                     @if ($proccess->url_collective == null)
                         <x-details title="URL do Processo">
-                            <span class="text-red-500">URL não definida</span>
+                            <span class="text-red-500">URL não informada</span>
                         </x-details>
                     @else
                         <x-detailsLink title="URL do Processo" url="{{ $proccess->url_collective }}">
@@ -186,10 +208,11 @@
                 <div class="flex justify-center items-center flex-wrap mt-3 mb-3 gap-3">
                     @foreach ($attachment as $attachments)
                         <div class="flex flex-col">
-                            <div class="bg-gray-200 hover:bg-gray-300 rounded p-4 cursor-pointer text-black">
+                            <a href="{{ route('downloadAttachment', ['id' => $attachments->id]) }}"
+                                class="bg-gray-200 hover:bg-gray-300 hover:text-gray-500 rounded p-4 cursor-pointer text-black">
                                 <i class="fa-solid fa-file-pdf text-lg"></i>
                                 {{ $attachments->title }}
-                            </div>
+                            </a>
                             <div class="flex items-center justify-center">
                                 <a href="" data-bs-toggle="modal"
                                     onclick="exibirModalExclusao({{ $attachments->id }})"

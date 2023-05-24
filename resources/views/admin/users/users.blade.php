@@ -52,13 +52,18 @@
                             <td class="text-center">{{ ucfirst($user->name) }}</td>
                             <td class="text-center">{{ $user->email }}</td>
                             @if ($user->admin == 1)
-                                <td class="text-red-500 text-center"><i
-                                        class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i>
-                                    Admin</td>
+                                <td class="text-red-500 text-center">
+                                    <span class="float-center badge bg-danger">
+                                        <i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i>
+                                        Admin
+                                    </span>
+                                </td>
                             @else
-                                <td class="text-sky-500 text-center"><i
-                                        class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i>
-                                    Usuário
+                                <td class="text-sky-500 text-center">
+                                    <span class="float-center badge bg-primary">
+                                        <i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i>
+                                        Usuário
+                                    </span>
                                 </td>
                             @endif
 
