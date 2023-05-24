@@ -5,7 +5,7 @@
 
 @section('content_header')
     <div class="mb-2">
-        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Processos Administrativos</h3>
+        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Processos Administrativos Coletivos</h3>
     </div>
 @endsection
 
@@ -92,7 +92,7 @@
                         </x-status>
                     @endif
 
-                    <td class="flex">
+                    <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:flex 2xl:flex">
                         <x-button
                             route="{{ route('administrative_collective.show', ['administrative_collective' => $administratives->id]) }}"
                             color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
@@ -117,8 +117,48 @@
                             <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                             Excluir
                         </a>
-                        @include('admin.modals.administrative')
+                        @include('admin.modals.administrative.administrative')
                     </td>
+
+                    <td class="xl:hidden 2xl:hidden">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                Ações
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item"
+                                    href="{{ route('administrative_collective.show', ['administrative_collective' => $administratives->id]) }}">
+                                    <span class="text-yellow-500">
+                                        <i class="fa-solid fa-file-lines text-sm mr-[0.2rem]"></i>
+                                        Detalhes
+                                    </span>
+                                </a>
+                                <a class="dropdown-item"
+                                    href="{{ route('administrative_collective.edit', ['administrative_collective' => $administratives->id]) }}">
+                                    <span class="text-green-500">
+                                        <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
+                                        Editar
+                                    </span>
+                                </a>
+                                <a class="dropdown-item" href="{{ route('adm_finish', ['id' => $administratives->id]) }}">
+                                    <span class="text-sky-500">
+                                        <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
+                                        Finalizar
+                                    </span>
+                                </a>
+                                <a href="" data-bs-toggle="modal"
+                                    onclick="exibirModalExclusao({{ $administratives->id }})"
+                                    class="dropdown-item text-danger">
+                                    <span class="text-red-500">
+                                        <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                        Excluir
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+
                 </tr>
             @endforeach
         </x-tabela>

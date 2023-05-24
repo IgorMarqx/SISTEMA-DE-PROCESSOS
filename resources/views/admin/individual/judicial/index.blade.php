@@ -5,7 +5,7 @@
 
 @section('content_header')
     <div class="mb-2">
-        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Processos Judiciais Coletivos</h3>
+        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Processos Judiciais Individuais</h3>
     </div>
 @endsection
 
@@ -25,35 +25,35 @@
 
 
     <div class="mb-4">
-        <a href="{{ route('collective.create') }}"
+        <a href="{{ route('individual.create') }}"
             class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600 mr-2">
             Novo Processo
         </a>
 
         <div class="row mt-3">
-            <x-card quantity="{{ $proccessCount }}" size="col-md-3" icon="fa-solid fa-book">
+            <x-card quantity="{{ $individual_count }}" size="col-md-3" icon="fa-solid fa-book">
                 Processos Judiciais
             </x-card>
 
-            <x-card quantity="{{ $progressCount }}" size="col-md-3" icon="fa-solid fa-gavel">
+            <x-card quantity="{{ $progress_count }}" size="col-md-3" icon="fa-solid fa-gavel">
                 Processos em Andamento
             </x-card>
 
-            <x-card quantity="{{ $updateCount }}" size="col-md-3" icon="fa-solid fa-circle-check">
+            <x-card quantity="{{ $update_count }}" size="col-md-3" icon="fa-solid fa-circle-check">
                 Processos Atualizados
             </x-card>
 
-            <x-card quantity="{{ $finishCount }}" size="col-md-3" icon="fa-solid fa-flag-checkered">
+            <x-card quantity="{{ $finish_count }}" size="col-md-3" icon="fa-solid fa-flag-checkered">
                 Processos Finalizados
             </x-card>
         </div>
 
         <div class="flex justify-center items-center gap-4 font-bold mb-3">
             <a id="judicial" class="border-2 border-red-500 p-2 rounded text-red-500 hover:bg-red-500 hover:text-white"
-                href="{{ route('collective.index') }}">Judiciais</a>
+                href="{{ route('individual.index') }}">Judiciais</a>
             <a id="administrative"
                 class="border-2 border-red-500 p-2 rounded text-red-500 hover:bg-red-500 hover:text-white"
-                href="{{ route('administrative_collective.index') }}">Administrativos</a>
+                href="{{ route('administrative_individual.index') }}">Administrativos</a>
         </div>
 
         <div class="card mt-1 ">
@@ -71,29 +71,29 @@
                         <th class="text-center">Ações</th>
                     </tr>
 
-                    @foreach ($proccess as $proccesses)
+                    @foreach ($individual as $individuals)
                         <tr>
-                            <td class="text-center">{{ $proccesses->id }}</td>
-                            <td class="text-center">{{ ucfirst($proccesses->name) }} </td>
+                            <td class="text-center">{{ $individuals->id }}</td>
+                            <td class="text-center">{{ ucfirst($individuals->name) }} </td>
                             <td class="text-center">
-                                @if ($proccesses->action_type == 1)
+                                @if ($individuals->action_type == 1)
                                     Coletivo Judicial Funcional
                                 @else
                                     Coletivo Judicial Particular
                                 @endif
                             </td>
 
-                            @if ($proccesses->progress_collective == 1)
+                            @if ($individuals->progress_individuals == 1)
                                 <x-status textCenter="text-center" color="bg-primary">
                                     <i class="fa-solid fa-gavel text-xs mr-1"></i>
                                     Andamento
                                 </x-status>
-                            @elseif($proccesses->finish_collective == 1)
+                            @elseif($individuals->finish_individuals == 1)
                                 <x-status textCenter="text-center" color="bg-danger">
                                     <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
                                     Finalizado
                                 </x-status>
-                            @elseif($proccesses->update_collective == 1)
+                            @elseif($individuals->update_individuals == 1)
                                 <x-status textCenter="text-center" color="bg-success">
                                     <i class="fa-solid fa-circle-check text-xs mr-1"></i>
                                     Atualizado
@@ -101,26 +101,26 @@
                             @endif
 
                             <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:flex 2xl:flex">
-                                <x-button route="{{ route('collective.show', ['collective' => $proccesses->id]) }}"
+                                <x-button route="{{ route('individual.show', ['individual' => $individuals->id]) }}"
                                     color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
                                     icon="fa-solid fa-file-lines text-sm mr-[0.2rem]">
                                     Detalhes
                                 </x-button>
 
-                                <x-button route="{{ route('collective.edit', ['collective' => $proccesses->id]) }}"
+                                <x-button route="{{ route('individual.edit', ['individual' => $individuals->id]) }}"
                                     color="text-green-500" hover="hover:text-green-600" margin="mr-2"
                                     icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
                                     Editar
                                 </x-button>
 
-                                <x-button route="{{ route('finish', ['id' => $proccesses->id]) }}" color="text-sky-500"
+                                <x-button route="{{ route('individual_finish', ['id' => $individuals->id]) }}" color="text-sky-500"
                                     hover="hover:text-sky-600" margin="mr-1"
                                     icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
                                     Finalizar
                                 </x-button>
 
                                 <a href="" data-bs-toggle="modal"
-                                    onclick="exibirModalExclusao({{ $proccesses->id }})"
+                                    onclick="exibirModalExclusao({{ $individuals->id }})"
                                     class="text-red-500 hover:text-red-600 ml-1">
                                     <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                                     Excluir
@@ -136,28 +136,27 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item"
-                                            href="{{ route('collective.show', ['collective' => $proccesses->id]) }}">
+                                            href="{{ route('individual.show', ['individual' => $individuals->id]) }}">
                                             <span class="text-yellow-500">
                                                 <i class="fa-solid fa-file-lines text-sm mr-[0.2rem]"></i>
                                                 Detalhes
                                             </span>
                                         </a>
                                         <a class="dropdown-item"
-                                            href="{{ route('collective.edit', ['collective' => $proccesses->id]) }}">
+                                            href="{{ route('individual.edit', ['individual' => $individuals->id]) }}">
                                             <span class="text-green-500">
                                                 <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
                                                 Editar
                                             </span>
                                         </a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('finish', ['id' => $proccesses->id]) }}">
+                                        <a class="dropdown-item" href="{{ route('finish', ['id' => $individuals->id]) }}">
                                             <span class="text-sky-500">
                                                 <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
                                                 Finalizar
                                             </span>
                                         </a>
                                         <a href="" data-bs-toggle="modal"
-                                            onclick="exibirModalExclusao({{ $proccesses->id }})"
+                                            onclick="exibirModalExclusao({{ $individuals->id }})"
                                             class="dropdown-item text-danger">
                                             <span class="text-red-500">
                                                 <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
@@ -176,5 +175,5 @@
     </div>
 
 
-    {{ $proccess->links('pagination::bootstrap-4') }}
+    {{ $individual->links('pagination::bootstrap-4') }}
 @endsection

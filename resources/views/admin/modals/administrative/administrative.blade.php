@@ -1,6 +1,5 @@
-<div class="modal fade" id="collectiveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="collectiveModal" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title fs-5 text-red-500" id="exampleModalLabel">Deletando

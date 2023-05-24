@@ -82,7 +82,7 @@ class CollectiveController extends Controller
             if ($data['user_id'] == 'error') {
                 $validator->errors()->add('user_id', 'Escolha um cliente.');
 
-                return redirect()->route('collective.create')
+                return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
             }
@@ -96,7 +96,7 @@ class CollectiveController extends Controller
             }
 
             if ($validator->fails()) {
-                return redirect()->route('collective.create')
+                return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
             }

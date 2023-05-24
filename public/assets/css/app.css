@@ -1,3 +1,27 @@
 * {
     font-family: 'Roboto Condensed', sans-serif;
 }
+
+/* .respon {
+    display: flex;
+}
+
+@media screen and (max-width: 1279px) {
+    .respon {
+        display: none;
+    }
+
+    .invi {
+        display: flex;
+    }
+}
+
+@media screen and (min-width: 1280) and (max-width: 1536px) {
+    .respon {
+        display: flex;
+    }
+
+    .invi {
+        display: none;
+    }
+} */

@@ -256,7 +256,19 @@ class AdministrativeCollectiveController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $adm_collective = AdministrativeCollective::find($id);
+        $attachment = Attachment::where('administrative_collective_id', $id);
+
+        if ($adm_collective) {
+            $attachment->delete();
+            $adm_collective->delete();
+
+            session()->flash('success', 'Processo deletado com sucesso.');
+            return redirect()->back();
+        }
+
+        session()->flash('warning', 'Processo não encontrado.');
+        return redirect()->back();
     }
 
     public function validator($data)
