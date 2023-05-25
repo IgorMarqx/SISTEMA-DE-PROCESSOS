@@ -159,8 +159,8 @@
 
                         <select name="action_type" id="action_type" class="form-control">
                             <option value="error" selected>Informe o tipo da ação</option>
-                            <option value="1">Ação Coletivo Judicial Funcional</option>
-                            <option value="2">Ação Coletivo Judicial Particular</option>
+                            <option value="1">Ação Individual Judicial Funcional</option>
+                            <option value="2">Ação Individual Judicial Particular</option>
                         </select>
 
                         @error('action_type')

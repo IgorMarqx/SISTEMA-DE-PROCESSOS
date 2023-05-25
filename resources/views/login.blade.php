@@ -8,7 +8,8 @@
         <div class="w-[26rem] md:m-3 xs:m-4">
             <div class="mb-8 mr-6 flex flex-col justify-center items-center xs:mr-0">
                 <img class="w-[12rem] mr-10 mb-8 " src="assets/img/logoSind.png" alt="">
-                <h3 class="font-bold text-xl md:text-[1rem] xs:text-[1rem]"><span class="text-red-500">SGP</span> - Sistema de Gerenciamento de Processos</h3>
+                <h3 class="font-bold text-xl md:text-[1rem] xs:text-[1rem]"><span class="text-red-500">SGP</span> - Sistema de
+                    Gestão Processual</h3>
             </div>
 
             <div>

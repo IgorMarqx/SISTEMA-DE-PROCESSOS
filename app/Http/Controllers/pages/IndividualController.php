@@ -148,7 +148,7 @@ class IndividualController extends Controller
             $individual->save();
 
             session()->flash('success', 'Processo criado com sucesso.');
-            return redirect()->route('individual.index');
+            return redirect()->route('administrative_individual.index');
         }
     }
 

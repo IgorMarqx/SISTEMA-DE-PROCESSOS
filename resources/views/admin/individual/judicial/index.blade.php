@@ -77,9 +77,9 @@
                             <td class="text-center">{{ ucfirst($individuals->name) }} </td>
                             <td class="text-center">
                                 @if ($individuals->action_type == 1)
-                                    Coletivo Judicial Funcional
+                                    Individual Judicial Funcional
                                 @else
-                                    Coletivo Judicial Particular
+                                    Individual Judicial Particular
                                 @endif
                             </td>
 
@@ -125,7 +125,7 @@
                                     <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                                     Excluir
                                 </a>
-                                @include('admin.modals.collective')
+                                @include('admin.modals.individual.individual')
                             </td>
 
                             <td class="xl:hidden 2xl:hidden">

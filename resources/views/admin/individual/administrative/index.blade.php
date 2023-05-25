@@ -77,9 +77,9 @@
                             <td class="text-center">{{ ucfirst($individuals->name) }} </td>
                             <td class="text-center">
                                 @if ($individuals->action_type == 1)
-                                    Coletivo Judicial Funcional
+                                    Individual Judicial Funcional
                                 @else
-                                    Coletivo Judicial Particular
+                                    Individual Judicial Particular
                                 @endif
                             </td>
 
