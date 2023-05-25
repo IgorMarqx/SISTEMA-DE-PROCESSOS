@@ -63,36 +63,23 @@
 
                         <select name="admin" id="admin" class="form-control @error('admin') is-invalid @enderror">
                             <option value="error" selected>Informe um acesso</option>
-                            <option value="0" class="text-sky-500">Usuário</option>
-                            <option value="1" class="text-red-500">Administrador</option>
+
+                            @if ($loggedId->admin == 1)
+                                <option value="0" class="text-sky-500">Usuário</option>
+                                <option value="1" class="text-red-500">Administrador</option>
+                                <option value="2" class="text-yellow-500">Advogado</option>
+                                <option value="3" class="text-green-500">Diretoria</option>
+                            @elseif($loggedId->admin == 2)
+                                <option value="0" class="text-sky-500">Usuário</option>
+                                <option value="2" class="text-yellow-500">Advogado</option>
+                            @else
+                                <option value="0" class="text-sky-500">Usuário</option>
+                            @endif
                         </select>
 
                         @error('admin')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
-                    </div>
-
-                    <div class="col-md-6 mt-2 mb-2">
-                        <label for="password">
-                            Senha <span class="text-red-500">*</span>
-                        </label>
-
-                        <input id="password" type="text" class="form-control @error('password') is-invalid @enderror"
-                            name="password" placeholder="Informe sua senha">
-
-                        @error('password')
-                            <span class="text-red-500 flex">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="col-md-6 mt-2 mb-2">
-                        <label for="password_confirmation">
-                            Confirme sua senha <span class="text-red-500">*</span>
-                        </label>
-
-                        <input id="password_confirmation" type="text"
-                            class="form-control @error('password') is-invalid @enderror" name="password_confirmation"
-                            placeholder="Confirme a senha">
                     </div>
 
                     <div class="col-md-3">
@@ -145,6 +132,29 @@
                         @error('telephone')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
+                    </div>
+
+                    <div class="col-md-6 mt-2 mb-2">
+                        <label for="password">
+                            Senha <span class="text-red-500">*</span>
+                        </label>
+
+                        <input id="password" type="text" class="form-control @error('password') is-invalid @enderror"
+                            name="password" placeholder="Informe sua senha">
+
+                        @error('password')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mt-2 mb-2">
+                        <label for="password_confirmation">
+                            Confirme sua senha <span class="text-red-500">*</span>
+                        </label>
+
+                        <input id="password_confirmation" type="text"
+                            class="form-control @error('password') is-invalid @enderror" name="password_confirmation"
+                            placeholder="Confirme a senha">
                     </div>
 
                     <div class="col-md-12 mt-3">

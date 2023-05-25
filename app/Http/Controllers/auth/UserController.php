@@ -7,10 +7,10 @@ use App\Models\AdministrativeCollective;
 use App\Models\AdministrativeIndividual;
 use App\Models\JudicialCollective;
 use App\Models\JudicialIndividual;
-use App\Models\Proccess;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('can:manager-users');
+        $this->middleware('can:manager-lawyer');
     }
 
     /**
@@ -28,16 +28,21 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(7);
-        $loggedId = intval(Auth::id());
+        $loggedId = User::find(intval(Auth::id()));
 
         $userCount = User::count();
-        $userAdminCount = User::where('admin', '=', '1')->count();
+        $userAdminCount = User::where('admin', 1)->count();
+        $userLawyerCount = User::where('admin', 2)->count();
+        $userBrandCount = User::where('admin', 3)->count();
 
         return view('admin.users.users', [
             'users' => $users,
             'loggedId' => $loggedId,
             'userCount' => $userCount,
+
             'userAdminCount' => $userAdminCount,
+            'userLawyerCount' => $userLawyerCount,
+            'userBrandCount' => $userBrandCount,
         ]);
     }
 
@@ -46,7 +51,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $loggedId = User::find(intval(Auth::id()));
+
+        return view('admin.users.create', [
+            'loggedId' => $loggedId,
+        ]);
     }
 
     /**
@@ -136,10 +145,12 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::find($id);
+        $loggedId = User::find(intval(Auth::id($id)));
 
         if ($user) {
             return view('admin.users.edit', [
                 'users' => $user,
+                'loggedId' => $loggedId,
             ]);
         }
 
@@ -154,7 +165,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if ($user) {
-            $data = $request->only('name', 'email','organ', 'office', 'capacity', 'telephone', 'password', 'password_confirmation', 'admin');
+            $data = $request->only('name', 'email', 'organ', 'office', 'capacity', 'telephone', 'password', 'password_confirmation', 'admin');
 
             $validator = $this->validatorUpdate($data);
 

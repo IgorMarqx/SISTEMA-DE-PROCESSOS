@@ -68,13 +68,28 @@
                             <option value="{{ $users->admin }}" selected>
                                 @if ($users->admin == 1)
                                     <span class="text-red-500">Administrador</span>
+                                @elseif($users->admin == 2)
+                                    <span class="text-yellow-500">Advogado</span>
+                                @elseif($users->admin == 3)
+                                    <span class="text-red-500">Você não possui permissão</span>
                                 @else
                                     <span class="text-sky-500">Usuário</span>
                                 @endif
                             </option>
-                            <option value="0" class="text-sky-500"><i
-                                    class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i> Usuário</option>
-                            <option value="1" class="text-red-500">Administrador</option>
+
+                            @if ($loggedId->admin == 1)
+                                <option value="0" class="text-sky-500">Usuário</option>
+                                <option value="1" class="text-red-500">Administrador</option>
+                                <option value="2" class="text-yellow-500">Advogado</option>
+                                <option value="3" class="text-green-500">Diretoria</option>
+                            @elseif($loggedId->admin == 2)
+                                @if ($users->admin == 3)
+                                @else
+                                    <option value="0" class="text-sky-500">Usuário</option>
+                                    <option value="2" class="text-yellow-500">Advogado</option>
+                                @endif
+                            @endif
+
                         </select>
 
                         @error('admin')

@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class AdministrativeIndividualController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:manager-users');
+    }
     /**
      * Display a listing of the resource.
      */

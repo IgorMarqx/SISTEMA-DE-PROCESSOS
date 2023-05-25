@@ -17,7 +17,7 @@ class CollectiveController extends Controller
 
     public function __construct()
     {
-        $this->middleware('can:manager-users');
+        $this->middleware('can:manager-lawyer');
     }
 
     /**

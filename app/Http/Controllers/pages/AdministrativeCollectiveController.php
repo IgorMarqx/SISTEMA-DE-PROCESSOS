@@ -16,7 +16,7 @@ class AdministrativeCollectiveController extends Controller
 
     public function __construct()
     {
-        $this->middleware('can:manager-users');
+        $this->middleware('can:manager-lawyer');
     }
     /**
      * Display a listing of the resource.

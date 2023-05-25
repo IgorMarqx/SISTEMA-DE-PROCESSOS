@@ -304,29 +304,29 @@ return [
             'text'        => 'Dashboard',
             'url'         => '/dashboard',
             'icon'        => 'fa-solid fa-gauge',
-            'can'         => 'manager-users',
+            'can'         => ['manager-users', 'manager-lawyer'],
         ],
-        ['header' => 'Processos',  'can' => 'manager-users'],
+        ['header' => 'Processos',  'can' => ['manager-users', 'manager-lawyer']],
 
         [
             'text' => 'Coletivos',
             'url' => '/collective',
             'icon' => 'fa-solid fa-user-tie',
-            'can' => 'manager-users',
+            'can' => ['manager-users', 'manager-lawyer'],
         ],
         [
             'text' => 'Individuais',
             'url' => '/individual',
             'icon' => 'fa-brands fa-black-tie',
-            'can' => 'manager-users',
+            'can' => ['manager-users', 'restrict-page'],
         ],
 
-        ['header' => 'Administração',  'can' => 'manager-users'],
+        ['header' => 'Administração',  'can' => ['manager-users', 'manager-lawyer']],
         [
             'text'        => 'Usuários',
             'url'         => '/users',
             'icon'        => 'fa-solid fa-users',
-            'can'         => 'manager-users',
+            'can'         => ['manager-users', 'manager-lawyer'],
         ],
         ['header' => 'Bem vindo'],
         [

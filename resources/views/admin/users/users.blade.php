@@ -20,12 +20,20 @@
         </a>
 
         <div class="row mt-3">
-            <x-card quantity="{{ $userCount }}" size="col-md-6" icon="fa-solid fa-users">
+            <x-card quantity="{{ $userCount }}" size="col-md-3" icon="fa-solid fa-users">
                 Quantidade de usuários
             </x-card>
 
-            <x-card quantity="{{ $userAdminCount }}" size="col-md-6" icon="fa-solid fa-crown">
-                Usuários Administradores
+            <x-card quantity="{{ $userAdminCount }}" size="col-md-3" icon="fa-solid fa-crown">
+                Administradores Cadastrados
+            </x-card>
+
+            <x-card quantity="{{ $userLawyerCount }}" size="col-md-3" icon="fa-solid fa-user-tie">
+                Advogados Cadastrados
+            </x-card>
+
+            <x-card quantity="{{ $userBrandCount }}" size="col-md-3" icon="fa-brands fa-black-tie">
+                Diretores Cadastrados
             </x-card>
         </div>
 
@@ -41,7 +49,7 @@
                     <tr>
                         <th class="w-[5rem] text-center">ID</th>
                         <th class="w-[15rem] text-center">Nome</th>
-                        <th class="w-[20rem] text-center">E-mail</th>
+                        <th class="w-[15rem] text-center">E-mail</th>
                         <th class="w-[20rem] text-center">Acesso</th>
                         <th class="text-center">Ações</th>
                     </tr>
@@ -56,6 +64,20 @@
                                     <span class="float-center badge bg-danger">
                                         <i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i>
                                         Admin
+                                    </span>
+                                </td>
+                            @elseif($user->admin == 2)
+                                <td class="text-sky-500 text-center">
+                                    <span class="float-center badge bg-yellow-400 text-white">
+                                        <i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i>
+                                        Advogado
+                                    </span>
+                                </td>
+                            @elseif($user->admin == 3)
+                                <td class="text-sky-500 text-center">
+                                    <span class="float-center badge bg-success">
+                                        <i class="fa-solid fa-circle-user text-sm mr-[0.2rem]"></i>
+                                        Diretoria
                                     </span>
                                 </td>
                             @else
@@ -75,13 +97,59 @@
                                     Detalhes
                                 </x-button>
 
-                                <x-button route="{{ route('users.edit', ['user' => $user->id]) }}" color="text-green-500"
-                                    hover="hover:text-green-600" margin="mr-1"
-                                    icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
-                                    Editar
-                                </x-button>
+                                @if ($loggedId->admin == 1)
+                                    <x-button route="{{ route('users.edit', ['user' => $user->id]) }}"
+                                        color="text-green-500" hover="hover:text-green-600" margin="mr-1"
+                                        icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                        Editar
+                                    </x-button>
+                                @elseif($loggedId->admin != 1)
+                                    @if ($user->admin != 1)
+                                        <x-button route="{{ route('users.edit', ['user' => $user->id]) }}"
+                                            color="text-green-500" hover="hover:text-green-600" margin="mr-1"
+                                            icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                            Editar
+                                        </x-button>
+                                    @endif
+                                @endif
 
-                                @if ($loggedId !== intval($user->id))
+                                @if (auth()->user()->can('admin-3'))
+                                    @if ($user->admin == 0)
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                            class="text-red-500 hover:text-red-600 ml-1">
+                                            <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                            Excluir
+                                        </a>
+                                        @include('admin.modals.users')
+                                    @else
+                                        <span class="text-red-500"><i class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
+                                            permissão</span>
+                                    @endif
+                                @elseif(auth()->user()->can('admin-2'))
+                                    @if ($user->admin == 0)
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                            class="text-red-500 hover:text-red-600 ml-1">
+                                            <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                            Excluir
+                                        </a>
+                                        @include('admin.modals.users')
+                                    @else
+                                        <span class="text-red-500"><i class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
+                                            permissão</span>
+                                    @endif
+                                @elseif($loggedId->id == intval($user->id))
+                                    <span class="text-red-500"><i class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
+                                        permissão</span>
+                                @else
+                                    <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        class="text-red-500 hover:text-red-600 ml-1">
+                                        <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                        Excluir
+                                    </a>
+                                    @include('admin.modals.users')
+                                @endif
+
+                                {{-- @if ($loggedId->id !== intval($user->id))
                                     <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
                                         class="text-red-500 hover:text-red-600 ml-1">
                                         <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
@@ -91,7 +159,7 @@
                                 @else
                                     <span class="text-green-500"><i class="fa-solid fa-globe text-sm mr-[0.2rem]"></i>
                                         Logado</span>
-                                @endif
+                                @endif --}}
                             </td>
                         </tr>
                     @endforeach
