@@ -30,6 +30,11 @@
             Novo Processo
         </a>
 
+        <a href="{{ route('requeriments.index') }}"
+            class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
+            Novo Requerimento
+        </a>
+
         <div class="row mt-3">
             <x-card quantity="{{ $proccessCount }}" size="col-md-3" icon="fa-solid fa-book">
                 Processos Judiciais
@@ -149,8 +154,7 @@
                                                 Editar
                                             </span>
                                         </a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('finish', ['id' => $proccesses->id]) }}">
+                                        <a class="dropdown-item" href="{{ route('finish', ['id' => $proccesses->id]) }}">
                                             <span class="text-sky-500">
                                                 <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
                                                 Finalizar

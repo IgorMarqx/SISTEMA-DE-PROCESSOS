@@ -1,5 +1,5 @@
 <?php
-use App\Models\User;
+
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\auth\LoginController;
@@ -8,11 +8,12 @@ use App\Http\Controllers\pages\DashboardController;
 
 use App\Http\Controllers\pages\CollectiveController;
 use App\Http\Controllers\pages\AdministrativeCollectiveController;
+
 use App\Http\Controllers\pages\AdministrativeIndividualController;
 use App\Http\Controllers\pages\IndividualController;
 
 use App\Http\Controllers\profile\ProfileController;
-use App\Models\AdministrativeIndividual;
+use App\Http\Controllers\requeriments\RequerimentController;
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login_action', [LoginController::class, 'login_action'])->name('login_action');
@@ -46,9 +47,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
 
+    Route::get('requeriments', [RequerimentController::class, 'index'])->name('requeriments');
+
     Route::resource('users', UserController::class);
     Route::resource('collective', CollectiveController::class);
     Route::resource('administrative_collective', AdministrativeCollectiveController::class);
     Route::resource('individual', IndividualController::class);
     Route::resource('administrative_individual', AdministrativeIndividualController::class);
+    Route::resource('requeriments', RequerimentController::class);
 });

@@ -52,7 +52,7 @@ class CollectiveController extends Controller
      */
     public function create()
     {
-        $user = User::all();
+        $user = User::where('admin', 0)->get();
 
 
         return view('admin.collective.judicial.create', [

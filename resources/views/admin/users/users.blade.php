@@ -97,7 +97,7 @@
                                     Detalhes
                                 </x-button>
 
-                                @if ($loggedId->admin == 1)
+                                @if (auth()->user()->can('admin-1'))
                                     <x-button route="{{ route('users.edit', ['user' => $user->id]) }}"
                                         color="text-green-500" hover="hover:text-green-600" margin="mr-1"
                                         icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
