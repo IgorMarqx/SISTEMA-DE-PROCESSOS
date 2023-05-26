@@ -35,7 +35,7 @@
                     <input type="hidden" name="id" value="{{ $proccess->id }}">
 
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <x-labels colorSpan="text-red-500" id="collective">
                             Nome do Processo
                         </x-labels>
@@ -49,7 +49,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <x-labels colorSpan="hidden" id="url">
                             URL do Processo
                         </x-labels>
@@ -57,6 +57,20 @@
                         <x-inputs id="url" form="form-control" placeholder="Informe a URL do processo"
                             value="{{ $proccess->url_collective }}" type="text" name="url"
                             focus="{{ false }}" error="url" />
+
+                        @error('url')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <x-labels colorSpan="hidden" id="url_noticies">
+                            URL da Noticia
+                        </x-labels>
+
+                        <x-inputs id="url_noticies" form="form-control" placeholder="Informe a URL da noticia"
+                            value="{{ old('url_noticies') }}" type="text" name="url_noticies" focus="{{ false }}"
+                            error="url_noticies" />
 
                         @error('url')
                             <span class="text-red-500 flex">{{ $message }}</span>

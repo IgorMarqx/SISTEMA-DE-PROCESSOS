@@ -56,7 +56,7 @@ class IndividualController extends Controller
     public function store(Request $request)
     {
         if ($request->type == 1) {
-            $data = $request->only('progress_individuals', 'individuals', 'user_id', 'url', 'email_corp', 'email_client', 'type', 'action_type');
+            $data = $request->only('progress_individuals', 'individuals', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'type', 'action_type');
             $progress = $data['progress_individuals'];
 
             $validator = $this->validator($data);
@@ -95,9 +95,10 @@ class IndividualController extends Controller
                 'name' => $data['individuals'],
                 'user_id' => $data['user_id'],
                 'url_individuals' => $data['url'],
+                'url_noticies' => $data['url_noticies'],
                 'email_coorporative' => $data['email_corp'],
                 'email_client' => $data['email_client'],
-                'progress_individuals' => $data['progress_individuals'],
+                'progress_individuals' => intval($progress),
                 'action_type' => $data['action_type']
             ]);
             $individual->save();
@@ -105,7 +106,7 @@ class IndividualController extends Controller
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('individual.index');
         } else {
-            $data = $request->only('progress_individuals', 'individuals', 'user_id', 'url', 'email_corp', 'email_client', 'type', 'action_type');
+            $data = $request->only('progress_individuals', 'individuals', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'type', 'action_type');
             $progress = $data['progress_individuals'];
 
             $validator = $this->validator($data);
@@ -144,9 +145,10 @@ class IndividualController extends Controller
                 'name' => $data['individuals'],
                 'user_id' => $data['user_id'],
                 'url_individuals' => $data['url'],
+                'url_noticies' => $data['url_noticies'],
                 'email_coorporative' => $data['email_corp'],
                 'email_client' => $data['email_client'],
-                'progress_individuals' => $data['progress_individuals'],
+                'progress_individuals' => intval($progress),
                 'action_type' => $data['action_type']
             ]);
             $individual->save();
@@ -162,6 +164,30 @@ class IndividualController extends Controller
     public function show(string $id)
     {
         //
+    }
+
+    public function finish(string $id)
+    {
+        $judicial_individual = JudicialIndividual::find($id);
+
+        if ($judicial_individual->finish_individuals == 0) {
+            $judicial_individual->progress_individuals = 0;
+            $judicial_individual->update_individuals = 0;
+            $judicial_individual->finish_individuals = 1;
+
+            $judicial_individual->qtd_finish += 1;
+
+            $judicial_individual->save();
+
+            session()->flash('success', 'Processo finalizado com sucesso.');
+            return redirect()->back();
+        } else {
+            session()->flash('warning', 'Esse processo já foi finalizado.');
+            return redirect()->back();
+        }
+
+        session()->flash('warning', 'Não foi possivel encontrar esse processo.');
+        return redirect()->back();
     }
 
     /**

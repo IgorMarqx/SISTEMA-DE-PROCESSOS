@@ -21,6 +21,15 @@
         @include('components.warning')
     @endif
 
+    @if ($errors->any())
+        <script>
+            $(document).ready(function() {
+                $('#fileModal').modal('show');
+            });
+        </script>
+        @include('admin.modals.admFile')
+    @endif
+
 
     <div class="mb-4">
         <div class="flex justify-between">
@@ -130,7 +139,7 @@
 
                     @if ($user->created_at == null)
                         <x-details title="E-mail do Cliente">
-                            <span class="text-red-500">Data não informada</span>
+                            <span class="text-red-500">E-mail não informado</span>
                         </x-details>
                     @else
                         <x-details title="Data de criação">

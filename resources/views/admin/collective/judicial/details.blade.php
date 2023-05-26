@@ -29,6 +29,7 @@
         </script>
     @endif
 
+    @include('admin.modals.file')
 
     <div class="mb-4">
         <div class="flex justify-between">
@@ -81,10 +82,6 @@
             </div>
 
         </div>
-
-        @include('admin.modals.file')
-
-
 
         <div class="row mt-3">
             <x-card quantity="{{ $proccess->qtd_update }}" size="col-md-4" icon="fa-solid fa-circle-check">
@@ -143,7 +140,7 @@
 
                     @if ($user->created_at == null)
                         <x-details title="E-mail do Cliente">
-                            <span class="text-red-500">Data não informada</span>
+                            <span class="text-red-500">E-mail não informado</span>
                         </x-details>
                     @else
                         <x-details title="Data de criação">

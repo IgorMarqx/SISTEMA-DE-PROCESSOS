@@ -66,7 +66,7 @@ class CollectiveController extends Controller
     public function store(Request $request)
     {
         if ($request->type == 1) {
-            $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
+            $data = $request->only(['collective', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
             $progress = $data['progress_collective'];
 
             $validator = $this->validator($data);
@@ -105,6 +105,7 @@ class CollectiveController extends Controller
                 'name' => $data['collective'],
                 'user_id' => $data['user_id'],
                 'url_collective' => $data['url'],
+                'url_noticies' => $data['url_noticies'],
                 'email_coorporative' => $data['email_corp'],
                 'email_client' => $data['email_client'],
                 'progress_collective' => intval($progress),
@@ -115,7 +116,7 @@ class CollectiveController extends Controller
             session()->flash('success', 'Processo Judicial criado com sucesso.');
             return redirect()->route('collective.index');
         } else {
-            $data = $request->only(['collective', 'user_id', 'url', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
+            $data = $request->only(['collective', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
             $progress = $data['progress_collective'];
 
             $validator = $this->validator($data);
@@ -146,6 +147,7 @@ class CollectiveController extends Controller
                 'name' => $data['collective'],
                 'user_id' => $data['user_id'],
                 'url_collective' => $data['url'],
+                'url_noticies' => $data['url_noticies'],
                 'email_coorporative' => $data['email_corp'],
                 'email_client' => $data['email_client'],
                 'progress_collective' => intval($progress),
@@ -223,7 +225,7 @@ class CollectiveController extends Controller
         if ($attachment) {
             $attachment->delete();
 
-            if(Storage::exists($path)){
+            if (Storage::exists($path)) {
                 Storage::delete($path);
             }
 
@@ -262,7 +264,7 @@ class CollectiveController extends Controller
         $collective = JudicialCollective::find($id);
 
         if ($collective) {
-            $data = $request->only('collective', 'url', 'email_corp', 'email_client', 'user_id', 'status');
+            $data = $request->only('collective', 'url', 'url_noticies', 'email_corp', 'email_client', 'user_id', 'status');
 
             $validator = $this->validator($data);
 
@@ -272,6 +274,7 @@ class CollectiveController extends Controller
 
             $collective->name = $data['collective'];
             $collective->url_collective = $data['url'];
+            $collective->url_noticies = $data['url_noticies'];
             $collective->user_id = $data['user_id'];
 
             if ($collective->email_client !== $data['email_client']) {
@@ -371,6 +374,7 @@ class CollectiveController extends Controller
             [
                 'collective' => ['required', 'max:100'],
                 'url' => ['max:2048'],
+                'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
                 'email_client' => ['max:100'],
             ],

@@ -15,6 +15,7 @@ class JudicialIndividual extends Model
         'name',
         'user_id',
         'url_individuals',
+        'url_noticies',
         'email_coorporative',
         'email_client',
         'qtd_update',

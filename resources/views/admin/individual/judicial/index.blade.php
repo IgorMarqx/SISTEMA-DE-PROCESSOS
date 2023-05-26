@@ -149,7 +149,7 @@
                                                 Editar
                                             </span>
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('finish', ['id' => $individuals->id]) }}">
+                                        <a class="dropdown-item" href="{{ route('individual_finish', ['id' => $individuals->id]) }}">
                                             <span class="text-sky-500">
                                                 <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
                                                 Finalizar

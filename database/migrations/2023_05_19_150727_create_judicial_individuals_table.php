@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('url_individuals', 2048)->nullable();
+            $table->string('url_noticies', 2048)->nullable();
             $table->string('email_coorporative');
             $table->string('email_client')->nullable();
             $table->integer('qtd_update')->nullable();

@@ -318,7 +318,7 @@ return [
             'text' => 'Individuais',
             'url' => '/individual',
             'icon' => 'fa-brands fa-black-tie',
-            'can' => ['manager-users', 'restrict-page'],
+            'can' => ['manager-users'],
         ],
 
         ['header' => 'Administração',  'can' => ['manager-users', 'manager-lawyer']],

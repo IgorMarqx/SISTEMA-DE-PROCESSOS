@@ -15,6 +15,7 @@ class AdministrativeCollective extends Model
         'name',
         'user_id',
         'url_collective',
+        'url_noticies',
         'email_coorporative',
         'email_client',
         'qtd_update',

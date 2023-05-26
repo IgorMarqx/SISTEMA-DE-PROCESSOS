@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('attachment/{id}', [CollectiveController::class, 'attachment'])->name('attachment');
     Route::delete('deletAttachment/{id}', [CollectiveController::class, 'deletAttachment'])->name('deletAttachment');
     Route::get('downloadAttachment/{id}', [CollectiveController::class, 'downloadAttachment'])->name('downloadAttachment');
+
     // PROCESSOS ADMINISTRATIVOS COLETIVOS
     Route::get('administrative_collective', [AdministrativeCollectiveController::class])->name('administrative_collective.index');
     Route::get('adm_finish/{id}', [AdministrativeCollectiveController::class, 'finish'])->name('adm_finish');
@@ -42,13 +43,16 @@ Route::middleware(['auth'])->group(function () {
 
     // PROCESSOS JUDICIAIS INDIVIDUAIS
     Route::get('individual', [IndividualController::class, 'index'])->name('individual');
-    Route::get('individual_finish/{id}', [IndividualController::class, 'index'])->name('individual_finish');
+    Route::get('individual_finish/{id}', [IndividualController::class, 'finish'])->name('individual_finish');
+
+    // PROCESSOS ADMINISTRATIVOS INDIVIDUAIS
     Route::get('administrative_individual', [AdministrativeIndividualController::class, 'index'])->name('administrative_individual');
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
 
     Route::get('requeriments', [RequerimentController::class, 'index'])->name('requeriments');
 
+    // RESOURCES
     Route::resource('users', UserController::class);
     Route::resource('collective', CollectiveController::class);
     Route::resource('administrative_collective', AdministrativeCollectiveController::class);

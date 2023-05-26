@@ -79,9 +79,14 @@ class AdministrativeCollectiveController extends Controller
 
     public function attachment(Request $request, string $id)
     {
-        if ($request->file == "") {
-            session()->flash('error', 'Arquivo não encontrado.');
-            return redirect()->route('administrative_collective.show', ['administrative_collective' => $id]);
+        $data = $request->only('file');
+
+        $validator = $this->validatorFile($data);
+
+        if ($validator->fails()) {
+            return redirect()->route('administrative_collective.show', ['administrative_collective' => $id])
+                ->withErrors($validator)
+                ->withInput();
         } else {
             $originalName = $request->file('file')->getClientOriginalName();
 
@@ -180,7 +185,7 @@ class AdministrativeCollectiveController extends Controller
         $adm_collective = AdministrativeCollective::find($id);
 
         if ($adm_collective) {
-            $data = $request->only('collective', 'url', 'email_corp', 'email_client', 'user_id', 'status');
+            $data = $request->only('collective', 'url', 'url_noticies', 'email_corp', 'email_client', 'user_id', 'status');
 
             $validator = $this->validator($data);
 
@@ -190,6 +195,7 @@ class AdministrativeCollectiveController extends Controller
 
             $adm_collective->name = $data['collective'];
             $adm_collective->url_collective = $data['url'];
+            $adm_collective->url_noticies = $data['url_noticies'];
             $adm_collective->user_id = $data['user_id'];
 
             if ($adm_collective->email_client !== $data['email_client']) {
@@ -293,6 +299,25 @@ class AdministrativeCollectiveController extends Controller
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
                 'email_client.unique' => 'Já existe um e-mail como esse.',
+            ]
+        );
+    }
+
+    public function validatorFile($data)
+    {
+        return Validator::make(
+            $data,
+            [
+                'file' => [
+                    'required',
+                    'mimes:pdf',
+                    'max:9048',
+                ]
+            ],
+            [
+                'file.required' => 'Escolha algum arquivo.',
+                'file.mimes' => 'Tipo de arquivo não suportado.',
+                'file.max' => 'Máximo de 9MB.'
             ]
         );
     }

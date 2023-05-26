@@ -41,7 +41,7 @@ class LoginController extends Controller
         if (Auth::attempt($data)) {
 
             foreach ($user as $user) {
-                if ($user->admin == 1) {
+                if ($user->admin == 1 || $user->admin == 2 || $user->admin == 3) {
                     return redirect()->route('dashboard');
                 }
             }
