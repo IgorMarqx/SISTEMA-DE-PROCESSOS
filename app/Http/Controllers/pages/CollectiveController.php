@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Route;
 
 class CollectiveController extends Controller
 {
@@ -65,9 +66,18 @@ class CollectiveController extends Controller
      */
     public function store(Request $request)
     {
+
         if ($request->type == 1) {
-            $data = $request->only(['collective', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
+            $data = $request->only(['collective', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'justice_secret', 'free_justice', 'tutelar', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
             $progress = $data['progress_collective'];
+
+            $justiceSecret = $request->input('justice_secret', []);
+            $freeJustice = $request->input('free_justice', []);
+            $tutelar = $request->input('tutelar', []);
+
+            $justiceSecret = !empty($justiceSecret);
+            $freeJustice = !empty($freeJustice);
+            $tutelar = !empty($tutelar);
 
             $validator = $this->validator($data);
 
@@ -103,6 +113,14 @@ class CollectiveController extends Controller
 
             $collective = JudicialCollective::create([
                 'name' => $data['collective'],
+                'subject' => $data['subject'],
+                'jurisdiction' => $data['jurisdiction'],
+                'cause_value' => $data['cause_value'],
+                'justice_secret' => $justiceSecret,
+                'free_justice' => $freeJustice,
+                'tutelar' => $tutelar,
+                'priority' => $data['priority'],
+                'judgmental_organ' => $data['judgmental_organ'],
                 'user_id' => $data['user_id'],
                 'url_collective' => $data['url'],
                 'url_noticies' => $data['url_noticies'],
@@ -116,8 +134,16 @@ class CollectiveController extends Controller
             session()->flash('success', 'Processo Judicial criado com sucesso.');
             return redirect()->route('collective.index');
         } else {
-            $data = $request->only(['collective', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
+            $data = $request->only(['collective', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'justice_secret', 'free_justice', 'tutelar', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
             $progress = $data['progress_collective'];
+
+            $justiceSecret = $request->input('justice_secret', []);
+            $freeJustice = $request->input('free_justice', []);
+            $tutelar = $request->input('tutelar', []);
+
+            $justiceSecret = !empty($justiceSecret);
+            $freeJustice = !empty($freeJustice);
+            $tutelar = !empty($tutelar);
 
             $validator = $this->validator($data);
 
@@ -145,6 +171,14 @@ class CollectiveController extends Controller
 
             $collective = AdministrativeCollective::create([
                 'name' => $data['collective'],
+                'subject' => $data['subject'],
+                'jurisdiction' => $data['jurisdiction'],
+                'cause_value' => $data['cause_value'],
+                'justice_secret' => $justiceSecret,
+                'free_justice' => $freeJustice,
+                'tutelar' => $tutelar,
+                'priority' => $data['priority'],
+                'judgmental_organ' => $data['judgmental_organ'],
                 'user_id' => $data['user_id'],
                 'url_collective' => $data['url'],
                 'url_noticies' => $data['url_noticies'],
@@ -166,14 +200,19 @@ class CollectiveController extends Controller
     public function show(string $id)
     {
         $collective = JudicialCollective::find($id);
-        $user = $collective->user;
-        $attachment = Attachment::where('judicial_collective_id', '=', $id)->get();
+        if ($collective) {
+            $user = $collective->user;
+            $attachment = Attachment::where('judicial_collective_id', '=', $id)->get();
 
-        return view('admin.collective.judicial.details', [
-            'proccess' => $collective,
-            'user' => $user,
-            'attachment' => $attachment
-        ]);
+            return view('admin.collective.judicial.details', [
+                'proccess' => $collective,
+                'user' => $user,
+                'attachment' => $attachment
+            ]);
+        }
+
+        session()->flash('warning', 'Processo não encontrado.');
+        return redirect()->back();
     }
 
     public function attachment(Request $request, string $id)
@@ -373,6 +412,10 @@ class CollectiveController extends Controller
             $data,
             [
                 'collective' => ['required', 'max:100'],
+                'subject' => ['required', 'max:100'],
+                'jurisdiction' => ['required', 'max:100'],
+                'priority' => ['required', 'max:100'],
+                'judgmental_organ' => ['required', 'max:100'],
                 'url' => ['max:2048'],
                 'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
@@ -381,6 +424,18 @@ class CollectiveController extends Controller
             [
                 'collective.required' => 'Preencha esse campo.',
                 'collective.max' => 'Máximo de 100 caracteres.',
+
+                'subject.required' => 'Preencha esse campo.',
+                'subject.max' => 'Máximo de 100 caracteres.',
+
+                'priority.required' => 'Preencha esse campo.',
+                'priority.max' => 'Máximo de 100 caracteres.',
+
+                'judgmental_organ.required' => 'Preencha esse campo.',
+                'judgmental_organ.max' => 'Máximo de 100 caracteres.',
+
+                'jurisdiction.required' => 'Preencha esse campo.',
+                'jurisdiction.max' => 'Máximo de 100 caracteres.',
 
                 'url.max' => 'Máximo de 2048 caracteres.',
 

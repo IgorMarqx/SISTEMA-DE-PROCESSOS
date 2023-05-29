@@ -16,6 +16,14 @@ return new class extends Migration
             $table->string('name');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->string('subject');
+            $table->string('jurisdiction');
+            $table->string('cause_value')->nullable();
+            $table->boolean('justice_secret')->default(0);
+            $table->boolean('free_justice')->default(0);
+            $table->boolean('tutelar')->default(0);
+            $table->string('priority');
+            $table->string('judgmental_organ');
             $table->string('url_individuals', 2048)->nullable();
             $table->string('url_noticies', 2048)->nullable();
             $table->string('email_coorporative');

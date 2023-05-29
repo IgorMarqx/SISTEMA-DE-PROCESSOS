@@ -21,52 +21,54 @@
         @include('components.warning')
     @endif
 
-    @if ($errors->any())
+    {{-- @if ($errors->any())
         <script>
             $(document).ready(function() {
                 $('#fileModal').modal('show');
             });
         </script>
-        @include('admin.modals.admFile')
     @endif
 
+    @include('admin.modals.file') --}}
 
     <div class="mb-4">
         <div class="flex justify-between">
             <div>
-                <a href="{{ route('administrative_collective.index') }}"
+                <a href="{{ route('individual.index') }}"
                     class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600 mr-2">
                     <i class="fa-solid fa-reply"></i>
                 </a>
 
-                @if ($administrative->finish_collective == 1)
+                @if ($individual->finish_individuals == 1)
                 @else
                     <a
-                        href="{{ route('administrative_collective.edit', ['administrative_collective' => $administrative->id]) }}"class="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition ease-in-out duration-600 mr-2">
+                        href="{{ route('individual.edit', ['individual' => $individual->id]) }}"class="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition ease-in-out duration-600 mr-2">
                         <i class="fa-solid fa-pen text-sm mr-1"></i>
                         Editar Processo
                     </a>
+                @endif
 
+                @if ($individual->finish_individuals == 1)
+                @else
                     <a href="" data-bs-toggle="modal" data-bs-target="#fileModal"
                         class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
                         Anexar Arquivo
                     </a>
                 @endif
-                @include('admin.modals.admFile')
             </div>
 
             <div>
-                @if ($administrative->progress_collective == 1)
+                @if ($individual->progress_individuals == 1)
                     <x-status textCenter="text-center" color="bg-primary">
                         <i class="fa-solid fa-gavel text-xs mr-1"></i>
                         Andamento
                     </x-status>
-                @elseif($administrative->finish_collective == 1)
+                @elseif($individual->finish_individuals == 1)
                     <x-status textCenter="text-center" color="bg-danger">
                         <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
                         Finalizado
                     </x-status>
-                @elseif($administrative->update_collective == 1)
+                @elseif($individual->update_individuals == 1)
                     <x-status textCenter="text-center" color="bg-success">
                         <i class="fa-solid fa-circle-check text-xs mr-1"></i>
                         Atualizado
@@ -77,11 +79,11 @@
         </div>
 
         <div class="row mt-3">
-            <x-card quantity="{{ $administrative->qtd_update }}" size="col-md-6" icon="fa-solid fa-circle-check">
+            <x-card quantity="{{ $individual->qtd_update }}" size="col-md-6" icon="fa-solid fa-circle-check">
                 Atualizações
             </x-card>
 
-            <x-card quantity="{{ $administrative->qtd_finish }}" size="col-md-6" icon="fa-solid fa-flag-checkered">
+            <x-card quantity="{{ $individual->qtd_finish }}" size="col-md-6" icon="fa-solid fa-flag-checkered">
                 Finalizações
             </x-card>
         </div>
@@ -107,15 +109,9 @@
                         {{ ucfirst($user->name) }}
                     </x-details>
 
-                    @if ($user->email)
-                        <x-details title="E-mail do Cliente">
-                            {{ ucfirst($user->email) }}
-                        </x-details>
-                    @else
-                        <x-details title="E-mail do Cliente">
-                            <span class="text-red-500">E-mail não informado</span>
-                        </x-details>
-                    @endif
+                    <x-details title="E-mail do Cliente">
+                        {{ ucfirst($user->email) }}
+                    </x-details>
 
                     <x-details title="Orgão">
                         {{ ucfirst($user->organ) }}
@@ -142,6 +138,7 @@
                             {{ date('d/m/Y H:i', strtotime($user->created_at)) }}
                         </x-details>
                     @endif
+
                 </div>
 
                 <div class="flex items-center justify-center bg-gray-200 mt-4">
@@ -152,29 +149,33 @@
                     class="flex justify-center items-center gap-12 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
 
                     <x-details title="ID do Processo">
-                        {{ ucfirst($administrative->id) }}
+                        {{ ucfirst($individual->id) }}
                     </x-details>
 
                     <x-details title="Classe Judicial">
-                        {{ ucfirst($administrative->name) }}
+                        {{ ucfirst($individual->name) }}
                     </x-details>
 
                     <x-details title="Assunto">
-                        {{ ucfirst($administrative->subject) }}
+                        {{ ucfirst($individual->subject) }}
                     </x-details>
 
                     <x-details title="Jurisdição">
-                        {{ ucfirst($administrative->jurisdiction) }}
+                        {{ ucfirst($individual->jurisdiction) }}
                     </x-details>
 
                     <x-details title="Valor da Causa">
-                        {{ ucfirst($administrative->cause_value) }}
+                        @if ($individual->cause_value == null)
+                            <span class="text-red-500">Valor não informado</span>
+                        @else
+                            {{ 'R$ ' . $individual->cause_value }}
+                        @endif
                     </x-details>
 
                     @if (auth()->user()->can('admin-3'))
                     @else
                         <x-details title="Segredo de Justiça?">
-                            @if ($administrative->justice_secret == 1)
+                            @if ($individual->justice_secret == 1)
                                 <span class="text-green-500">Sim</span>
                             @else
                                 <span class="text-red-500">Não</span>
@@ -183,7 +184,7 @@
                     @endif
 
                     <x-details title="Justiça Gratuita?">
-                        @if ($administrative->free_justice == 1)
+                        @if ($individual->free_justice == 1)
                             <span class="text-green-500">Sim</span>
                         @else
                             <span class="text-red-500">Não</span>
@@ -191,48 +192,49 @@
                     </x-details>
 
                     <x-details title="Tutelar/Liminar?">
-                        @if ($administrative->tutelar == 1)
+                        @if ($individual->tutelar == 1)
                             <span class="text-green-500">Sim</span>
                         @else
                             <span class="text-red-500">Não</span>
                         @endif
                     </x-details>
 
-
                     <x-details title="Prioridade">
-                        {{ ucfirst($administrative->priority) }}
+                        {{ ucfirst($individual->priority) }}
                     </x-details>
 
                     <x-details title="Orgão Julgador">
-                        {{ ucfirst($administrative->judgmental_organ) }}
+                        {{ ucfirst($individual->judgmental_organ) }}
                     </x-details>
 
                     <x-details title="E-mail da Coorporação">
-                        {{ $administrative->email_coorporative }}
+                        {{ $individual->email_coorporative }}
                     </x-details>
 
-                    @if ($administrative->url_collective)
-                        <x-detailsLink title="URL do Processo" url="{{ $administrative->url_collective }}">
-                            {{ $administrative->url_collective }}
-                        </x-detailsLink>
-                    @else
+                    @if ($individual->url_collective == null)
                         <x-details title="URL do Processo">
                             <span class="text-red-500">URL não informada</span>
                         </x-details>
+                    @else
+                        <x-detailsLink title="URL do Processo" url="{{ $individual->url_collective }}">
+
+                            {{ $individual->url_collective }}
+                        </x-detailsLink>
                     @endif
 
-                    @if ($administrative->url_noticies)
-                        <x-detailsLink title="URL da Noticia" url="{{ $administrative->url_noticies }}">
-                            {{ $administrative->url_noticies }}
-                        </x-detailsLink>
-                    @else
+                    @if ($individual->url_noticies == null)
                         <x-details title="URL da Noticia">
                             <span class="text-red-500">URL não informada</span>
                         </x-details>
+                    @else
+                        <x-detailsLink title="URL da Noticia" url="{{ $individual->url_noticies }}">
+
+                            {{ $individual->url_noticies }}
+                        </x-detailsLink>
                     @endif
 
                     <x-details title="Tipo da ação">
-                        @if ($administrative->action_type == 1)
+                        @if ($individual->action_type == 1)
                             Processo Coletivo Judicial Funcional
                         @else
                             Processo Coletivo Judicial Particular
@@ -240,11 +242,11 @@
                     </x-details>
 
                     <x-details title="Autuação">
-                        {{ date('d/m/Y H:i', strtotime($administrative->created_at)) }}
+                        {{ date('d/m/Y H:i', strtotime($individual->created_at)) }}
                     </x-details>
 
                     <x-details title="Última Distribuição">
-                        {{ date('d/m/Y H:i', strtotime($administrative->updated_at)) }}
+                        {{ date('d/m/Y H:i', strtotime($individual->updated_at)) }}
                     </x-details>
 
                 </div>
@@ -269,7 +271,7 @@
                                     Excluir anexo
                                 </a>
                             </div>
-                            @include('admin.modals.admPdf')
+                            @include('admin.modals.pdf')
                         </div>
                     @endforeach
                 </div>

@@ -18,10 +18,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->integer('admin')->default(0);
-            $table->string('organ');
-            $table->string('office');
-            $table->string('capacity');
-            $table->string('telephone');
+            $table->string('organ')->nullable();
+            $table->string('office')->nullable();
+            $table->string('capacity')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('cpf')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

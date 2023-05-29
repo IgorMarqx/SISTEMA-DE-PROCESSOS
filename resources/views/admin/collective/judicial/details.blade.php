@@ -39,12 +39,7 @@
                     <i class="fa-solid fa-reply"></i>
                 </a>
 
-                @if ($proccess->finish_proccess == 1)
-                    <a href="{{ route('reopen', ['id' => $proccess->id]) }}"
-                        class="bg-yellow-400 text-white p-2 rounded hover:bg-yellow-500 transition ease-in-out duration-600 mr-2">
-                        <i class="fa-solid fa-gavel text-sm mr-1"></i>
-                        Reabrir Processo
-                    </a>
+                @if ($proccess->finish_collective == 1)
                 @else
                     <a
                         href="{{ route('collective.edit', ['collective' => $proccess->id]) }}"class="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition ease-in-out duration-600 mr-2">
@@ -53,7 +48,7 @@
                     </a>
                 @endif
 
-                @if ($proccess->finish_proccess == 1)
+                @if ($proccess->finish_collective == 1)
                 @else
                     <a href="" data-bs-toggle="modal" data-bs-target="#fileModal"
                         class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
@@ -84,16 +79,12 @@
         </div>
 
         <div class="row mt-3">
-            <x-card quantity="{{ $proccess->qtd_update }}" size="col-md-4" icon="fa-solid fa-circle-check">
+            <x-card quantity="{{ $proccess->qtd_update }}" size="col-md-6" icon="fa-solid fa-circle-check">
                 Atualizações
             </x-card>
 
-            <x-card quantity="{{ $proccess->qtd_finish }}" size="col-md-4" icon="fa-solid fa-flag-checkered">
+            <x-card quantity="{{ $proccess->qtd_finish }}" size="col-md-6" icon="fa-solid fa-flag-checkered">
                 Finalizações
-            </x-card>
-
-            <x-card quantity="{{ $proccess->qtd_reopen }}" size="col-md-4" icon="fa-solid fa-gavel">
-                Reaberto
             </x-card>
         </div>
 
@@ -161,8 +152,59 @@
                         {{ ucfirst($proccess->id) }}
                     </x-details>
 
-                    <x-details title="Nome do Processo">
+                    <x-details title="Classe Judicial">
                         {{ ucfirst($proccess->name) }}
+                    </x-details>
+
+                    <x-details title="Assunto">
+                        {{ ucfirst($proccess->subject) }}
+                    </x-details>
+
+                    <x-details title="Jurisdição">
+                        {{ ucfirst($proccess->jurisdiction) }}
+                    </x-details>
+
+                    <x-details title="Valor da Causa">
+                        @if ($proccess->cause_value == null)
+                            <span class="text-red-500">Valor não informado</span>
+                        @else
+                            {{ 'R$ ' . $proccess->cause_value }}
+                        @endif
+                    </x-details>
+
+                    @if (auth()->user()->can('admin-3'))
+                    @else
+                        <x-details title="Segredo de Justiça?">
+                            @if ($proccess->justice_secret == 1)
+                                <span class="text-green-500">Sim</span>
+                            @else
+                                <span class="text-red-500">Não</span>
+                            @endif
+                        </x-details>
+                    @endif
+
+                    <x-details title="Justiça Gratuita?">
+                        @if ($proccess->free_justice == 1)
+                            <span class="text-green-500">Sim</span>
+                        @else
+                            <span class="text-red-500">Não</span>
+                        @endif
+                    </x-details>
+
+                    <x-details title="Tutelar/Liminar?">
+                        @if ($proccess->tutelar == 1)
+                            <span class="text-green-500">Sim</span>
+                        @else
+                            <span class="text-red-500">Não</span>
+                        @endif
+                    </x-details>
+
+                    <x-details title="Prioridade">
+                        {{ ucfirst($proccess->priority) }}
+                    </x-details>
+
+                    <x-details title="Órgão Julgador">
+                        {{ ucfirst($proccess->judgmental_organ) }}
                     </x-details>
 
                     <x-details title="E-mail da Coorporação">
@@ -180,19 +222,22 @@
                         </x-detailsLink>
                     @endif
 
-                    <x-details title="Tipo da ação">
-                        @if ($proccess->action_type == 1)
-                            Processo Coletivo Judicial Funcional
-                        @else
-                            Processo Coletivo Judicial Particular
-                        @endif
-                    </x-details>
+                    @if ($proccess->url_noticies == null)
+                        <x-details title="URL da Noticia">
+                            <span class="text-red-500">URL não informada</span>
+                        </x-details>
+                    @else
+                        <x-detailsLink title="URL da Noticia" url="{{ $proccess->url_noticies }}">
 
-                    <x-details title="Data de Criação">
+                            {{ $proccess->url_noticies }}
+                        </x-detailsLink>
+                    @endif
+
+                    <x-details title="Autuação">
                         {{ date('d/m/Y H:i', strtotime($proccess->created_at)) }}
                     </x-details>
 
-                    <x-details title="Data de Atualização">
+                    <x-details title="Última Distribuição">
                         {{ date('d/m/Y H:i', strtotime($proccess->updated_at)) }}
                     </x-details>
 

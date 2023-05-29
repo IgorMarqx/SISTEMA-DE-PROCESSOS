@@ -313,12 +313,21 @@ return [
             'url' => '/collective',
             'icon' => 'fa-solid fa-user-tie',
             'can' => ['manager-users', 'manager-lawyer'],
+            'active' =>
+            request()->is('collective/create') ||
+                request()->is('collective/*') ||
+                request()->is('administrative_collective') ||
+                request()->is('administrative_collective/create') ||
+                request()->is('administrative_collective/*')
         ],
         [
             'text' => 'Individuais',
             'url' => '/individual',
             'icon' => 'fa-brands fa-black-tie',
             'can' => ['manager-users'],
+            'active' => request()->is('individual/create') ||
+                request()->is('individual/*') ||
+                request()->is('administrative_individual')
         ],
 
         ['header' => 'Administração',  'can' => ['manager-users', 'manager-lawyer']],
@@ -338,6 +347,11 @@ return [
             'text'        => 'Meu perfil',
             'url'         => '/profile',
             'icon'        => 'fa-solid fa-user',
+        ],
+        [
+            'text'        => 'Meus Processos',
+            'url'         => '/proccess',
+            'icon'        => 'fa-solid fa-suitcase',
         ],
 
     ],
