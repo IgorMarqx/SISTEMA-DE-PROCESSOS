@@ -167,8 +167,20 @@
                         {{ ucfirst($administrative->jurisdiction) }}
                     </x-details>
 
+                    <x-details title="Cargo Judicial">
+                        {{ ucfirst($administrative->judicial_office) }}
+                    </x-details>
+
+                    <x-details title="Competência">
+                        {{ ucfirst($administrative->competence) }}
+                    </x-details>
+
                     <x-details title="Valor da Causa">
-                        {{ ucfirst($administrative->cause_value) }}
+                        @if ($administrative->cause_value == null)
+                            <span class="text-red-500">Valor não informado</span>
+                        @else
+                            {{ 'R$ ' . $administrative->cause_value }}
+                        @endif
                     </x-details>
 
                     @if (auth()->user()->can('admin-3'))
@@ -269,7 +281,7 @@
                                     Excluir anexo
                                 </a>
                             </div>
-                            @include('admin.modals.admPdf')
+                            @include('admin.modals.pdf')
                         </div>
                     @endforeach
                 </div>

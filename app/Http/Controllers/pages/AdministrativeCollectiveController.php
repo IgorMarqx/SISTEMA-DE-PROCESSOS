@@ -103,38 +103,6 @@ class AdministrativeCollectiveController extends Controller
         return redirect()->route('administrative_collective.show', ['administrative_collective' => $id]);
     }
 
-    public function downloadAttachment(string $id)
-    {
-        $attachment = Attachment::find($id);
-
-        $path = $attachment->path;
-        $fileName = $attachment->title;
-
-        if (Storage::exists($path)) {
-            return Storage::download($path, $fileName);
-        }
-
-        session()->flash('warning', 'Anexo não encontrado. Delete esse anexo e insira de novo.');
-        return redirect()->back();
-    }
-
-    public function deletAttachment(string $id)
-    {
-        $attachment = Attachment::find($id);
-        $path = $attachment->path;
-
-        if ($attachment) {
-            $attachment->delete();
-
-            if (Storage::exists($path)) {
-                Storage::delete($path);
-            }
-        }
-
-        session()->flash('success', 'Anexo apagado com sucesso.');
-        return redirect()->back();
-    }
-
     public function finish(string $id)
     {
         $collective = AdministrativeCollective::find($id);
@@ -185,7 +153,15 @@ class AdministrativeCollectiveController extends Controller
         $adm_collective = AdministrativeCollective::find($id);
 
         if ($adm_collective) {
-            $data = $request->only('collective', 'url', 'url_noticies', 'email_corp', 'email_client', 'user_id', 'status');
+            $data = $request->only('collective', 'url', 'url_noticies', 'subject', 'jurisdiction',  'cause_value', 'priority', 'judgmental_organ', 'judicial_office', 'competence', 'email_corp', 'email_client', 'user_id', 'status');
+
+            $justiceSecret = $request->input('justice_secret', []);
+            $freeJustice = $request->input('free_justice', []);
+            $tutelar = $request->input('tutelar', []);
+
+            $justiceSecret = !empty($justiceSecret);
+            $freeJustice = !empty($freeJustice);
+            $tutelar = !empty($tutelar);
 
             $validator = $this->validator($data);
 
@@ -195,8 +171,18 @@ class AdministrativeCollectiveController extends Controller
 
             $adm_collective->name = $data['collective'];
             $adm_collective->url_collective = $data['url'];
+
             $adm_collective->url_noticies = $data['url_noticies'];
             $adm_collective->user_id = $data['user_id'];
+
+            $adm_collective->judicial_office = $data['judicial_office'];
+            $adm_collective->competence = $data['competence'];
+
+            $adm_collective->justice_secret = $justiceSecret;
+            $adm_collective->free_justice = $freeJustice;
+            $adm_collective->tutelar = $tutelar;
+
+            $adm_collective->cause_value = $data['cause_value'];
 
             if ($adm_collective->email_client !== $data['email_client']) {
                 $hasEmail = AdministrativeCollective::where('email_client', $data['email_client'])->get();
@@ -283,13 +269,35 @@ class AdministrativeCollectiveController extends Controller
             $data,
             [
                 'collective' => ['required', 'max:100'],
+                'subject' => ['required', 'max:100'],
+                'jurisdiction' => ['required', 'max:100'],
+                'priority' => ['required', 'max:100'],
+                'judgmental_organ' => ['required', 'max:100'],
+                'judicial_office' => ['required', 'max:100'],
+                'competence' => ['required', 'max:100'],
                 'url' => ['max:2048'],
+                'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
                 'email_client' => ['max:100'],
             ],
             [
                 'collective.required' => 'Preencha esse campo.',
                 'collective.max' => 'Máximo de 100 caracteres.',
+
+                'subject.required' => 'Preencha esse campo.',
+                'subject.max' => 'Máximo de 100 caracteres.',
+
+                'priority.required' => 'Preencha esse campo.',
+                'priority.max' => 'Máximo de 100 caracteres.',
+
+                'judgmental_organ.required' => 'Preencha esse campo.',
+                'judgmental_organ.max' => 'Máximo de 100 caracteres.',
+
+                'jurisdiction.required' => 'Preencha esse campo.',
+                'jurisdiction.max' => 'Máximo de 100 caracteres.',
+
+                'competence.required' => 'Preencha esse campo.',
+                'competence.max' => 'Máximo de 100 caracteres.',
 
                 'url.max' => 'Máximo de 2048 caracteres.',
 

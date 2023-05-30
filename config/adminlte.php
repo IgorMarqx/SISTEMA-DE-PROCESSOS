@@ -327,7 +327,8 @@ return [
             'can' => ['manager-users'],
             'active' => request()->is('individual/create') ||
                 request()->is('individual/*') ||
-                request()->is('administrative_individual')
+                request()->is('administrative_individual') ||
+                request()->is('administrative_individual/*')
         ],
 
         ['header' => 'Administração',  'can' => ['manager-users', 'manager-lawyer']],

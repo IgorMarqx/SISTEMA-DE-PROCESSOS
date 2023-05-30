@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Route;
 
 class CollectiveController extends Controller
 {
@@ -68,7 +67,7 @@ class CollectiveController extends Controller
     {
 
         if ($request->type == 1) {
-            $data = $request->only(['collective', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'justice_secret', 'free_justice', 'tutelar', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
+            $data = $request->only(['collective', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'judicial_office', 'competence', 'justice_secret', 'free_justice', 'tutelar', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
             $progress = $data['progress_collective'];
 
             $justiceSecret = $request->input('justice_secret', []);
@@ -121,6 +120,8 @@ class CollectiveController extends Controller
                 'tutelar' => $tutelar,
                 'priority' => $data['priority'],
                 'judgmental_organ' => $data['judgmental_organ'],
+                'judicial_office' => $data['judicial_office'],
+                'competence' => $data['competence'],
                 'user_id' => $data['user_id'],
                 'url_collective' => $data['url'],
                 'url_noticies' => $data['url_noticies'],
@@ -134,7 +135,7 @@ class CollectiveController extends Controller
             session()->flash('success', 'Processo Judicial criado com sucesso.');
             return redirect()->route('collective.index');
         } else {
-            $data = $request->only(['collective', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'justice_secret', 'free_justice', 'tutelar', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
+            $data = $request->only(['collective', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'judicial_office', 'competence', 'justice_secret', 'free_justice', 'tutelar', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
             $progress = $data['progress_collective'];
 
             $justiceSecret = $request->input('justice_secret', []);
@@ -179,6 +180,8 @@ class CollectiveController extends Controller
                 'tutelar' => $tutelar,
                 'priority' => $data['priority'],
                 'judgmental_organ' => $data['judgmental_organ'],
+                'judicial_office' => $data['judicial_office'],
+                'competence' => $data['competence'],
                 'user_id' => $data['user_id'],
                 'url_collective' => $data['url'],
                 'url_noticies' => $data['url_noticies'],
@@ -230,7 +233,7 @@ class CollectiveController extends Controller
 
             $attachment = Attachment::create([
                 'title' => $originalName,
-                'judicial_collective_id' => $request->collective_id,
+                'judicial_collective_id' => $request->judicial_collective_id,
                 'user_id' => $request->user_id,
                 'path' => $request->file('file')->store(),
             ]);
@@ -303,7 +306,7 @@ class CollectiveController extends Controller
         $collective = JudicialCollective::find($id);
 
         if ($collective) {
-            $data = $request->only('collective', 'url', 'url_noticies', 'subject', 'jurisdiction', 'priority', 'judgmental_organ', 'email_corp', 'email_client', 'user_id', 'status');
+            $data = $request->only('collective', 'url', 'url_noticies', 'subject', 'jurisdiction', 'priority', 'judgmental_organ', 'judicial_office', 'competence', 'email_corp', 'email_client', 'user_id', 'status');
 
             $justiceSecret = $request->input('justice_secret', []);
             $freeJustice = $request->input('free_justice', []);
@@ -334,6 +337,9 @@ class CollectiveController extends Controller
             $collective->justice_secret = $justiceSecret;
             $collective->free_justice = $freeJustice;
             $collective->tutelar = $tutelar;
+
+            $collective->judicial_office = $data['judicial_office'];
+            $collective->competence = $data['competence'];
 
             if ($collective->email_client !== $data['email_client']) {
                 $hasEmail = JudicialCollective::where('email_client', $data['email_client'])->get();
@@ -435,6 +441,8 @@ class CollectiveController extends Controller
                 'jurisdiction' => ['required', 'max:100'],
                 'priority' => ['required', 'max:100'],
                 'judgmental_organ' => ['required', 'max:100'],
+                'judicial_office' => ['required', 'max:100'],
+                'competence' => ['required','max:100'],
                 'url' => ['max:2048'],
                 'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
@@ -455,6 +463,12 @@ class CollectiveController extends Controller
 
                 'jurisdiction.required' => 'Preencha esse campo.',
                 'jurisdiction.max' => 'Máximo de 100 caracteres.',
+
+                'judicial_office.required' => 'Preencha esse campo.',
+                'judicial_office.max' => 'Máximo de 100 caracteres.',
+
+                'competence.required' => 'Preencha esse campo.',
+                'competence.max' => 'Máximo de 100 caracteres.',
 
                 'url.max' => 'Máximo de 2048 caracteres.',
 

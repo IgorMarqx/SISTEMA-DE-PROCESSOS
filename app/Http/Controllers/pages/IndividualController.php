@@ -57,7 +57,7 @@ class IndividualController extends Controller
     public function store(Request $request)
     {
         if ($request->type == 1) {
-            $data = $request->only('progress_individuals', 'individuals', 'user_id', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'justice_secret', 'free_justice', 'tutelar', 'url', 'url_noticies', 'email_corp', 'email_client', 'type', 'action_type');
+            $data = $request->only('progress_individuals', 'individuals', 'user_id', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ',  'judicial_office', 'competence', 'justice_secret', 'free_justice', 'tutelar', 'url', 'url_noticies', 'email_corp', 'email_client', 'type', 'action_type');
             $progress = $data['progress_individuals'];
 
             $justiceSecret = $request->input('justice_secret', []);
@@ -110,6 +110,8 @@ class IndividualController extends Controller
                 'tutelar' => $tutelar,
                 'priority' => $data['priority'],
                 'judgmental_organ' => $data['judgmental_organ'],
+                'judicial_office' => $data['judicial_office'],
+                'competence' => $data['competence'],
                 'user_id' => $data['user_id'],
                 'url_individuals' => $data['url'],
                 'url_noticies' => $data['url_noticies'],
@@ -123,7 +125,7 @@ class IndividualController extends Controller
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('individual.index');
         } else {
-            $data = $request->only('progress_individuals', 'individuals', 'user_id', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'justice_secret', 'free_justice', 'tutelar', 'url', 'url_noticies', 'email_corp', 'email_client', 'type', 'action_type');
+            $data = $request->only('progress_individuals', 'individuals', 'user_id', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ',  'judicial_office', 'competence', 'justice_secret', 'free_justice', 'tutelar', 'url', 'url_noticies', 'email_corp', 'email_client', 'type', 'action_type');
             $progress = $data['progress_individuals'];
 
             $justiceSecret = $request->input('justice_secret', []);
@@ -176,6 +178,8 @@ class IndividualController extends Controller
                 'tutelar' => $tutelar,
                 'priority' => $data['priority'],
                 'judgmental_organ' => $data['judgmental_organ'],
+                'judicial_office' => $data['judicial_office'],
+                'competence' => $data['competence'],
                 'user_id' => $data['user_id'],
                 'url_individuals' => $data['url'],
                 'url_noticies' => $data['url_noticies'],
@@ -364,6 +368,32 @@ class IndividualController extends Controller
         return redirect()->back();
     }
 
+    public function attachment(Request $request, string $id)
+    {
+        $data = $request->only('file');
+
+        $validator = $this->validatorFile($data);
+
+        if ($validator->fails()) {
+            return redirect()->route('individual.show', ['individual' => $id])
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            $originalName = $request->file('file')->getClientOriginalName();
+
+            $attachment = Attachment::create([
+                'title' => $originalName,
+                'judicial_individual_id' => $request->judicial_individual_id,
+                'user_id' => $request->user_id,
+                'path' => $request->file('file')->store(),
+            ]);
+        }
+        $attachment->save();
+
+        session()->flash('success', 'Anexado com sucesso.');
+        return redirect()->route('individual.show', ['individual' => $id]);
+    }
+
     public function validator($data)
     {
         return Validator::make(
@@ -402,6 +432,25 @@ class IndividualController extends Controller
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
                 'email_client.unique' => 'Já existe um e-mail como esse.',
+            ]
+        );
+    }
+
+    public function validatorFile($data)
+    {
+        return Validator::make(
+            $data,
+            [
+                'file' => [
+                    'required',
+                    'mimes:pdf',
+                    'max:9048',
+                ]
+            ],
+            [
+                'file.required' => 'Escolha algum arquivo.',
+                'file.mimes' => 'Tipo de arquivo não suportado.',
+                'file.max' => 'Máximo de 9MB.'
             ]
         );
     }

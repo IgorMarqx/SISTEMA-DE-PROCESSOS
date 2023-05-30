@@ -164,6 +164,14 @@
                         {{ ucfirst($proccess->jurisdiction) }}
                     </x-details>
 
+                    <x-details title="Cargo Judicial">
+                        {{ ucfirst($proccess->judicial_office) }}
+                    </x-details>
+
+                    <x-details title="Competência">
+                        {{ ucfirst($proccess->competence) }}
+                    </x-details>
+
                     <x-details title="Valor da Causa">
                         @if ($proccess->cause_value == null)
                             <span class="text-red-500">Valor não informado</span>

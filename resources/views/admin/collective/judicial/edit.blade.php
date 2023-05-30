@@ -35,7 +35,7 @@
                     <input type="hidden" name="id" value="{{ $proccess->id }}">
 
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="text-red-500" id="collective">
                             Classe Judicial
                         </x-labels>
@@ -49,7 +49,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-5 mb-3">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="text-red-500" id="subject">
                             Assunto
                         </x-labels>
@@ -73,6 +73,20 @@
                             focus="{{ true }}" error="jurisdiction" />
 
                         @error('jurisdiction')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <x-labels colorSpan="text-red-500" id="judicial_office">
+                            Cargo Judicial
+                        </x-labels>
+
+                        <x-inputs id="judicial_office" form="form-control" placeholder="ex: Juiz Federal Titular"
+                            value="{{ $proccess->judicial_office }}" type="text" name="judicial_office"
+                            focus="{{ true }}" error="judicial_office" />
+
+                        @error('judicial_office')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
@@ -140,7 +154,21 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-3 mb-3">
+                        <x-labels colorSpan="text-red-500" id="competence">
+                            Competência
+                        </x-labels>
+
+                        <x-inputs id="competence" form="form-control" placeholder="ex: JEF - Joâo Pessoa"
+                            value="{{ $proccess->competence }}" type="text" name="competence"
+                            focus="{{ false }}" error="competence" />
+
+                        @error('competence')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="hidden" id="url_noticies">
                             URL da Noticia
                         </x-labels>

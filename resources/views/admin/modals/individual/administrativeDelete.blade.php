@@ -1,6 +1,5 @@
-<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="adm_individualModal" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title fs-5 text-red-500" id="exampleModalLabel">Deletando
@@ -12,7 +11,7 @@
                 <p class="text-red-500">Tem certeza que você deseja apagar esse Processo</p>
             </div>
 
-            <form id="pdfForm" method="POST">
+            <form id="deleteForm" method="POST">
                 @csrf
                 @method('DELETE')
                 <div class="modal-footer">
@@ -27,10 +26,10 @@
 
 <script>
     function exibirModalExclusao(id) {
-        $('#pdfModal').modal('show');
+        $('#adm_individualModal').modal('show');
 
-        var form = document.getElementById('pdfForm');
-        var rota = "{{ route('adm_deletAttachment', ['id' => ':id']) }}";
+        var form = document.getElementById('deleteForm');
+        var rota = "{{ route('administrative_individual.destroy', ['administrative_individual' => ':id']) }}";
 
         rota = rota.replace(':id', id);
         form.setAttribute('action', rota);

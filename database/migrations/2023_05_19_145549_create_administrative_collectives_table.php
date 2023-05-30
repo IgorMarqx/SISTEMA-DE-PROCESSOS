@@ -24,6 +24,8 @@ return new class extends Migration
             $table->boolean('tutelar')->default(0);
             $table->string('priority');
             $table->string('judgmental_organ');
+            $table->string('judicial_office');
+            $table->string('competence');
             $table->string('url_collective', 2048)->nullable();
             $table->string('url_noticies', 2048)->nullable();
             $table->string('email_coorporative');

@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @extends('layout.links')
 
-@section('title', 'Processos - SINDJUF')
+@section('title', 'SINDJUF - Processos')
 
 @section('content_header')
     <div class="mb-2"></div>
@@ -9,55 +9,42 @@
 
 @section('content')
 
-    @if (session('success'))
-        @include('components.success')
-    @endif
-
-    @if (session('error'))
-        @include('components.error')
-    @endif
-
     <div class="mb-2 flex">
-        <a href="{{ route('individual.index') }}"
+        <a href="{{ route('administrative_individual.index') }}"
             class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600">
             <i class="fa-solid fa-reply"></i>
         </a>
 
         <div class="bg-green-500 hover:bg-green-600 ml-2 flex items-center text-white p-2 rounded">
-            <span class="">Criação de Processo</span>
-        </div>
-
-        <div class="rounded ml-2 p-2 bg-sky-500 hover:bg-sky-600 text-white transition-all">
-            <input type="button" id="client" class="text-white" data-bs-toggle="modal" data-bs-target="#clientModal"
-                value="Novo Autor" />
-            @include('admin.modals.createClient.client')
+            <span class="">Edição de Processos</span>
         </div>
     </div>
 
-    @include('admin.modals.createClient.error')
-
     <div class="card mt-4">
+
         <div class="bg-red-500 h-1">
-
+            .
         </div>
-        <div class="card-body">
-            <form action="{{ route('individual.store') }}" method="POST">
-                @csrf
 
-                <input type="hidden" name="progress_individuals" value="1">
-
+        <form action="{{ route('administrative_individual.update', ['administrative_individual' => $administrative_individual->id]) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="card-body">
                 <div class="row g-3">
 
+                    <input type="hidden" name="id" value="{{ $administrative_individual->id }}">
+
+
                     <div class="col-md-3 mb-3">
-                        <x-labels colorSpan="text-red-500" id="individuals">
+                        <x-labels colorSpan="text-red-500" id="administrative_individuals">
                             Classe Judicial
                         </x-labels>
 
-                        <x-inputs id="individuals" form="form-control" placeholder="Informe o nome da classe judicial"
-                            value="{{ old('individuals') }}" type="text" name="individuals" focus="{{ true }}"
-                            error="individuals" />
+                        <x-inputs id="administrative_individuals" form="form-control" placeholder="Informe o nome do processo"
+                            value="{{ $administrative_individual->name }}" type="text" name="administrative_individuals" focus="{{ true }}"
+                            error="administrative_individuals" />
 
-                        @error('individuals')
+                        @error('administrative_individuals')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
@@ -68,7 +55,7 @@
                         </x-labels>
 
                         <x-inputs id="subject" form="form-control" placeholder="ex: Assitência Pré Escolar"
-                            value="{{ old('subject') }}" type="text" name="subject" focus="{{ true }}"
+                            value="{{ $administrative_individual->subject }}" type="text" name="subject" focus="{{ true }}"
                             error="subject" />
 
                         @error('subject')
@@ -82,8 +69,8 @@
                         </x-labels>
 
                         <x-inputs id="jurisdiction" form="form-control" placeholder="ex: PB / Patos"
-                            value="{{ old('jurisdiction') }}" type="text" name="jurisdiction" focus="{{ true }}"
-                            error="jurisdiction" />
+                            value="{{ $administrative_individual->jurisdiction }}" type="text" name="jurisdiction"
+                            focus="{{ true }}" error="jurisdiction" />
 
                         @error('jurisdiction')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -96,7 +83,7 @@
                         </x-labels>
 
                         <x-inputs id="judicial_office" form="form-control" placeholder="ex: Juiz Federal Titular"
-                            value="{{ old('judicial_office') }}" type="text" name="judicial_office"
+                            value="{{ $administrative_individual->judicial_office }}" type="text" name="judicial_office"
                             focus="{{ true }}" error="judicial_office" />
 
                         @error('judicial_office')
@@ -104,7 +91,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-2 mb-3">
+                    <div class="col-md-4 mb-3">
                         <x-labels colorSpan="hidden" id="cause_value">
                             Valor da Causa
                         </x-labels>
@@ -115,7 +102,7 @@
                                 $
                             </span>
                             <x-inputs id="cause_value" form="form-control" placeholder="ex: 1.510,00"
-                                value="{{ old('cause_value') }}" type="text" name="cause_value"
+                                value="{{ $administrative_individual->cause_value }}" type="text" name="cause_value"
                                 focus="{{ true }}" error="cause_value" />
 
                             @error('cause_value')
@@ -124,13 +111,13 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-4 mb-3">
                         <x-labels colorSpan="text-red-500" id="priority">
                             Prioridade
                         </x-labels>
 
                         <x-inputs id="priority" form="form-control" placeholder="ex: 100% Digital"
-                            value="{{ old('priority') }}" type="text" name="priority" focus="{{ true }}"
+                            value="{{ $administrative_individual->priority }}" type="text" name="priority" focus="{{ true }}"
                             error="priority" />
 
                         @error('priority')
@@ -138,13 +125,13 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-4 mb-3">
                         <x-labels colorSpan="text-red-500" id="judgmental_organ">
                             Orgão Julgador
                         </x-labels>
 
                         <x-inputs id="judgmental_organ" form="form-control" placeholder="ex: 14° Vara Federal PB"
-                            value="{{ old('judgmental_organ') }}" type="text" name="judgmental_organ"
+                            value="{{ $administrative_individual->judgmental_organ }}" type="text" name="judgmental_organ"
                             focus="{{ true }}" error="judgmental_organ" />
 
                         @error('judgmental_organ')
@@ -152,14 +139,14 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <x-labels colorSpan="hidden" id="url">
                             URL do Processo
                         </x-labels>
 
                         <x-inputs id="url" form="form-control" placeholder="Informe a URL do processo"
-                            value="{{ old('url') }}" type="text" name="url" focus="{{ false }}"
-                            error="url" />
+                            value="{{ $administrative_individual->url_collective }}" type="text" name="url"
+                            focus="{{ false }}" error="url" />
 
                         @error('url')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -172,7 +159,7 @@
                         </x-labels>
 
                         <x-inputs id="competence" form="form-control" placeholder="ex: JEF - Joâo Pessoa"
-                            value="{{ old('competence') }}" type="text" name="competence"
+                            value="{{ $administrative_individual->competence }}" type="text" name="competence"
                             focus="{{ false }}" error="competence" />
 
                         @error('competence')
@@ -194,13 +181,13 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-3">
                         <x-labels colorSpan="text-red-500" id="email_corp">
                             E-mail Coorporativo
                         </x-labels>
 
                         <x-inputs id="email_corp" form="form-control" placeholder="Informe o e-mail coorporativo"
-                            value="{{ old('email_corp') }}" type="text" name="email_corp"
+                            value="{{ $administrative_individual->email_coorporative }}" type="text" name="email_corp"
                             focus="{{ false }}" error="email_corp" />
 
                         @error('email_corp')
@@ -208,13 +195,13 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-3">
                         <x-labels colorSpan="hidden" id="email_client">
                             E-mail do Cliente
                         </x-labels>
 
                         <x-inputs id="email_client" form="form-control" placeholder="Informe o e-mail do cliente"
-                            value="{{ old('email_client') }}" type="text" name="email_client"
+                            value="{{ $administrative_individual->email_client }}" type="text" name="email_client"
                             focus="{{ false }}" error="email_client" />
 
                         @error('email_client')
@@ -222,68 +209,41 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="text-red-500" id="user_id">
                             Selecione o cliente que você deseja
                         </x-labels>
 
-                        <div class="input-group">
-                            <select name="user_id" id="user_id" class="form-control">
-                                <option value="error" selected>Selecione um cliente</option>
+                        <select name="user_id" id="user_id" class="form-control">
+                            @foreach ($users as $user)
+                                @if ($administrative_individual->user_id == $user->id)
+                                    <option value="{{ $user->id }}" selected>{{ ucfirst($user->name) }}</option>
+                                @endif
+                            @endforeach
 
-                                @foreach ($users as $user)
-                                    @if ($user->admin == 1)
-                                    @else
-                                        <option value="{{ $user->id }}">{{ ucfirst($user->name) }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-
-                            <div>
-                                <label
-                                    class="p-[7px] bg-sky-500 hover:bg-sky-600 text-white transition-all cursor-pointer rounded-ee-xl"
-                                    for="client">
-                                    Novo Autor
-                                </label>
-                            </div>
-                        </div>
-
-                        @error('user_id')
-                            <span class="text-red-500 flex">{{ $message }}</span>
-                        @enderror
-
-                    </div>
-
-                    <div class="col-md-4">
-                        <x-labels colorSpan="text-red-500" id="type">
-                            Informe o tipo do processo
-                        </x-labels>
-
-                        <select name="type" id="type" class="form-control">
-                            <option value="error" selected>Informe o tipo do processo</option>
-                            <option value="1">Processo Judicial</option>
-                            <option value="2">Processo Administrativo</option>
+                            @foreach ($users as $user)
+                                @if ($user->admin === 1)
+                                @else
+                                    <option value="{{ $user->id }}">{{ ucfirst($user->name) }}</option>
+                                @endif
+                            @endforeach
                         </select>
 
-                        @error('type')
+                        @error('user_id')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div class="col-md-3">
-                        <x-labels colorSpan="text-red-500" id="action_type">
-                            Tipo da ação
+                        <x-labels colorSpan="hidden" id="status">
+                            Selecione o status do processo
                         </x-labels>
 
-                        <select name="action_type" id="action_type" class="form-control">
-                            <option value="error" selected>Informe o tipo da ação</option>
-                            <option value="1">Ação Individual Judicial Funcional</option>
-                            <option value="2">Ação Individual Judicial Particular</option>
+                        <select class="form-control" name="status" id="status">
+                            <option class="text-green-500" value="1" selected>Atualizar</option>
+                            <option class="text-red-500" value="2">Finalizar</option>
+                            <option class="text-yellow-500" value="3">Andamento</option>
                         </select>
-
-                        @error('action_type')
-                            <span class="text-red-500 flex">{{ $message }}</span>
-                        @enderror
                     </div>
 
                     <div class="col-md-12 flex flex-col">
@@ -297,22 +257,43 @@
                             <div>
                                 <span class="mr-2">Segredo de justiça?</span>
 
-                                <input type="checkbox" name="justice_secret[]" value="1"
-                                    @checked(old('justice_secret')) class="form-checkbox rounded text-red-500 border-red-500">
+                                @if (auth()->user()->can('admin-3'))
+                                @else
+                                    @if ($administrative_individual->justice_secret == 1)
+                                        <input type="checkbox" name="justice_secret[]"
+                                            value="{{ $administrative_individual->justice_secret }}" checked
+                                            class="form-checkbox rounded text-red-500 border-red-500">
+                                    @else
+                                        <input type="checkbox" name="justice_secret[]" value="1"
+                                            @checked(old('justice_secret'))
+                                            class="form-checkbox rounded text-red-500 border-red-500">
+                                    @endif
+                                @endif
                             </div>
 
                             <div>
                                 <span class="mr-2">Justiça Gratuita?</span>
 
-                                <input type="checkbox" name="free_justice[]" value="1" @checked(old('free_justice'))
-                                    class="form-checkbox rounded text-red-500 border-red-500">
+                                @if ($administrative_individual->free_justice == 1)
+                                    <input type="checkbox" name="free_justice[]" value="{{ $administrative_individual->free_justice }}"
+                                        checked class="form-checkbox rounded text-red-500 border-red-500">
+                                @else
+                                    <input type="checkbox" name="free_justice[]" value="1"
+                                        @checked(old('free_justice'))
+                                        class="form-checkbox rounded text-red-500 border-red-500">
+                                @endif
                             </div>
 
                             <div>
                                 <span class="mr-2">Tutelar/Liminar?</span>
 
-                                <input type="checkbox" name="tutelar[]" value="1" @checked(old('tutelar'))
-                                    class="form-checkbox rounded text-red-500 border-red-500">
+                                @if ($administrative_individual->tutelar == 1)
+                                    <input type="checkbox" name="tutelar[]" value="{{ $administrative_individual->tutelar }}" checked
+                                        class="form-checkbox rounded text-red-500 border-red-500">
+                                @else
+                                    <input type="checkbox" name="tutelar[]" value="1" @checked(old('tutelar'))
+                                        class="form-checkbox rounded text-red-500 border-red-500">
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -320,17 +301,13 @@
                     <div class="col-md-12 mt-3">
                         <input type="submit"
                             class="bg-red-500 block w-full text-white rounded p-1 hover:bg-red-600 transition ease-in-out"
-                            value="Criar">
+                            value="Editar">
                     </div>
 
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
-    <script>
-        $('#cause_value').mask("#.##0,00", {
-            reverse: true
-        });
-    </script>
+
 @endsection

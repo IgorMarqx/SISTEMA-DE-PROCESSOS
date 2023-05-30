@@ -1,13 +1,13 @@
-<div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="admFileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title fs-5 text-sky-500" id="exampleModalLabel">Anexar Arquivo</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('attachment', ['id' => $proccess->id]) }}" method="POST"
+            <form action="{{ route('adm_individual_attachment', ['id' => $administrative_individual->id]) }}" method="POST"
                 enctype="multipart/form-data">
-                <input type="hidden" name="judicial_collective_id" value="{{ $proccess->id }}">
+                <input type="hidden" name="administrative_individual_id" value="{{ $administrative_individual->id }}">
                 <input type="hidden" name="user_id" value="{{ $user->id }}">
                 @csrf
                 <div class="modal-body">

@@ -48,12 +48,12 @@
 
                 <div class="row g-3">
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="text-red-500" id="collective">
                             Classe Judicial
                         </x-labels>
 
-                        <x-inputs id="collective" form="form-control" placeholder="Informe o nome do processo"
+                        <x-inputs id="collective" form="form-control" placeholder="Informe o nome da classe judicial"
                             value="{{ old('collective') }}" type="text" name="collective" focus="{{ true }}"
                             error="collective" />
 
@@ -62,7 +62,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-5 mb-3">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="text-red-500" id="subject">
                             Assunto
                         </x-labels>
@@ -86,6 +86,20 @@
                             error="jurisdiction" />
 
                         @error('jurisdiction')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <x-labels colorSpan="text-red-500" id="judicial_office">
+                            Cargo Judicial
+                        </x-labels>
+
+                        <x-inputs id="judicial_office" form="form-control" placeholder="ex: Juiz Federal Titular"
+                            value="{{ old('judicial_office') }}" type="text" name="judicial_office" focus="{{ true }}"
+                            error="judicial_office" />
+
+                        @error('judicial_office')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
@@ -152,7 +166,21 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
+                        <x-labels colorSpan="text-red-500" id="competence">
+                            Competência
+                        </x-labels>
+
+                        <x-inputs id="competence" form="form-control" placeholder="ex: JEF - Joâo Pessoa"
+                            value="{{ old('competence') }}" type="text" name="competence"
+                            focus="{{ false }}" error="competence" />
+
+                        @error('competence')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="hidden" id="url_noticies">
                             URL da Noticia
                         </x-labels>
@@ -166,7 +194,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="text-red-500" id="email_corp">
                             E-mail Coorporativo
                         </x-labels>
@@ -180,7 +208,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="hidden" id="email_client">
                             E-mail do Cliente
                         </x-labels>

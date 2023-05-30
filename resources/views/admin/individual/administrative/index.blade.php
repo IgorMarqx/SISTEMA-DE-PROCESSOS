@@ -125,7 +125,7 @@
                                     <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                                     Excluir
                                 </a>
-                                @include('admin.modals.collective')
+                                @include('admin.modals.individual.administrativeDelete')
                             </td>
 
                             <td class="xl:hidden 2xl:hidden">

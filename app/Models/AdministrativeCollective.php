@@ -22,6 +22,8 @@ class AdministrativeCollective extends Model
         'tutelar',
         'priority',
         'judgmental_organ',
+        'judicial_office',
+        'competence',
         'url_collective',
         'url_noticies',
         'email_coorporative',

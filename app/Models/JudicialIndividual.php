@@ -22,6 +22,8 @@ class JudicialIndividual extends Model
         'tutelar',
         'priority',
         'judgmental_organ',
+        'judicial_office',
+        'competence',
         'url_individuals',
         'url_noticies',
         'email_coorporative',
