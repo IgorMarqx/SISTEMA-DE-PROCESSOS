@@ -49,8 +49,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('adm_individual_attachment/{id}', [AdministrativeIndividualController::class, 'attachment'])->name('adm_individual_attachment');
     Route::get('adm_idividual_finish/{id}', [AdministrativeIndividualController::class, 'finish'])->name('adm_individual_finish');
 
-    Route::get('profile', [ProfileController::class, 'index'])->name('profile');
-
     Route::get('requeriments', [RequerimentController::class, 'index'])->name('requeriments');
 
     // RESOURCES

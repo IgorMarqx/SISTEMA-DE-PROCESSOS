@@ -340,13 +340,8 @@ return [
         ],
         ['header' => 'Bem vindo'],
         [
-            'text'        => 'Bem vindo',
-            'url'         => '/',
-            'icon'        => 'fa-solid fa-door-open',
-        ],
-        [
             'text'        => 'Meu perfil',
-            'url'         => '/profile',
+            'url'         => '/',
             'icon'        => 'fa-solid fa-user',
         ],
         [
