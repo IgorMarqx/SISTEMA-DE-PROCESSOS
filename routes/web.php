@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
 
     // PROCESSOS ADMINISTRATIVOS INDIVIDUAIS
     Route::get('administrative_individual', [AdministrativeIndividualController::class, 'index'])->name('administrative_individual');
+    Route::get('adm_idividual_finish/{id}', [AdministrativeIndividualController::class, 'finish'])->name('adm_individual_finish');
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
 

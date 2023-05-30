@@ -303,7 +303,15 @@ class CollectiveController extends Controller
         $collective = JudicialCollective::find($id);
 
         if ($collective) {
-            $data = $request->only('collective', 'url', 'url_noticies', 'email_corp', 'email_client', 'user_id', 'status');
+            $data = $request->only('collective', 'url', 'url_noticies', 'subject', 'jurisdiction', 'priority', 'judgmental_organ', 'email_corp', 'email_client', 'user_id', 'status');
+
+            $justiceSecret = $request->input('justice_secret', []);
+            $freeJustice = $request->input('free_justice', []);
+            $tutelar = $request->input('tutelar', []);
+
+            $justiceSecret = !empty($justiceSecret);
+            $freeJustice = !empty($freeJustice);
+            $tutelar = !empty($tutelar);
 
             $validator = $this->validator($data);
 
@@ -313,8 +321,19 @@ class CollectiveController extends Controller
 
             $collective->name = $data['collective'];
             $collective->url_collective = $data['url'];
+
             $collective->url_noticies = $data['url_noticies'];
             $collective->user_id = $data['user_id'];
+
+            $collective->subject = $data['subject'];
+            $collective->jurisdiction = $data['jurisdiction'];
+
+            $collective->priority = $data['priority'];
+            $collective->judgmental_organ = $data['judgmental_organ'];
+
+            $collective->justice_secret = $justiceSecret;
+            $collective->free_justice = $freeJustice;
+            $collective->tutelar = $tutelar;
 
             if ($collective->email_client !== $data['email_client']) {
                 $hasEmail = JudicialCollective::where('email_client', $data['email_client'])->get();

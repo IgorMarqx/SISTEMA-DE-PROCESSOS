@@ -263,6 +263,14 @@ class IndividualController extends Controller
         if ($individual) {
             $data = $request->only('individuals', 'url', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'url_noticies', 'email_corp', 'email_client', 'user_id', 'status');
 
+            $justiceSecret = $request->input('justice_secret', []);
+            $freeJustice = $request->input('free_justice', []);
+            $tutelar = $request->input('tutelar', []);
+
+            $justiceSecret = !empty($justiceSecret);
+            $freeJustice = !empty($freeJustice);
+            $tutelar = !empty($tutelar);
+
             $validator = $this->validator($data);
 
             if ($validator->fails()) {
@@ -281,6 +289,10 @@ class IndividualController extends Controller
             $individual->cause_value = $data['cause_value'];
             $individual->priority = $data['priority'];
             $individual->judgmental_organ = $data['judgmental_organ'];
+
+            $individual->justice_secret = $justiceSecret;
+            $individual->free_justice = $freeJustice;
+            $individual->tutelar = $tutelar;
 
             if ($individual->email_client !== $data['email_client']) {
                 $hasEmail = JudicialIndividual::where('email_client', $data['email_client'])->get();

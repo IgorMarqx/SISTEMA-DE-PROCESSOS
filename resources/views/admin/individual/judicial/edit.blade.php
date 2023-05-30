@@ -229,14 +229,17 @@
                             <div>
                                 <span class="mr-2">Segredo de justiça?</span>
 
-                                @if ($individual->justice_secret == 1)
-                                    <input type="checkbox" name="justice_secret[]"
-                                        value="{{ $individual->justice_secret }}" checked
-                                        class="form-checkbox rounded text-red-500 border-red-500">
+                                @if (auth()->user()->can('admin-3'))
                                 @else
-                                    <input type="checkbox" name="justice_secret[]" value="1"
-                                        @checked(old('justice_secret'))
-                                        class="form-checkbox rounded text-red-500 border-red-500">
+                                    @if ($individual->justice_secret == 1)
+                                        <input type="checkbox" name="justice_secret[]"
+                                            value="{{ $individual->justice_secret }}" checked
+                                            class="form-checkbox rounded text-red-500 border-red-500">
+                                    @else
+                                        <input type="checkbox" name="justice_secret[]" value="1"
+                                            @checked(old('justice_secret'))
+                                            class="form-checkbox rounded text-red-500 border-red-500">
+                                    @endif
                                 @endif
                             </div>
 

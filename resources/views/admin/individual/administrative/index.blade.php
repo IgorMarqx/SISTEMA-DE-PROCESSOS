@@ -53,7 +53,7 @@
                 href="{{ route('individual.index') }}">Judiciais</a>
             <a id="judicial"
                 class="border-2 border-red-500 p-2 rounded text-red-500 hover:bg-red-500 hover:text-white"
-                href="{{ route('individual.index') }}">Administrativos</a>
+                href="{{ route('administrative_individual.index') }}">Administrativos</a>
         </div>
 
         <div class="card mt-1 ">
@@ -101,19 +101,19 @@
                             @endif
 
                             <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:flex 2xl:flex">
-                                <x-button route="{{ route('individual.show', ['individual' => $individuals->id]) }}"
+                                <x-button route="{{ route('administrative_individual.show', ['administrative_individual' => $individuals->id]) }}"
                                     color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
                                     icon="fa-solid fa-file-lines text-sm mr-[0.2rem]">
                                     Detalhes
                                 </x-button>
 
-                                <x-button route="{{ route('individual.edit', ['individual' => $individuals->id]) }}"
+                                <x-button route="{{ route('administrative_individual.edit', ['administrative_individual' => $individuals->id]) }}"
                                     color="text-green-500" hover="hover:text-green-600" margin="mr-2"
                                     icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
                                     Editar
                                 </x-button>
 
-                                <x-button route="{{ route('finish', ['id' => $individuals->id]) }}" color="text-sky-500"
+                                <x-button route="{{ route('adm_individual_finish', ['id' => $individuals->id]) }}" color="text-sky-500"
                                     hover="hover:text-sky-600" margin="mr-1"
                                     icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
                                     Finalizar
@@ -150,7 +150,7 @@
                                             </span>
                                         </a>
                                         <a class="dropdown-item"
-                                            href="{{ route('finish', ['id' => $individuals->id]) }}">
+                                            href="{{ route('adm_individual_finish', ['id' => $individuals->id]) }}">
                                             <span class="text-sky-500">
                                                 <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
                                                 Finalizar
