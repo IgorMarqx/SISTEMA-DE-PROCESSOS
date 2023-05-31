@@ -149,7 +149,7 @@
                 </div>
 
                 <div
-                    class="flex justify-center items-center gap-12 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
+                    class="flex justify-center items-center gap-5 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
 
                     <x-details title="ID do Processo">
                         {{ ucfirst($administrative->id) }}
@@ -164,15 +164,7 @@
                     </x-details>
 
                     <x-details title="Jurisdição">
-                        {{ ucfirst($administrative->jurisdiction) }}
-                    </x-details>
-
-                    <x-details title="Cargo Judicial">
-                        {{ ucfirst($administrative->judicial_office) }}
-                    </x-details>
-
-                    <x-details title="Competência">
-                        {{ ucfirst($administrative->competence) }}
+                        {{ strtoupper($administrative->jurisdiction) }}
                     </x-details>
 
                     <x-details title="Valor da Causa">
@@ -211,46 +203,56 @@
                     </x-details>
 
 
+                </div>
+
+                <div
+                    class="flex justify-center items-center gap-8 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
                     <x-details title="Prioridade">
                         {{ ucfirst($administrative->priority) }}
                     </x-details>
 
-                    <x-details title="Orgão Julgador">
+                    <x-details title="Órgão Julgador">
                         {{ ucfirst($administrative->judgmental_organ) }}
+                    </x-details>
+
+                    <x-details title="Cargo Judicial">
+                        {{ ucfirst($administrative->judicial_office) }}
+                    </x-details>
+
+                    <x-details title="Competência">
+                        {{ ucfirst($administrative->competence) }}
                     </x-details>
 
                     <x-details title="E-mail da Coorporação">
                         {{ $administrative->email_coorporative }}
                     </x-details>
 
-                    @if ($administrative->url_collective)
-                        <x-detailsLink title="URL do Processo" url="{{ $administrative->url_collective }}">
-                            {{ $administrative->url_collective }}
-                        </x-detailsLink>
-                    @else
+                    @if ($administrative->url_collective == null)
                         <x-details title="URL do Processo">
                             <span class="text-red-500">URL não informada</span>
                         </x-details>
+                    @else
+                        <x-detailsLink title="URL do Processo" url="{{ $administrative->url_collective }}">
+
+                            {{ $administrative->url_collective }}
+                        </x-detailsLink>
                     @endif
 
-                    @if ($administrative->url_noticies)
-                        <x-detailsLink title="URL da Noticia" url="{{ $administrative->url_noticies }}">
-                            {{ $administrative->url_noticies }}
-                        </x-detailsLink>
-                    @else
+                    @if ($administrative->url_noticies == null)
                         <x-details title="URL da Noticia">
                             <span class="text-red-500">URL não informada</span>
                         </x-details>
+                    @else
+                        <x-detailsLink title="URL da Noticia" url="{{ $administrative->url_noticies }}">
+
+                            {{ $administrative->url_noticies }}
+                        </x-detailsLink>
                     @endif
 
-                    <x-details title="Tipo da ação">
-                        @if ($administrative->action_type == 1)
-                            Processo Coletivo Judicial Funcional
-                        @else
-                            Processo Coletivo Judicial Particular
-                        @endif
-                    </x-details>
+                </div>
 
+                <div
+                    class="flex justify-center items-center gap-16 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
                     <x-details title="Autuação">
                         {{ date('d/m/Y H:i', strtotime($administrative->created_at)) }}
                     </x-details>
@@ -258,7 +260,6 @@
                     <x-details title="Última Distribuição">
                         {{ date('d/m/Y H:i', strtotime($administrative->updated_at)) }}
                     </x-details>
-
                 </div>
 
                 <div class="flex items-center justify-center text-black bg-gray-200 mt-4">

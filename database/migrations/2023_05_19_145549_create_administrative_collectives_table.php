@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('lawyer_id')->unsigned()->nullable();
+            $table->foreign('lawyer_id')->references('id')->on('lawyers');
             $table->string('subject');
             $table->string('jurisdiction');
             $table->string('cause_value')->nullable();

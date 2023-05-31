@@ -222,7 +222,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <x-labels colorSpan="text-red-500" id="user_id">
                             Selecione o cliente que você deseja
                         </x-labels>
@@ -254,7 +254,39 @@
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
+                        <x-labels colorSpan="text-red-500" id="user_id">
+                            Selecione o advogado que você deseja
+                        </x-labels>
+
+                        <div class="input-group">
+                            <select name="lawyers[]" id="lawyers"
+                                class="js-example-basic-multiple js-states js-example-responsive form-control" multiple>
+                                <option value="error" disabled>Selecione um Advogado</option>
+
+                                @foreach ($lawyer as $lawyers)
+                                    @if ($lawyers->admin == 1)
+                                    @else
+                                        <option value="{{ $lawyers->id }}">{{ ucfirst($lawyers->name) }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+
+                            <div>
+                                <label
+                                    class="p-[7px] bg-yellow-500 hover:bg-yellow-600 text-white transition-all cursor-pointer rounded-ee-xl"
+                                    for="client">
+                                    Novo Advogado
+                                </label>
+                            </div>
+                        </div>
+
+                        @error('user_id')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6">
                         <x-labels colorSpan="text-red-500" id="type">
                             Informe o tipo do processo
                         </x-labels>
@@ -270,7 +302,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <x-labels colorSpan="text-red-500" id="action_type">
                             Tipo da ação
                         </x-labels>
@@ -317,6 +349,31 @@
                         </div>
                     </div>
 
+                    <div class="flex items-center justify-center w-full bg-gray-200 mt-4 mb-3">
+                        <h4 class=" text-black m-0 text-bold">Polo Passivo (RÉU)</h4>
+                    </div>
+
+                    <div class="col-md-6">
+                        <x-labels colorSpan="text-red-500" id="name_reu">
+                            Nome
+                        </x-labels>
+
+                        <x-inputs id="name_reu" form="form-control" placeholder="Informe o nome do REU"
+                            value="{{ old('name_reu') }}" type="text" name="name_reu" focus="{{ false }}"
+                            error="name_reu" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <x-labels colorSpan="hidden" id="cnpj">
+                            CNPJ
+                            <span class="text-xs text-red-500">(Não obrigatório)</span>
+                        </x-labels>
+
+                        <x-inputs id="cnpj" form="form-control" placeholder="Informe o CNPJ do REU"
+                            value="{{ old('cnpj') }}" type="text" name="cnpj" focus="{{ false }}"
+                            error="cnpj" />
+                    </div>
+
                     <div class="col-md-12 mt-3">
                         <input type="submit"
                             class="bg-red-500 block w-full text-white rounded p-1 hover:bg-red-600 transition ease-in-out"
@@ -332,5 +389,7 @@
         $('#cause_value').mask("#.##0,00", {
             reverse: true
         });
+
+        $('#lawyers').select2({});
     </script>
 @endsection

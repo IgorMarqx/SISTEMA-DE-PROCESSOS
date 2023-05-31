@@ -146,118 +146,118 @@
                 </div>
 
                 <div
-                    class="flex justify-center items-center gap-12 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
+                class="flex justify-center items-center gap-5 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
 
-                    <x-details title="ID do Processo">
-                        {{ ucfirst($administrative_individual->id) }}
-                    </x-details>
+                <x-details title="ID do Processo">
+                    {{ ucfirst($administrative_individual->id) }}
+                </x-details>
 
-                    <x-details title="Classe Judicial">
-                        {{ ucfirst($administrative_individual->name) }}
-                    </x-details>
+                <x-details title="Classe Judicial">
+                    {{ ucfirst($administrative_individual->name) }}
+                </x-details>
 
-                    <x-details title="Assunto">
-                        {{ ucfirst($administrative_individual->subject) }}
-                    </x-details>
+                <x-details title="Assunto">
+                    {{ ucfirst($administrative_individual->subject) }}
+                </x-details>
 
-                    <x-details title="Jurisdição">
-                        {{ ucfirst($administrative_individual->jurisdiction) }}
-                    </x-details>
+                <x-details title="Jurisdição">
+                    {{ strtoupper($administrative_individual->jurisdiction) }}
+                </x-details>
 
-                    <x-details title="Cargo Judicial">
-                        {{ ucfirst($administrative_individual->judicial_office) }}
-                    </x-details>
-
-                    <x-details title="Competência">
-                        {{ ucfirst($administrative_individual->competence) }}
-                    </x-details>
-
-                    <x-details title="Valor da Causa">
-                        @if ($administrative_individual->cause_value == null)
-                            <span class="text-red-500">Valor não informado</span>
-                        @else
-                            {{ 'R$ ' . $administrative_individual->cause_value }}
-                        @endif
-                    </x-details>
-
-                    @if (auth()->user()->can('admin-3'))
+                <x-details title="Valor da Causa">
+                    @if ($administrative_individual->cause_value == null)
+                        <span class="text-red-500">Valor não informado</span>
                     @else
-                        <x-details title="Segredo de Justiça?">
-                            @if ($administrative_individual->justice_secret == 1)
-                                <span class="text-green-500">Sim</span>
-                            @else
-                                <span class="text-red-500">Não</span>
-                            @endif
-                        </x-details>
+                        {{ 'R$ ' . $administrative_individual->cause_value }}
                     @endif
+                </x-details>
 
-                    <x-details title="Justiça Gratuita?">
-                        @if ($administrative_individual->free_justice == 1)
+                @if (auth()->user()->can('admin-3'))
+                @else
+                    <x-details title="Segredo de Justiça?">
+                        @if ($administrative_individual->justice_secret == 1)
                             <span class="text-green-500">Sim</span>
                         @else
                             <span class="text-red-500">Não</span>
                         @endif
                     </x-details>
+                @endif
 
-                    <x-details title="Tutelar/Liminar?">
-                        @if ($administrative_individual->tutelar == 1)
-                            <span class="text-green-500">Sim</span>
-                        @else
-                            <span class="text-red-500">Não</span>
-                        @endif
-                    </x-details>
-
-                    <x-details title="Prioridade">
-                        {{ ucfirst($administrative_individual->priority) }}
-                    </x-details>
-
-                    <x-details title="Orgão Julgador">
-                        {{ ucfirst($administrative_individual->judgmental_organ) }}
-                    </x-details>
-
-                    <x-details title="E-mail da Coorporação">
-                        {{ $administrative_individual->email_coorporative }}
-                    </x-details>
-
-                    @if ($administrative_individual->url_collective == null)
-                        <x-details title="URL do Processo">
-                            <span class="text-red-500">URL não informada</span>
-                        </x-details>
+                <x-details title="Justiça Gratuita?">
+                    @if ($administrative_individual->free_justice == 1)
+                        <span class="text-green-500">Sim</span>
                     @else
-                        <x-detailsLink title="URL do Processo" url="{{ $administrative_individual->url_collective }}">
-
-                            {{ $administrative_individual->url_collective }}
-                        </x-detailsLink>
+                        <span class="text-red-500">Não</span>
                     @endif
+                </x-details>
 
-                    @if ($administrative_individual->url_noticies == null)
-                        <x-details title="URL da Noticia">
-                            <span class="text-red-500">URL não informada</span>
-                        </x-details>
+                <x-details title="Tutelar/Liminar?">
+                    @if ($administrative_individual->tutelar == 1)
+                        <span class="text-green-500">Sim</span>
                     @else
-                        <x-detailsLink title="URL da Noticia" url="{{ $administrative_individual->url_noticies }}">
-
-                            {{ $administrative_individual->url_noticies }}
-                        </x-detailsLink>
+                        <span class="text-red-500">Não</span>
                     @endif
+                </x-details>
 
-                    <x-details title="Tipo da ação">
-                        @if ($administrative_individual->action_type == 1)
-                            Processo Coletivo Judicial Funcional
-                        @else
-                            Processo Coletivo Judicial Particular
-                        @endif
+
+            </div>
+
+            <div
+                class="flex justify-center items-center gap-8 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
+                <x-details title="Prioridade">
+                    {{ ucfirst($administrative_individual->priority) }}
+                </x-details>
+
+                <x-details title="Órgão Julgador">
+                    {{ ucfirst($administrative_individual->judgmental_organ) }}
+                </x-details>
+
+                <x-details title="Cargo Judicial">
+                    {{ ucfirst($administrative_individual->judicial_office) }}
+                </x-details>
+
+                <x-details title="Competência">
+                    {{ ucfirst($administrative_individual->competence) }}
+                </x-details>
+
+                <x-details title="E-mail da Coorporação">
+                    {{ $administrative_individual->email_coorporative }}
+                </x-details>
+
+                @if ($administrative_individual->url_collective == null)
+                    <x-details title="URL do Processo">
+                        <span class="text-red-500">URL não informada</span>
                     </x-details>
+                @else
+                    <x-detailsLink title="URL do Processo" url="{{ $administrative_individual->url_collective }}">
 
-                    <x-details title="Autuação">
-                        {{ date('d/m/Y H:i', strtotime($administrative_individual->created_at)) }}
+                        {{ $administrative_individual->url_collective }}
+                    </x-detailsLink>
+                @endif
+
+                @if ($administrative_individual->url_noticies == null)
+                    <x-details title="URL da Noticia">
+                        <span class="text-red-500">URL não informada</span>
                     </x-details>
+                @else
+                    <x-detailsLink title="URL da Noticia" url="{{ $administrative_individual->url_noticies }}">
 
-                    <x-details title="Última Distribuição">
-                        {{ date('d/m/Y H:i', strtotime($administrative_individual->updated_at)) }}
-                    </x-details>
+                        {{ $administrative_individual->url_noticies }}
+                    </x-detailsLink>
+                @endif
 
-                </div>
+            </div>
+
+            <div
+                class="flex justify-center items-center gap-16 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
+                <x-details title="Autuação">
+                    {{ date('d/m/Y H:i', strtotime($administrative_individual->created_at)) }}
+                </x-details>
+
+                <x-details title="Última Distribuição">
+                    {{ date('d/m/Y H:i', strtotime($administrative_individual->updated_at)) }}
+                </x-details>
+            </div>
 
                 <div class="flex items-center justify-center text-black bg-gray-200 mt-4">
                     <h4 class="m-0 text-bold">Anexos</h4>

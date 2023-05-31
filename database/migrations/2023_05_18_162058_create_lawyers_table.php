@@ -13,11 +13,18 @@ return new class extends Migration
     {
         Schema::create('lawyers', function (Blueprint $table) {
             $table->id();
-            $table->string('email_lawyer');
-            $table->integer('judicial_collectives_id')->nullable();
-            $table->integer('administrative_collectives_id')->nullable();
-            $table->integer('judicial_individuals_id')->nullable();
-            $table->integer('administrative_individuals_id')->nullable();
+            $table->integer('user_id_1')->unsigned()->nullable();
+            $table->foreign('user_id_1')->references('id')->on('users');
+            $table->string('email_lawyer_1')->nullable();
+            $table->integer('user_id_2')->unsigned()->nullable();
+            $table->foreign('user_id_2')->references('id')->on('users');
+            $table->string('email_lawyer_2')->nullable();
+            $table->integer('user_id_3')->unsigned()->nullable();
+            $table->foreign('user_id_3')->references('id')->on('users');
+            $table->string('email_lawyer_3')->nullable();
+            $table->integer('user_id_4')->unsigned()->nullable();
+            $table->foreign('user_id_4')->references('id')->on('users');
+            $table->string('email_lawyer_4')->nullable();
             $table->timestamps();
         });
     }

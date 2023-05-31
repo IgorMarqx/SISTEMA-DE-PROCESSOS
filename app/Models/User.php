@@ -53,9 +53,19 @@ class User extends Authenticatable
         return $this->hasMany(JudicialCollective::class, 'user_id', 'id');
     }
 
+    public function judicialIndividual()
+    {
+        return $this->hasMany(JudicialIndividual::class, 'user_id', 'id');
+    }
+
     public function administrativeCollective()
     {
         return $this->hasMany(AdministrativeCollective::class, 'user_id', 'id');
+    }
+
+    public function administrativeIndividual()
+    {
+        return $this->hasMany(AdministrativeIndividual::class, 'user_id', 'id');
     }
 
     public function attachment()

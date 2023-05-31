@@ -48,9 +48,11 @@ class AdministrativeCollectiveController extends Controller
     public function create()
     {
         $user = User::where('admin', 0)->get();
+        $lawyer = User::where('admin', 2)->get();
 
         return view('admin.collective.administrative.create', [
-            'users' =>  $user
+            'users' =>  $user,
+            'lawyer' => $lawyer,
         ]);
     }
 

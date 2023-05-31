@@ -45,9 +45,12 @@ class IndividualController extends Controller
     public function create()
     {
         $user = User::where('admin', 0)->get();
+        $lawyer = User::where('admin', 2)->get();
+
 
         return view('admin.individual.judicial.create', [
             'users' => $user,
+            'lawyer' => $lawyer,
         ]);
     }
 

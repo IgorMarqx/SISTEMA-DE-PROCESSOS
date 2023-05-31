@@ -2,26 +2,38 @@
     font-family: 'Roboto Condensed', sans-serif;
 }
 
-/* .respon {
-    display: flex;
-}
+.multiselect {
+    position: relative;
+    display: inline-block;
+  }
 
-@media screen and (max-width: 1279px) {
-    .respon {
-        display: none;
-    }
+  .multiselect-selected {
+    border: 1px solid #ccc;
+    padding: 5px;
+    min-width: 150px;
+    cursor: pointer;
+  }
 
-    .invi {
-        display: flex;
-    }
-}
+  .multiselect-selected:hover {
+    background-color: #f5f5f5;
+  }
 
-@media screen and (min-width: 1280) and (max-width: 1536px) {
-    .respon {
-        display: flex;
-    }
+  .multiselect-list {
+    position: absolute;
+    z-index: 1;
+    display: none;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    max-height: 150px;
+    overflow-y: auto;
+  }
 
-    .invi {
-        display: none;
-    }
-} */
+  .multiselect-list-item {
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  .multiselect-list-item:hover {
+    background-color: #f5f5f5;
+  }
+

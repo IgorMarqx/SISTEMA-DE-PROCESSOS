@@ -53,10 +53,12 @@ class CollectiveController extends Controller
     public function create()
     {
         $user = User::where('admin', 0)->get();
+        $lawyer = User::where('admin', 2)->get();
 
 
         return view('admin.collective.judicial.create', [
             'users' => $user,
+            'lawyer' => $lawyer,
         ]);
     }
 
@@ -65,7 +67,6 @@ class CollectiveController extends Controller
      */
     public function store(Request $request)
     {
-
         if ($request->type == 1) {
             $data = $request->only(['collective', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'judicial_office', 'competence', 'justice_secret', 'free_justice', 'tutelar', 'user_id', 'url', 'url_noticies', 'email_corp', 'email_client', 'progress_collective', 'type', 'action_type']);
             $progress = $data['progress_collective'];
@@ -79,6 +80,16 @@ class CollectiveController extends Controller
             $tutelar = !empty($tutelar);
 
             $validator = $this->validator($data);
+
+            if ($request->lawyer == null) {
+                $validator->errors()->add('lawyers[]', 'Escolha um advogado');
+
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }else{
+                // $lawyer =
+            }
 
             if ($data['action_type'] == 'error') {
                 $validator->errors()->add('action_type', 'Escolha um tipo de ação.');
@@ -430,7 +441,6 @@ class CollectiveController extends Controller
         return redirect()->route('collective.index');
     }
 
-
     public function validator($data)
     {
         return Validator::make(
@@ -442,11 +452,12 @@ class CollectiveController extends Controller
                 'priority' => ['required', 'max:100'],
                 'judgmental_organ' => ['required', 'max:100'],
                 'judicial_office' => ['required', 'max:100'],
-                'competence' => ['required','max:100'],
+                'competence' => ['required', 'max:100'],
                 'url' => ['max:2048'],
                 'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
                 'email_client' => ['max:100'],
+                'lawyer' => ['required']
             ],
             [
                 'collective.required' => 'Preencha esse campo.',
@@ -478,6 +489,8 @@ class CollectiveController extends Controller
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
                 'email_client.unique' => 'Já existe um e-mail como esse.',
+
+                'lawyer.required' => 'Escolha uma advogado'
             ]
         );
     }

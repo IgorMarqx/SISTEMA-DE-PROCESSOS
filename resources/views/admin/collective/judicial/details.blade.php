@@ -95,21 +95,17 @@
 
             <div class="card-body">
                 <div class="flex items-center justify-center text-black bg-gray-200">
-                    <h4 class="m-0 text-bold">Informações do cliente</h4>
+                    <h4 class="m-0 text-bold">Informações do Autor</h4>
                 </div>
 
                 <div
                     class="flex justify-center items-center gap-12 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
 
-                    <x-details title="ID do Cliente">
-                        {{ ucfirst($user->id) }}
-                    </x-details>
-
-                    <x-details title="Nome do Cliente">
+                    <x-details title="Nome do Autor">
                         {{ ucfirst($user->name) }}
                     </x-details>
 
-                    <x-details title="E-mail do Cliente">
+                    <x-details title="E-mail do Autor">
                         {{ ucfirst($user->email) }}
                     </x-details>
 
@@ -130,11 +126,11 @@
                     </x-details>
 
                     @if ($user->created_at == null)
-                        <x-details title="E-mail do Cliente">
-                            <span class="text-red-500">E-mail não informado</span>
+                        <x-details title="Autuação">
+                            <span class="text-red-500">Data não informada</span>
                         </x-details>
                     @else
-                        <x-details title="Data de criação">
+                        <x-details title="Autuação">
                             {{ date('d/m/Y H:i', strtotime($user->created_at)) }}
                         </x-details>
                     @endif
@@ -146,7 +142,7 @@
                 </div>
 
                 <div
-                    class="flex justify-center items-center gap-12 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
+                    class="flex justify-center items-center gap-5 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
 
                     <x-details title="ID do Processo">
                         {{ ucfirst($proccess->id) }}
@@ -161,15 +157,7 @@
                     </x-details>
 
                     <x-details title="Jurisdição">
-                        {{ ucfirst($proccess->jurisdiction) }}
-                    </x-details>
-
-                    <x-details title="Cargo Judicial">
-                        {{ ucfirst($proccess->judicial_office) }}
-                    </x-details>
-
-                    <x-details title="Competência">
-                        {{ ucfirst($proccess->competence) }}
+                        {{ strtoupper($proccess->jurisdiction) }}
                     </x-details>
 
                     <x-details title="Valor da Causa">
@@ -207,12 +195,25 @@
                         @endif
                     </x-details>
 
+
+                </div>
+
+                <div
+                    class="flex justify-center items-center gap-8 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
                     <x-details title="Prioridade">
                         {{ ucfirst($proccess->priority) }}
                     </x-details>
 
                     <x-details title="Órgão Julgador">
                         {{ ucfirst($proccess->judgmental_organ) }}
+                    </x-details>
+
+                    <x-details title="Cargo Judicial">
+                        {{ ucfirst($proccess->judicial_office) }}
+                    </x-details>
+
+                    <x-details title="Competência">
+                        {{ ucfirst($proccess->competence) }}
                     </x-details>
 
                     <x-details title="E-mail da Coorporação">
@@ -241,6 +242,10 @@
                         </x-detailsLink>
                     @endif
 
+                </div>
+
+                <div
+                    class="flex justify-center items-center gap-16 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
                     <x-details title="Autuação">
                         {{ date('d/m/Y H:i', strtotime($proccess->created_at)) }}
                     </x-details>
@@ -248,7 +253,6 @@
                     <x-details title="Última Distribuição">
                         {{ date('d/m/Y H:i', strtotime($proccess->updated_at)) }}
                     </x-details>
-
                 </div>
 
                 <div class="flex items-center justify-center text-black bg-gray-200 mt-4">
