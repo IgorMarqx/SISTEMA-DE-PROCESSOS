@@ -266,7 +266,8 @@
                         </x-labels>
 
                         <div class="input-group">
-                            <select name="lawyers[]" id="lawyers" class="js-example-basic-multiple js-states js-example-responsive form-control" multiple>
+                            <select name="lawyers[]" id="lawyers"
+                                class="js-example-basic-multiple js-states js-example-responsive form-control" multiple>
                                 <option value="error" disabled>Selecione um Advogado</option>
 
                                 @foreach ($lawyer as $lawyers)
@@ -357,11 +358,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="flex items-center justify-center w-full bg-gray-200 mt-4 mb-3">
-                        <h4 class=" text-black m-0 text-bold">Polo Passivo (RÉU)</h4>
-                    </div>
+                <div class="flex justify-center items-center bg-red-500 mt-4 mb-3">
+                    <h4 class="m-0 text-bold text-white text-lg">Polo Passivo (Réu)</h4>
+                </div>
 
+                <div class="row g-3">
                     <div class="col-md-6">
                         <x-labels colorSpan="text-red-500" id="name_reu">
                             Nome
@@ -388,8 +391,8 @@
                             class="bg-red-500 block w-full text-white rounded p-1 hover:bg-red-600 transition ease-in-out"
                             value="Criar">
                     </div>
-
                 </div>
+
             </form>
         </div>
     </div>
@@ -403,8 +406,7 @@
             reverse: true
         });
 
-        $('#lawyers').select2({
-        });
+        $('#lawyers').select2();
     </script>
 
 @endsection

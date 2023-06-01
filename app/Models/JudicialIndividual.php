@@ -46,4 +46,9 @@ class JudicialIndividual extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function lawyers()
+    {
+        return $this->hasMany(Lawyer::class, 'judicial_individual_id', 'id');
+    }
 }

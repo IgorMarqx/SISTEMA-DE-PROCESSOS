@@ -72,4 +72,21 @@ class User extends Authenticatable
     {
         return $this->hasMany(Attachment::class, 'user_id', 'id');
     }
+
+    public function lawyers()
+    {
+        return $this->hasMany(Lawyer::class, 'user_id_1', 'id');
+    }
+    public function lawyers2()
+    {
+        return $this->hasMany(Lawyer::class, 'user_id_2', 'id');
+    }
+    public function lawyers3()
+    {
+        return $this->hasMany(Lawyer::class, 'user_id_3', 'id');
+    }
+    public function lawyers4()
+    {
+        return $this->hasMany(Lawyer::class, 'user_id_4', 'id');
+    }
 }

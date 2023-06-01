@@ -45,4 +45,9 @@ class AdministrativeCollective extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function lawyers()
+    {
+        return $this->hasMany(Lawyer::class, 'administrative_collective_id', 'id');
+    }
 }

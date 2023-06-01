@@ -25,6 +25,14 @@ return new class extends Migration
             $table->integer('user_id_4')->unsigned()->nullable();
             $table->foreign('user_id_4')->references('id')->on('users');
             $table->string('email_lawyer_4')->nullable();
+            $table->integer('judicial_collective_id')->nullable();
+            $table->foreign('judicial_collective_id')->references('id')->on('judicial_collectives');
+            $table->integer('administrative_collective_id')->nullable();
+            $table->foreign('administrative_collective_id')->references('id')->on('administrative_collectives');
+            $table->integer('judicial_individual_id')->nullable();
+            $table->foreign('judicial_individual_id')->references('id')->on('judicial_individuals');
+            $table->integer('administrative_individual_id')->nullable();
+            $table->foreign('administrative_individual_id')->references('id')->on('administrative_individuals');
             $table->timestamps();
         });
     }

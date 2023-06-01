@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AdministrativeIndividual;
 use App\Models\Attachment;
 use App\Models\JudicialIndividual;
+use App\Models\Lawyer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -125,6 +126,24 @@ class IndividualController extends Controller
             ]);
             $individual->save();
 
+            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('email') : null;
+            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('email') : null;
+            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('email') : null;
+            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('email') : null;
+
+            $lawyer = Lawyer::create([
+                'user_id_1' => isset($request->lawyers[0]) ? $request->lawyers[0] : null,
+                'email_lawyer_1' => isset($request->lawyers[0]) ? $lawyer_1 : null,
+                'user_id_2' => isset($request->lawyers[1]) ? $request->lawyers[1] : null,
+                'email_lawyer_2' => isset($request->lawyers[1]) ? $lawyer_2 : null,
+                'user_id_3' => isset($request->lawyers[2]) ? $request->lawyers[2] : null,
+                'email_lawyer_3' => isset($request->lawyers[2]) ? $lawyer_3 : null,
+                'user_id_4' => isset($request->lawyers[3]) ? $request->lawyers[3] : null,
+                'email_lawyer_4' => isset($request->lawyers[3]) ? $lawyer_4 : null,
+                'judicial_individual_id' => $individual->id,
+            ]);
+            $lawyer->save();
+
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('individual.index');
         } else {
@@ -192,6 +211,24 @@ class IndividualController extends Controller
                 'action_type' => $data['action_type']
             ]);
             $individual->save();
+
+            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('email') : null;
+            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('email') : null;
+            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('email') : null;
+            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('email') : null;
+
+            $lawyer = Lawyer::create([
+                'user_id_1' => isset($request->lawyers[0]) ? $request->lawyers[0] : null,
+                'email_lawyer_1' => isset($request->lawyers[0]) ? $lawyer_1 : null,
+                'user_id_2' => isset($request->lawyers[1]) ? $request->lawyers[1] : null,
+                'email_lawyer_2' => isset($request->lawyers[1]) ? $lawyer_2 : null,
+                'user_id_3' => isset($request->lawyers[2]) ? $request->lawyers[2] : null,
+                'email_lawyer_3' => isset($request->lawyers[2]) ? $lawyer_3 : null,
+                'user_id_4' => isset($request->lawyers[3]) ? $request->lawyers[3] : null,
+                'email_lawyer_4' => isset($request->lawyers[3]) ? $lawyer_4 : null,
+                'administrative_individual_id' => $individual->id,
+            ]);
+            $lawyer->save();
 
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('administrative_individual.index');

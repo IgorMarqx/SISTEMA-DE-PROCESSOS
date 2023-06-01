@@ -130,8 +130,8 @@
                     </x-details>
 
                     @if ($user->created_at == null)
-                        <x-details title="E-mail do Cliente">
-                            <span class="text-red-500">E-mail não informado</span>
+                        <x-details title="Data de Criação">
+                            <span class="text-red-500">Data não informada</span>
                         </x-details>
                     @else
                         <x-details title="Data de criação">

@@ -45,4 +45,9 @@ class JudicialCollective extends Model
     {
         return $this->hasMany(Attachment::class, 'judicial_collective_id', 'id');
     }
+
+    public function lawyers()
+    {
+        return $this->hasMany(Lawyer::class, 'judicial_collective_id', 'id');
+    }
 }

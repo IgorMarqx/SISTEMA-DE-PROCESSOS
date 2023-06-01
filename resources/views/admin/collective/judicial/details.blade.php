@@ -126,7 +126,7 @@
                     </x-details>
 
                     @if ($user->created_at == null)
-                        <x-details title="Autuação">
+                        <x-details title="Data de Criação">
                             <span class="text-red-500">Data não informada</span>
                         </x-details>
                     @else
@@ -141,118 +141,146 @@
                     <h4 class=" text-black m-0 text-bold">Informações do processo</h4>
                 </div>
 
-                <div
-                    class="flex justify-center items-center gap-5 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
+                <div class="flex flex-1 flex-wrap">
+                    <div class="flex-col items-start justify-center overflow-y-auto h-[500px]">
+                        <div class="flex flex-col items-start overflow-y-auto p-1">
+                            {{-- <x-details title="ID do Processo">
+                                {{ ucfirst($proccess->id) }}
+                            </x-details> --}}
 
-                    <x-details title="ID do Processo">
-                        {{ ucfirst($proccess->id) }}
-                    </x-details>
+                            <x-details title="Classe Judicial">
+                                {{ ucfirst($proccess->name) }}
+                            </x-details>
 
-                    <x-details title="Classe Judicial">
-                        {{ ucfirst($proccess->name) }}
-                    </x-details>
+                            <x-details title="Assunto">
+                                {{ ucfirst($proccess->subject) }}
+                            </x-details>
 
-                    <x-details title="Assunto">
-                        {{ ucfirst($proccess->subject) }}
-                    </x-details>
+                            <x-details title="Jurisdição">
+                                {{ strtoupper($proccess->jurisdiction) }}
+                            </x-details>
 
-                    <x-details title="Jurisdição">
-                        {{ strtoupper($proccess->jurisdiction) }}
-                    </x-details>
+                            <x-details title="Valor da Causa">
+                                @if ($proccess->cause_value == null)
+                                    <span class="text-red-500">Valor não informado</span>
+                                @else
+                                    {{ 'R$ ' . $proccess->cause_value }}
+                                @endif
+                            </x-details>
 
-                    <x-details title="Valor da Causa">
-                        @if ($proccess->cause_value == null)
-                            <span class="text-red-500">Valor não informado</span>
-                        @else
-                            {{ 'R$ ' . $proccess->cause_value }}
-                        @endif
-                    </x-details>
-
-                    @if (auth()->user()->can('admin-3'))
-                    @else
-                        <x-details title="Segredo de Justiça?">
-                            @if ($proccess->justice_secret == 1)
-                                <span class="text-green-500">Sim</span>
+                            @if (auth()->user()->can('admin-3'))
                             @else
-                                <span class="text-red-500">Não</span>
+                                <x-details title="Segredo de Justiça?">
+                                    @if ($proccess->justice_secret == 1)
+                                        <span class="text-green-500">Sim</span>
+                                    @else
+                                        <span class="text-red-500">Não</span>
+                                    @endif
+                                </x-details>
                             @endif
-                        </x-details>
-                    @endif
 
-                    <x-details title="Justiça Gratuita?">
-                        @if ($proccess->free_justice == 1)
-                            <span class="text-green-500">Sim</span>
-                        @else
-                            <span class="text-red-500">Não</span>
-                        @endif
-                    </x-details>
+                            <x-details title="Justiça Gratuita?">
+                                @if ($proccess->free_justice == 1)
+                                    <span class="text-green-500">Sim</span>
+                                @else
+                                    <span class="text-red-500">Não</span>
+                                @endif
+                            </x-details>
 
-                    <x-details title="Tutelar/Liminar?">
-                        @if ($proccess->tutelar == 1)
-                            <span class="text-green-500">Sim</span>
-                        @else
-                            <span class="text-red-500">Não</span>
-                        @endif
-                    </x-details>
+                            <x-details title="Tutelar/Liminar?">
+                                @if ($proccess->tutelar == 1)
+                                    <span class="text-green-500">Sim</span>
+                                @else
+                                    <span class="text-red-500">Não</span>
+                                @endif
+                            </x-details>
+
+                            <x-details title="Prioridade">
+                                {{ ucfirst($proccess->priority) }}
+                            </x-details>
+
+                            <x-details title="Órgão Julgador">
+                                {{ ucfirst($proccess->judgmental_organ) }}
+                            </x-details>
+
+                            <x-details title="Cargo Judicial">
+                                {{ ucfirst($proccess->judicial_office) }}
+                            </x-details>
+
+                            <x-details title="Competência">
+                                {{ ucfirst($proccess->competence) }}
+                            </x-details>
+
+                            <x-details title="E-mail da Coorporação">
+                                {{ $proccess->email_coorporative }}
+                            </x-details>
+
+                            @if ($proccess->url_collective == null)
+                                <x-details title="URL do Processo">
+                                    <span class="text-red-500">URL não informada</span>
+                                </x-details>
+                            @else
+                                <x-detailsLink title="URL do Processo" url="{{ $proccess->url_collective }}">
+
+                                    {{ $proccess->url_collective }}
+                                </x-detailsLink>
+                            @endif
+
+                            @if ($proccess->url_noticies == null)
+                                <x-details title="URL da Noticia">
+                                    <span class="text-red-500">URL não informada</span>
+                                </x-details>
+                            @else
+                                <x-detailsLink title="URL da Noticia" url="{{ $proccess->url_noticies }}">
+
+                                    {{ $proccess->url_noticies }}
+                                </x-detailsLink>
+                            @endif
+
+                            <x-details title="Autuação">
+                                {{ date('d/m/Y H:i', strtotime($proccess->created_at)) }}
+                            </x-details>
+
+                            <x-details title="Última Distribuição">
+                                {{ date('d/m/Y H:i', strtotime($proccess->updated_at)) }}
+                            </x-details>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-1">
+                        <div class="flex w-full p-4 gap-3 md:flex-col sm:flex-col xs:flex-col ">
+                            <div class="flex-1">
+                                <div class="border-b-2 border-gray-200">
+                                    <i class="fa-solid fa-circle-check text-sm text-green-500 mr-1"></i>
+                                    <span class="text-bold">Polo Ativo</span>
+                                </div>
+
+                                <div class="text-bold">
+                                    {{ strtoupper($user->name) }} - CPF: {{ $user->cpf }} (AUTOR)
+                                </div>
+
+                                <div class="pl-2">
+                                    @for ($i = 0; $i < count($lawyer); $i++)
+                                        @if ($lawyer[$i] == null)
+                                        @else
+                                            <p class="m-0"><i class="fa-solid fa-user-tie text-sm"></i>
+                                                {{ strtoupper($lawyer[$i]) }} - OAB: PB14285 - (ADVOGADO)</p>
+                                        @endif
+                                    @endfor
+                                </div>
+                            </div>
+
+                            <div class="flex-1">
+                                <div class="border-b-2 border-gray-200">
+                                    <i class="fa-solid fa-circle-xmark text-sm text-red-500"></i>
+                                    <span>Polo Passivo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
-                </div>
 
-                <div
-                    class="flex justify-center items-center gap-8 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
-                    <x-details title="Prioridade">
-                        {{ ucfirst($proccess->priority) }}
-                    </x-details>
-
-                    <x-details title="Órgão Julgador">
-                        {{ ucfirst($proccess->judgmental_organ) }}
-                    </x-details>
-
-                    <x-details title="Cargo Judicial">
-                        {{ ucfirst($proccess->judicial_office) }}
-                    </x-details>
-
-                    <x-details title="Competência">
-                        {{ ucfirst($proccess->competence) }}
-                    </x-details>
-
-                    <x-details title="E-mail da Coorporação">
-                        {{ $proccess->email_coorporative }}
-                    </x-details>
-
-                    @if ($proccess->url_collective == null)
-                        <x-details title="URL do Processo">
-                            <span class="text-red-500">URL não informada</span>
-                        </x-details>
-                    @else
-                        <x-detailsLink title="URL do Processo" url="{{ $proccess->url_collective }}">
-
-                            {{ $proccess->url_collective }}
-                        </x-detailsLink>
-                    @endif
-
-                    @if ($proccess->url_noticies == null)
-                        <x-details title="URL da Noticia">
-                            <span class="text-red-500">URL não informada</span>
-                        </x-details>
-                    @else
-                        <x-detailsLink title="URL da Noticia" url="{{ $proccess->url_noticies }}">
-
-                            {{ $proccess->url_noticies }}
-                        </x-detailsLink>
-                    @endif
-
-                </div>
-
-                <div
-                    class="flex justify-center items-center gap-16 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
-                    <x-details title="Autuação">
-                        {{ date('d/m/Y H:i', strtotime($proccess->created_at)) }}
-                    </x-details>
-
-                    <x-details title="Última Distribuição">
-                        {{ date('d/m/Y H:i', strtotime($proccess->updated_at)) }}
-                    </x-details>
                 </div>
 
                 <div class="flex items-center justify-center text-black bg-gray-200 mt-4">

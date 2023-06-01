@@ -20,6 +20,10 @@ class Lawyer extends Model
         'email_lawyer_3',
         'user_id_4',
         'email_lawyer_4',
+        'judicial_collective_id',
+        'judicial_individual_id',
+        'administrative_collective_id',
+        'administrative_individual_id',
     ];
 
     public function judicialCollective()

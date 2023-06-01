@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
 use App\Models\JudicialCollective;
+use App\Models\Lawyer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,14 +82,12 @@ class CollectiveController extends Controller
 
             $validator = $this->validator($data);
 
-            if ($request->lawyer == null) {
+            if ($request->lawyers == null) {
                 $validator->errors()->add('lawyers[]', 'Escolha um advogado');
 
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
-            }else{
-                // $lawyer =
             }
 
             if ($data['action_type'] == 'error') {
@@ -143,6 +142,24 @@ class CollectiveController extends Controller
             ]);
             $collective->save();
 
+            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('name') : null;
+            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('name') : null;
+            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('name') : null;
+            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('name') : null;
+
+            $lawyer = Lawyer::create([
+                'user_id_1' => isset($request->lawyers[0]) ? $request->lawyers[0] : null,
+                'email_lawyer_1' => isset($request->lawyers[0]) ? $lawyer_1 : null,
+                'user_id_2' => isset($request->lawyers[1]) ? $request->lawyers[1] : null,
+                'email_lawyer_2' => isset($request->lawyers[1]) ? $lawyer_2 : null,
+                'user_id_3' => isset($request->lawyers[2]) ? $request->lawyers[2] : null,
+                'email_lawyer_3' => isset($request->lawyers[2]) ? $lawyer_3 : null,
+                'user_id_4' => isset($request->lawyers[3]) ? $request->lawyers[3] : null,
+                'email_lawyer_4' => isset($request->lawyers[3]) ? $lawyer_4 : null,
+                'judicial_collective_id' => $collective->id,
+            ]);
+            $lawyer->save();
+
             session()->flash('success', 'Processo Judicial criado com sucesso.');
             return redirect()->route('collective.index');
         } else {
@@ -158,6 +175,14 @@ class CollectiveController extends Controller
             $tutelar = !empty($tutelar);
 
             $validator = $this->validator($data);
+
+            if ($request->lawyers == null) {
+                $validator->errors()->add('lawyers[]', 'Escolha um advogado');
+
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
 
             if ($data['user_id'] == 'error') {
                 $validator->errors()->add('user_id', 'Escolha um cliente');
@@ -203,6 +228,24 @@ class CollectiveController extends Controller
             ]);
             $collective->save();
 
+            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('email') : null;
+            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('email') : null;
+            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('email') : null;
+            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('email') : null;
+
+            $lawyer = Lawyer::create([
+                'user_id_1' => isset($request->lawyers[0]) ? $request->lawyers[0] : null,
+                'email_lawyer_1' => isset($request->lawyers[0]) ? $lawyer_1 : null,
+                'user_id_2' => isset($request->lawyers[1]) ? $request->lawyers[1] : null,
+                'email_lawyer_2' => isset($request->lawyers[1]) ? $lawyer_2 : null,
+                'user_id_3' => isset($request->lawyers[2]) ? $request->lawyers[2] : null,
+                'email_lawyer_3' => isset($request->lawyers[2]) ? $lawyer_3 : null,
+                'user_id_4' => isset($request->lawyers[3]) ? $request->lawyers[3] : null,
+                'email_lawyer_4' => isset($request->lawyers[3]) ? $lawyer_4 : null,
+                'administrative_collective_id' => $collective->id,
+            ]);
+            $lawyer->save();
+
             session()->flash('success', 'Processo Administrativo criado com sucesso.');
             return redirect()->route('administrative_collective.index');
         }
@@ -217,11 +260,26 @@ class CollectiveController extends Controller
         if ($collective) {
             $user = $collective->user;
             $attachment = Attachment::where('judicial_collective_id', '=', $id)->get();
+            $judicial = Lawyer::where('judicial_collective_id', $id)->get();
+
+            foreach($judicial as $judicials){
+                $id_1 = $judicials->user_id_1;
+                $name_1 = $judicials->email_lawyer_1;
+                $name_2 = $judicials->email_lawyer_2;
+                $name_3 = $judicials->email_lawyer_3;
+                $name_4 = $judicials->email_lawyer_4;
+            }
+            $lawyer = User::where('id', $id_1)->get();
+            // dd($lawyer);
+
+
+            $data = [$name_1, $name_2, $name_3, $name_4];
 
             return view('admin.collective.judicial.details', [
                 'proccess' => $collective,
                 'user' => $user,
-                'attachment' => $attachment
+                'attachment' => $attachment,
+                'lawyer' => $data,
             ]);
         }
 
@@ -457,7 +515,6 @@ class CollectiveController extends Controller
                 'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
                 'email_client' => ['max:100'],
-                'lawyer' => ['required']
             ],
             [
                 'collective.required' => 'Preencha esse campo.',
@@ -489,8 +546,6 @@ class CollectiveController extends Controller
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
                 'email_client.unique' => 'Já existe um e-mail como esse.',
-
-                'lawyer.required' => 'Escolha uma advogado'
             ]
         );
     }
