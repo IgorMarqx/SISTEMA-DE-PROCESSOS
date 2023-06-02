@@ -160,6 +160,14 @@
                                 {{ strtoupper($proccess->jurisdiction) }}
                             </x-details>
 
+                            <x-details title="Autuação">
+                                {{ date('d/m/Y H:i', strtotime($proccess->created_at)) }}
+                            </x-details>
+
+                            <x-details title="Última Distribuição">
+                                {{ date('d/m/Y H:i', strtotime($proccess->updated_at)) }}
+                            </x-details>
+
                             <x-details title="Valor da Causa">
                                 @if ($proccess->cause_value == null)
                                     <span class="text-red-500">Valor não informado</span>
@@ -236,50 +244,12 @@
                                     {{ $proccess->url_noticies }}
                                 </x-detailsLink>
                             @endif
-
-                            <x-details title="Autuação">
-                                {{ date('d/m/Y H:i', strtotime($proccess->created_at)) }}
-                            </x-details>
-
-                            <x-details title="Última Distribuição">
-                                {{ date('d/m/Y H:i', strtotime($proccess->updated_at)) }}
-                            </x-details>
                         </div>
                     </div>
 
                     <div class="flex flex-1">
-                        <div class="flex w-full p-4 gap-3 md:flex-col sm:flex-col xs:flex-col ">
-                            <div class="flex-1">
-                                <div class="border-b-2 border-gray-200">
-                                    <i class="fa-solid fa-circle-check text-sm text-green-500 mr-1"></i>
-                                    <span class="text-bold">Polo Ativo</span>
-                                </div>
-
-                                <div class="text-bold">
-                                    {{ strtoupper($user->name) }} - CPF: {{ $user->cpf }} (AUTOR)
-                                </div>
-
-                                <div class="pl-2">
-                                    @for ($i = 0; $i < count($lawyer); $i++)
-                                        @if ($lawyer[$i] == null)
-                                        @else
-                                            <p class="m-0"><i class="fa-solid fa-user-tie text-sm"></i>
-                                                {{ strtoupper($lawyer[$i]) }} - OAB: PB14285 - (ADVOGADO)</p>
-                                        @endif
-                                    @endfor
-                                </div>
-                            </div>
-
-                            <div class="flex-1">
-                                <div class="border-b-2 border-gray-200">
-                                    <i class="fa-solid fa-circle-xmark text-sm text-red-500"></i>
-                                    <span>Polo Passivo</span>
-                                </div>
-                            </div>
-                        </div>
+                        @include('admin.partials.collective.lawyer')
                     </div>
-
-
 
                 </div>
 

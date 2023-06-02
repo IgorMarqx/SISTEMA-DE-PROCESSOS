@@ -262,16 +262,44 @@ class CollectiveController extends Controller
             $attachment = Attachment::where('judicial_collective_id', '=', $id)->get();
             $judicial = Lawyer::where('judicial_collective_id', $id)->get();
 
-            foreach($judicial as $judicials){
-                $id_1 = $judicials->user_id_1;
-                $name_1 = $judicials->email_lawyer_1;
-                $name_2 = $judicials->email_lawyer_2;
-                $name_3 = $judicials->email_lawyer_3;
-                $name_4 = $judicials->email_lawyer_4;
-            }
-            $lawyer = User::where('id', $id_1)->get();
-            // dd($lawyer);
+            $user_1 = null;
+            $user_2 = null;
+            $user_3 = null;
+            $user_4 = null;
 
+            foreach ($judicial as $judicials) {
+                $name_1 = $judicials->email_lawyer_1;
+                $id_1 = $judicials->user_id_1;
+
+                $name_2 = $judicials->email_lawyer_2;
+                $id_2 = $judicials->user_id_2;
+
+                $name_3 = $judicials->email_lawyer_3;
+                $id_3 = $judicials->user_id_3;
+
+                $name_4 = $judicials->email_lawyer_4;
+                $id_4 = $judicials->user_id_4;
+
+                if ($id_1) {
+                    $user_1 = User::where('id', $id_1)->value('oab');
+                }
+                if ($id_2) {
+                    $user_2 = User::where('id', $id_2)->value('oab');
+                }
+                if ($id_3) {
+                    $user_3 = User::where('id', $id_3)->value('oab');
+                }
+                if ($id_4) {
+                    $user_4 = User::where('id', $id_4)->value('oab');
+                }
+            }
+
+            $lawData = [
+                'lawyer_1' => $user_1 ? $user_1 : null,
+                'lawyer_2' => $user_2 ? $user_2 : null,
+                'lawyer_3' => $user_3 ? $user_3 : null,
+                'lawyer_4' => $user_4 ? $user_4 : null,
+            ];
 
             $data = [$name_1, $name_2, $name_3, $name_4];
 
@@ -279,7 +307,8 @@ class CollectiveController extends Controller
                 'proccess' => $collective,
                 'user' => $user,
                 'attachment' => $attachment,
-                'lawyer' => $data,
+                'data' => $data,
+                'lawyer' => $lawData,
             ]);
         }
 

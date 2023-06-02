@@ -5,6 +5,7 @@ namespace App\Http\Controllers\pages;
 use App\Http\Controllers\Controller;
 use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
+use App\Models\Lawyer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -69,14 +70,62 @@ class AdministrativeCollectiveController extends Controller
     public function show(string $id)
     {
         $administrative = AdministrativeCollective::find($id);
-        $user = $administrative->user;
-        $attachment = Attachment::where('administrative_collective_id', $id)->get();
+        if ($administrative) {
+            $user = $administrative->user;
+            $attachment = Attachment::where('administrative_collective_id', '=', $id)->get();
+            $judicial = Lawyer::where('administrative_collective_id', $id)->get();
 
-        return view('admin.collective.administrative.details', [
-            'administrative' => $administrative,
-            'user' => $user,
-            'attachment' => $attachment,
-        ]);
+            $user_1 = null;
+            $user_2 = null;
+            $user_3 = null;
+            $user_4 = null;
+
+            foreach ($judicial as $judicials) {
+                $name_1 = $judicials->email_lawyer_1;
+                $id_1 = $judicials->user_id_1;
+
+                $name_2 = $judicials->email_lawyer_2;
+                $id_2 = $judicials->user_id_2;
+
+                $name_3 = $judicials->email_lawyer_3;
+                $id_3 = $judicials->user_id_3;
+
+                $name_4 = $judicials->email_lawyer_4;
+                $id_4 = $judicials->user_id_4;
+
+                if ($id_1) {
+                    $user_1 = User::where('id', $id_1)->value('oab');
+                }
+                if ($id_2) {
+                    $user_2 = User::where('id', $id_2)->value('oab');
+                }
+                if ($id_3) {
+                    $user_3 = User::where('id', $id_3)->value('oab');
+                }
+                if ($id_4) {
+                    $user_4 = User::where('id', $id_4)->value('oab');
+                }
+            }
+
+            $lawData = [
+                'lawyer_1' => $user_1 ? $user_1 : null,
+                'lawyer_2' => $user_2 ? $user_2 : null,
+                'lawyer_3' => $user_3 ? $user_3 : null,
+                'lawyer_4' => $user_4 ? $user_4 : null,
+            ];
+
+            $data = [$name_1, $name_2, $name_3, $name_4];
+
+            return view('admin.collective.administrative.details', [
+                'administrative' => $administrative,
+                'user' => $user,
+                'attachment' => $attachment,
+                'data' => $data,
+                'lawyer' => $lawData,
+            ]);
+        }
+        session()->flash('warning', 'Processo não encontrado.');
+        return redirect()->back();
     }
 
     public function attachment(Request $request, string $id)

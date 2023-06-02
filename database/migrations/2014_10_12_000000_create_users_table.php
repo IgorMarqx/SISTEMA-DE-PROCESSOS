@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('capacity')->nullable();
             $table->string('telephone')->nullable();
             $table->string('cpf')->nullable();
+            $table->string('oab')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

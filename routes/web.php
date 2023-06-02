@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\UserController;
+use App\Http\Controllers\auth\LawyerController;
 use App\Http\Controllers\pages\DashboardController;
 
 use App\Http\Controllers\pages\CollectiveController;
@@ -26,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('users', [UserController::class, 'index'])->name('users');
     Route::post('store_modal', [UserController::class, 'storeModal'])->name('store_modal');
+    Route::post('lawyer', [LawyerController::class, 'store'])->name('lawyer');
 
     // PROCESSOS JUDICIAL COLETIVOS
     Route::get('collective', [CollectiveController::class, 'index'])->name('collective');

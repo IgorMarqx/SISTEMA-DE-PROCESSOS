@@ -148,118 +148,116 @@
                     <h4 class=" text-black m-0 text-bold">Informações do processo</h4>
                 </div>
 
-                <div
-                    class="flex justify-center items-center gap-5 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
+                <div class="flex flex-1 flex-wrap">
+                    <div class="flex-col items-start justify-center overflow-y-auto h-[500px]">
+                        <div class="flex flex-col items-start overflow-y-auto p-1">
+                            {{-- <x-details title="ID do Processo">
+                                {{ ucfirst($proccess->id) }}
+                            </x-details> --}}
 
-                    <x-details title="ID do Processo">
-                        {{ ucfirst($administrative->id) }}
-                    </x-details>
+                            <x-details title="Classe Judicial">
+                                {{ ucfirst($administrative->name) }}
+                            </x-details>
 
-                    <x-details title="Classe Judicial">
-                        {{ ucfirst($administrative->name) }}
-                    </x-details>
+                            <x-details title="Assunto">
+                                {{ ucfirst($administrative->subject) }}
+                            </x-details>
 
-                    <x-details title="Assunto">
-                        {{ ucfirst($administrative->subject) }}
-                    </x-details>
+                            <x-details title="Jurisdição">
+                                {{ strtoupper($administrative->jurisdiction) }}
+                            </x-details>
 
-                    <x-details title="Jurisdição">
-                        {{ strtoupper($administrative->jurisdiction) }}
-                    </x-details>
+                            <x-details title="Autuação">
+                                {{ date('d/m/Y H:i', strtotime($administrative->created_at)) }}
+                            </x-details>
 
-                    <x-details title="Valor da Causa">
-                        @if ($administrative->cause_value == null)
-                            <span class="text-red-500">Valor não informado</span>
-                        @else
-                            {{ 'R$ ' . $administrative->cause_value }}
-                        @endif
-                    </x-details>
+                            <x-details title="Última Distribuição">
+                                {{ date('d/m/Y H:i', strtotime($administrative->updated_at)) }}
+                            </x-details>
 
-                    @if (auth()->user()->can('admin-3'))
-                    @else
-                        <x-details title="Segredo de Justiça?">
-                            @if ($administrative->justice_secret == 1)
-                                <span class="text-green-500">Sim</span>
+                            <x-details title="Valor da Causa">
+                                @if ($administrative->cause_value == null)
+                                    <span class="text-red-500">Valor não informado</span>
+                                @else
+                                    {{ 'R$ ' . $administrative->cause_value }}
+                                @endif
+                            </x-details>
+
+                            @if (auth()->user()->can('admin-3'))
                             @else
-                                <span class="text-red-500">Não</span>
+                                <x-details title="Segredo de Justiça?">
+                                    @if ($administrative->justice_secret == 1)
+                                        <span class="text-green-500">Sim</span>
+                                    @else
+                                        <span class="text-red-500">Não</span>
+                                    @endif
+                                </x-details>
                             @endif
-                        </x-details>
-                    @endif
 
-                    <x-details title="Justiça Gratuita?">
-                        @if ($administrative->free_justice == 1)
-                            <span class="text-green-500">Sim</span>
-                        @else
-                            <span class="text-red-500">Não</span>
-                        @endif
-                    </x-details>
+                            <x-details title="Justiça Gratuita?">
+                                @if ($administrative->free_justice == 1)
+                                    <span class="text-green-500">Sim</span>
+                                @else
+                                    <span class="text-red-500">Não</span>
+                                @endif
+                            </x-details>
 
-                    <x-details title="Tutelar/Liminar?">
-                        @if ($administrative->tutelar == 1)
-                            <span class="text-green-500">Sim</span>
-                        @else
-                            <span class="text-red-500">Não</span>
-                        @endif
-                    </x-details>
+                            <x-details title="Tutelar/Liminar?">
+                                @if ($administrative->tutelar == 1)
+                                    <span class="text-green-500">Sim</span>
+                                @else
+                                    <span class="text-red-500">Não</span>
+                                @endif
+                            </x-details>
 
+                            <x-details title="Prioridade">
+                                {{ ucfirst($administrative->priority) }}
+                            </x-details>
 
-                </div>
+                            <x-details title="Órgão Julgador">
+                                {{ ucfirst($administrative->judgmental_organ) }}
+                            </x-details>
 
-                <div
-                    class="flex justify-center items-center gap-8 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
-                    <x-details title="Prioridade">
-                        {{ ucfirst($administrative->priority) }}
-                    </x-details>
+                            <x-details title="Cargo Judicial">
+                                {{ ucfirst($administrative->judicial_office) }}
+                            </x-details>
 
-                    <x-details title="Órgão Julgador">
-                        {{ ucfirst($administrative->judgmental_organ) }}
-                    </x-details>
+                            <x-details title="Competência">
+                                {{ ucfirst($administrative->competence) }}
+                            </x-details>
 
-                    <x-details title="Cargo Judicial">
-                        {{ ucfirst($administrative->judicial_office) }}
-                    </x-details>
+                            <x-details title="E-mail da Coorporação">
+                                {{ $administrative->email_coorporative }}
+                            </x-details>
 
-                    <x-details title="Competência">
-                        {{ ucfirst($administrative->competence) }}
-                    </x-details>
+                            @if ($administrative->url_collective == null)
+                                <x-details title="URL do Processo">
+                                    <span class="text-red-500">URL não informada</span>
+                                </x-details>
+                            @else
+                                <x-detailsLink title="URL do Processo" url="{{ $administrative->url_collective }}">
 
-                    <x-details title="E-mail da Coorporação">
-                        {{ $administrative->email_coorporative }}
-                    </x-details>
+                                    {{ $administrative->url_collective }}
+                                </x-detailsLink>
+                            @endif
 
-                    @if ($administrative->url_collective == null)
-                        <x-details title="URL do Processo">
-                            <span class="text-red-500">URL não informada</span>
-                        </x-details>
-                    @else
-                        <x-detailsLink title="URL do Processo" url="{{ $administrative->url_collective }}">
+                            @if ($administrative->url_noticies == null)
+                                <x-details title="URL da Noticia">
+                                    <span class="text-red-500">URL não informada</span>
+                                </x-details>
+                            @else
+                                <x-detailsLink title="URL da Noticia" url="{{ $administrative->url_noticies }}">
 
-                            {{ $administrative->url_collective }}
-                        </x-detailsLink>
-                    @endif
+                                    {{ $administrative->url_noticies }}
+                                </x-detailsLink>
+                            @endif
+                        </div>
+                    </div>
 
-                    @if ($administrative->url_noticies == null)
-                        <x-details title="URL da Noticia">
-                            <span class="text-red-500">URL não informada</span>
-                        </x-details>
-                    @else
-                        <x-detailsLink title="URL da Noticia" url="{{ $administrative->url_noticies }}">
+                    <div class="flex flex-1">
+                        @include('admin.partials.collective.lawyer')
+                    </div>
 
-                            {{ $administrative->url_noticies }}
-                        </x-detailsLink>
-                    @endif
-
-                </div>
-
-                <div
-                    class="flex justify-center items-center gap-16 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
-                    <x-details title="Autuação">
-                        {{ date('d/m/Y H:i', strtotime($administrative->created_at)) }}
-                    </x-details>
-
-                    <x-details title="Última Distribuição">
-                        {{ date('d/m/Y H:i', strtotime($administrative->updated_at)) }}
-                    </x-details>
                 </div>
 
                 <div class="flex items-center justify-center text-black bg-gray-200 mt-4">

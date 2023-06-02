@@ -27,6 +27,7 @@ class User extends Authenticatable
         'capacity',
         'telephone',
         'cpf',
+        'oab'
     ];
 
     /**

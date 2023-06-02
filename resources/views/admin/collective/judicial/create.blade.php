@@ -33,9 +33,16 @@
                 value="Novo Autor" />
             @include('admin.modals.createClient.client')
         </div>
+        @include('admin.modals.createClient.error')
+
+        <div class="rounded ml-2 p-2 bg-yellow-500 hover:bg-yellow-600 text-white transition-all">
+            <input type="button" id="lawyer" class="text-white" data-bs-toggle="modal" data-bs-target="#lawyerModal"
+                value="Novo Advogado" />
+            @include('admin.modals.createClient.lawyer')
+        </div>
     </div>
 
-    @include('admin.modals.createClient.error')
+    @include('admin.modals.createClient.lawyerError')
 
     <div class="card mt-4">
         <div class="bg-red-500 h-1">
@@ -281,7 +288,7 @@
                             <div>
                                 <label
                                     class="p-[7px] bg-yellow-500 hover:bg-yellow-600 text-white transition-all cursor-pointer rounded-ee-xl"
-                                    for="client">
+                                    for="lawyer">
                                     Novo Advogado
                                 </label>
                             </div>

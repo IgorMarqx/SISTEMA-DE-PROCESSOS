@@ -5,7 +5,6 @@
         $errors->has('office') ||
         $errors->has('capacity') ||
         $errors->has('telephone') ||
-        $errors->has('password') ||
         $errors->has('password_confirmation'))
     <script>
         $(document).ready(function() {
