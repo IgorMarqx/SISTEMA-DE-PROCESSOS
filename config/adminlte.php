@@ -337,6 +337,8 @@ return [
             'url'         => '/users',
             'icon'        => 'fa-solid fa-users',
             'can'         => ['manager-users', 'manager-lawyer'],
+            'active' => request()->is('users/create') ||
+                request()->is('users/*')
         ],
         ['header' => 'Bem vindo'],
         [

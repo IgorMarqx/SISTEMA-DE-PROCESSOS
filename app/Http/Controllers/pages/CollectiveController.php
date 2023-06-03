@@ -5,6 +5,7 @@ namespace App\Http\Controllers\pages;
 use App\Http\Controllers\Controller;
 use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
+use App\Models\Defendant;
 use App\Models\JudicialCollective;
 use App\Models\Lawyer;
 use App\Models\User;
@@ -80,7 +81,20 @@ class CollectiveController extends Controller
             $freeJustice = !empty($freeJustice);
             $tutelar = !empty($tutelar);
 
+            $defendant = $request->only('defendant', 'cnpj');
+
             $validator = $this->validator($data);
+            $validatorDefendant = $this->validatorDefendant($defendant);
+
+            if ($request->cnpj != null) {
+                if (strlen($request->cnpj) < 18) {
+                    $validator->errors()->add('cnpj', 'Informe um CNPJ válido');
+
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+            }
 
             if ($request->lawyers == null) {
                 $validator->errors()->add('lawyers[]', 'Escolha um advogado');
@@ -117,6 +131,12 @@ class CollectiveController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()
                     ->withErrors($validator)
+                    ->withInput();
+            }
+
+            if ($validatorDefendant->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatorDefendant)
                     ->withInput();
             }
 
@@ -160,6 +180,13 @@ class CollectiveController extends Controller
             ]);
             $lawyer->save();
 
+            $reu = Defendant::create([
+                'defendant' => $defendant['defendant'],
+                'cnpj' => $defendant['cnpj'],
+                'judicial_collective_id' => $collective->id,
+            ]);
+            $reu->save();
+
             session()->flash('success', 'Processo Judicial criado com sucesso.');
             return redirect()->route('collective.index');
         } else {
@@ -174,7 +201,20 @@ class CollectiveController extends Controller
             $freeJustice = !empty($freeJustice);
             $tutelar = !empty($tutelar);
 
+            $defendant = $request->only('defendant', 'cnpj');
+
             $validator = $this->validator($data);
+            $validatorDefendant = $this->validatorDefendant($defendant);
+
+            if ($request->cnpj != null) {
+                if (strlen($request->cnpj) < 18) {
+                    $validator->errors()->add('cnpj', 'Informe um CNPJ válido');
+
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+            }
 
             if ($request->lawyers == null) {
                 $validator->errors()->add('lawyers[]', 'Escolha um advogado');
@@ -206,6 +246,12 @@ class CollectiveController extends Controller
                     ->withInput();
             }
 
+            if ($validatorDefendant->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatorDefendant)
+                    ->withInput();
+            }
+
             $collective = AdministrativeCollective::create([
                 'name' => $data['collective'],
                 'subject' => $data['subject'],
@@ -228,10 +274,10 @@ class CollectiveController extends Controller
             ]);
             $collective->save();
 
-            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('email') : null;
-            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('email') : null;
-            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('email') : null;
-            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('email') : null;
+            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('name') : null;
+            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('name') : null;
+            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('name') : null;
+            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('name') : null;
 
             $lawyer = Lawyer::create([
                 'user_id_1' => isset($request->lawyers[0]) ? $request->lawyers[0] : null,
@@ -245,6 +291,13 @@ class CollectiveController extends Controller
                 'administrative_collective_id' => $collective->id,
             ]);
             $lawyer->save();
+
+            $reu = Defendant::create([
+                'defendant' => $defendant['defendant'],
+                'cnpj' => $defendant['cnpj'],
+                'administrative_collective_id' => $collective->id,
+            ]);
+            $reu->save();
 
             session()->flash('success', 'Processo Administrativo criado com sucesso.');
             return redirect()->route('administrative_collective.index');
@@ -261,6 +314,7 @@ class CollectiveController extends Controller
             $user = $collective->user;
             $attachment = Attachment::where('judicial_collective_id', '=', $id)->get();
             $judicial = Lawyer::where('judicial_collective_id', $id)->get();
+            $defendant = Defendant::where('judicial_collective_id', $id)->get();
 
             $user_1 = null;
             $user_2 = null;
@@ -309,6 +363,7 @@ class CollectiveController extends Controller
                 'attachment' => $attachment,
                 'data' => $data,
                 'lawyer' => $lawData,
+                'defendants' => $defendant,
             ]);
         }
 
@@ -575,6 +630,20 @@ class CollectiveController extends Controller
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
                 'email_client.unique' => 'Já existe um e-mail como esse.',
+            ]
+        );
+    }
+
+    public function validatorDefendant($defendant)
+    {
+        return Validator::make(
+            $defendant,
+            [
+                'defendant' => ['required', 'max:100']
+            ],
+            [
+                'defendant.required' => 'Preencha esse campo.',
+                'defendant.max' => 'Máximo 100 caracteres.',
             ]
         );
     }

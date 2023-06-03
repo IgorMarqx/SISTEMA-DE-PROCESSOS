@@ -47,7 +47,9 @@
         </div>
 
         <div class="text-bold">
-            {{ strtoupper($user->name) }} - CNPJ: {{ $user->cpf }} (REU)
+            @foreach ($defendants as $defendant)
+                {{ strtoupper($defendant->defendant) }} - CNPJ: {{ $defendant->cnpj }} (REU)
+            @endforeach
         </div>
     </div>
 </div>

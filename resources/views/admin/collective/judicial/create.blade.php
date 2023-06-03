@@ -373,13 +373,17 @@
 
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <x-labels colorSpan="text-red-500" id="name_reu">
+                        <x-labels colorSpan="text-red-500" id="defendant">
                             Nome
                         </x-labels>
 
-                        <x-inputs id="name_reu" form="form-control" placeholder="Informe o nome do REU"
-                            value="{{ old('name_reu') }}" type="text" name="name_reu" focus="{{ false }}"
-                            error="name_reu" />
+                        <x-inputs id="defendant" form="form-control" placeholder="Informe o nome do REU"
+                            value="{{ old('defendant') }}" type="text" name="defendant" focus="{{ false }}"
+                            error="defendant" />
+
+                        @error('defendant')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-6">
@@ -391,6 +395,10 @@
                         <x-inputs id="cnpj" form="form-control" placeholder="Informe o CNPJ do REU"
                             value="{{ old('cnpj') }}" type="text" name="cnpj" focus="{{ false }}"
                             error="cnpj" />
+
+                        @error('cnpj')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-12 mt-3">

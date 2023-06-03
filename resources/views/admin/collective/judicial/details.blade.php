@@ -99,40 +99,40 @@
                 </div>
 
                 <div
-                    class="flex justify-center items-center gap-12 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
+                    class="flex justify-center items-center gap-8 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
 
-                    <x-details title="Nome do Autor">
+                    {{-- <x-clientDetails title="Nome do Autor">
                         {{ ucfirst($user->name) }}
-                    </x-details>
+                    </x-clientDetails> --}}
 
-                    <x-details title="E-mail do Autor">
+                    <x-clientDetails title="E-mail do Autor">
                         {{ ucfirst($user->email) }}
-                    </x-details>
+                    </x-clientDetails>
 
-                    <x-details title="Orgão">
+                    <x-clientDetails title="Orgão">
                         {{ ucfirst($user->organ) }}
-                    </x-details>
+                    </x-clientDetails>
 
-                    <x-details title="Cargo">
+                    <x-clientDetails title="Cargo">
                         {{ ucfirst($user->office) }}
-                    </x-details>
+                    </x-clientDetails>
 
-                    <x-details title="Lotação">
+                    <x-clientDetails title="Lotação">
                         {{ ucfirst($user->capacity) }}
-                    </x-details>
+                    </x-clientDetails>
 
-                    <x-details title="Telefone">
+                    <x-clientDetails title="Telefone">
                         {{ ucfirst($user->telephone) }}
-                    </x-details>
+                    </x-clientDetails>
 
                     @if ($user->created_at == null)
-                        <x-details title="Data de Criação">
+                        <x-clientDetails title="Data de Criação">
                             <span class="text-red-500">Data não informada</span>
-                        </x-details>
+                        </x-clientDetails>
                     @else
-                        <x-details title="Autuação">
+                        <x-clientDetails title="Autuação">
                             {{ date('d/m/Y H:i', strtotime($user->created_at)) }}
-                        </x-details>
+                        </x-clientDetails>
                     @endif
 
                 </div>

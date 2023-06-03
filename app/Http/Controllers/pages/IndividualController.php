@@ -5,6 +5,7 @@ namespace App\Http\Controllers\pages;
 use App\Http\Controllers\Controller;
 use App\Models\AdministrativeIndividual;
 use App\Models\Attachment;
+use App\Models\Defendant;
 use App\Models\JudicialIndividual;
 use App\Models\Lawyer;
 use App\Models\User;
@@ -74,6 +75,19 @@ class IndividualController extends Controller
 
             $validator = $this->validator($data);
 
+            $defendant = $request->only('defendant', 'cnpj');
+            $validatorDefendant = $this->validatorDefendant($defendant);
+
+            if ($request->cnpj != null) {
+                if (strlen($request->cnpj) < 18) {
+                    $validator->errors()->add('cnpj', 'Informe um CNPJ válido');
+
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+            }
+
             if ($data['type'] == 'error') {
                 $validator->errors()->add('type', 'Escolha um tipo de processo.');
 
@@ -101,6 +115,12 @@ class IndividualController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()
                     ->withErrors($validator)
+                    ->withInput();
+            }
+
+            if ($validatorDefendant->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatorDefendant)
                     ->withInput();
             }
 
@@ -126,10 +146,10 @@ class IndividualController extends Controller
             ]);
             $individual->save();
 
-            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('email') : null;
-            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('email') : null;
-            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('email') : null;
-            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('email') : null;
+            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('name') : null;
+            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('name') : null;
+            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('name') : null;
+            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('name') : null;
 
             $lawyer = Lawyer::create([
                 'user_id_1' => isset($request->lawyers[0]) ? $request->lawyers[0] : null,
@@ -143,6 +163,13 @@ class IndividualController extends Controller
                 'judicial_individual_id' => $individual->id,
             ]);
             $lawyer->save();
+
+            $reu = Defendant::create([
+                'defendant' => $defendant['defendant'],
+                'cnpj' => $defendant['cnpj'],
+                'judicial_individual_id' => $individual->id,
+            ]);
+            $reu->save();
 
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('individual.index');
@@ -159,6 +186,19 @@ class IndividualController extends Controller
             $tutelar = !empty($tutelar);
 
             $validator = $this->validator($data);
+
+            $defendant = $request->only('defendant', 'cnpj');
+            $validatorDefendant = $this->validatorDefendant($defendant);
+
+            if ($request->cnpj != null) {
+                if (strlen($request->cnpj) < 18) {
+                    $validator->errors()->add('cnpj', 'Informe um CNPJ válido');
+
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+            }
 
             if ($data['type'] == 'error') {
                 $validator->errors()->add('type', 'Escolha um tipo de processo.');
@@ -190,6 +230,12 @@ class IndividualController extends Controller
                     ->withInput();
             }
 
+            if ($validatorDefendant->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatorDefendant)
+                    ->withInput();
+            }
+
             $individual = AdministrativeIndividual::create([
                 'name' => $data['individuals'],
                 'subject' => $data['subject'],
@@ -212,10 +258,10 @@ class IndividualController extends Controller
             ]);
             $individual->save();
 
-            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('email') : null;
-            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('email') : null;
-            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('email') : null;
-            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('email') : null;
+            $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('name') : null;
+            $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('name') : null;
+            $lawyer_3 = isset($request->lawyers[2]) ? User::where('id', $request->lawyers[2])->value('name') : null;
+            $lawyer_4 = isset($request->lawyers[3]) ? User::where('id', $request->lawyers[3])->value('name') : null;
 
             $lawyer = Lawyer::create([
                 'user_id_1' => isset($request->lawyers[0]) ? $request->lawyers[0] : null,
@@ -229,6 +275,13 @@ class IndividualController extends Controller
                 'administrative_individual_id' => $individual->id,
             ]);
             $lawyer->save();
+
+            $reu = Defendant::create([
+                'defendant' => $defendant['defendant'],
+                'cnpj' => $defendant['cnpj'],
+                'administrative_individual_id' => $individual->id,
+            ]);
+            $reu->save();
 
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('administrative_individual.index');
@@ -245,11 +298,58 @@ class IndividualController extends Controller
         if ($individual) {
             $user = $individual->user;
             $attachment = Attachment::where('judicial_individual_id', $id)->get();
+            $judicial = Lawyer::where('judicial_individual_id', $id)->get();
+            $defendant = Defendant::where('judicial_individual_id', $id)->get();
+
+            $user_1 = null;
+            $user_2 = null;
+            $user_3 = null;
+            $user_4 = null;
+
+            foreach ($judicial as $judicials) {
+                $name_1 = $judicials->email_lawyer_1;
+                $id_1 = $judicials->user_id_1;
+
+                $name_2 = $judicials->email_lawyer_2;
+                $id_2 = $judicials->user_id_2;
+
+                $name_3 = $judicials->email_lawyer_3;
+                $id_3 = $judicials->user_id_3;
+
+                $name_4 = $judicials->email_lawyer_4;
+                $id_4 = $judicials->user_id_4;
+
+                if ($id_1) {
+                    $user_1 = User::where('id', $id_1)->value('oab');
+                }
+                if ($id_2) {
+                    $user_2 = User::where('id', $id_2)->value('oab');
+                }
+                if ($id_3) {
+                    $user_3 = User::where('id', $id_3)->value('oab');
+                }
+                if ($id_4) {
+                    $user_4 = User::where('id', $id_4)->value('oab');
+                }
+            }
+
+            $lawData = [
+                'lawyer_1' => $user_1 ? $user_1 : null,
+                'lawyer_2' => $user_2 ? $user_2 : null,
+                'lawyer_3' => $user_3 ? $user_3 : null,
+                'lawyer_4' => $user_4 ? $user_4 : null,
+            ];
+
+            $data = [$name_1, $name_2, $name_3, $name_4];
+
 
             return view('admin.individual.judicial.details', [
                 'individual' => $individual,
                 'user' => $user,
-                'attachment' => $attachment
+                'attachment' => $attachment,
+                'data' => $data,
+                'lawyer' => $lawData,
+                'defendants' => $defendant,
             ]);
         }
     }
@@ -472,6 +572,20 @@ class IndividualController extends Controller
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
                 'email_client.unique' => 'Já existe um e-mail como esse.',
+            ]
+        );
+    }
+
+    public function validatorDefendant($defendant)
+    {
+        return Validator::make(
+            $defendant,
+            [
+                'defendant' => ['required', 'max:100']
+            ],
+            [
+                'defendant.required' => 'Preencha esse campo.',
+                'defendant.max' => 'Máximo 100 caracteres.',
             ]
         );
     }

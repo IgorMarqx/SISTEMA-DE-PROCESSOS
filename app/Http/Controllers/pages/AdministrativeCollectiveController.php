@@ -5,6 +5,7 @@ namespace App\Http\Controllers\pages;
 use App\Http\Controllers\Controller;
 use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
+use App\Models\Defendant;
 use App\Models\Lawyer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -74,6 +75,7 @@ class AdministrativeCollectiveController extends Controller
             $user = $administrative->user;
             $attachment = Attachment::where('administrative_collective_id', '=', $id)->get();
             $judicial = Lawyer::where('administrative_collective_id', $id)->get();
+            $defendant = Defendant::where('administrative_collective_id', $id)->get();
 
             $user_1 = null;
             $user_2 = null;
@@ -122,6 +124,7 @@ class AdministrativeCollectiveController extends Controller
                 'attachment' => $attachment,
                 'data' => $data,
                 'lawyer' => $lawData,
+                'defendants' => $defendant,
             ]);
         }
         session()->flash('warning', 'Processo não encontrado.');
