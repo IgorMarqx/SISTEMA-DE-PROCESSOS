@@ -96,7 +96,7 @@
                         <x-button
                             route="{{ route('administrative_collective.show', ['administrative_collective' => $administratives->id]) }}"
                             color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
-                            icon="fa-solid fa-file-lines text-sm mr-[0.2rem]">
+                            icon="fa-solid fa-eye text-sm mr-[0.2rem]">
                             Detalhes
                         </x-button>
 
@@ -130,7 +130,7 @@
                                 <a class="dropdown-item"
                                     href="{{ route('administrative_collective.show', ['administrative_collective' => $administratives->id]) }}">
                                     <span class="text-yellow-500">
-                                        <i class="fa-solid fa-file-lines text-sm mr-[0.2rem]"></i>
+                                        <i class="fa-solid fa-eye text-sm mr-[0.2rem]"></i>
                                         Detalhes
                                     </span>
                                 </a>

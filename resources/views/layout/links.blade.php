@@ -24,7 +24,6 @@
             }
         </style>
     @endpush
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"
         integrity="sha512-8Z5++K1rB3U+USaLKG6oO8uWWBhdYsM3hmdirnOEWp8h2B1aOikj5zBzlXs8QOrvY9OxEnD2QDkbSKKpfqcIWw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -47,16 +46,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <script src="{{asset('assets/js/multiselect-dropdown.js')}}"></script> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
-        integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
     <script src="{{ asset('assets/js/login.js') }}"></script>
-    <script src="{{ asset('assets/js/mask.js') }}"></script>
     <script src="{{ asset('assets/js/activeNav.js') }}"></script>
+    <script src="{{ asset('assets/js/users.js') }}"></script>
 </body>
 
 </html>

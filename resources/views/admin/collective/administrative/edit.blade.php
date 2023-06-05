@@ -92,7 +92,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="hidden" id="cause_value">
                             Valor da Causa
                         </x-labels>
@@ -112,7 +112,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="text-red-500" id="priority">
                             Prioridade
                         </x-labels>
@@ -126,7 +126,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3">
                         <x-labels colorSpan="text-red-500" id="judgmental_organ">
                             Orgão Julgador
                         </x-labels>
@@ -136,20 +136,6 @@
                             focus="{{ true }}" error="judgmental_organ" />
 
                         @error('judgmental_organ')
-                            <span class="text-red-500 flex">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <x-labels colorSpan="hidden" id="url">
-                            URL do Processo
-                        </x-labels>
-
-                        <x-inputs id="url" form="form-control" placeholder="Informe a URL do processo"
-                            value="{{ $administrative->url_collective }}" type="text" name="url"
-                            focus="{{ false }}" error="url" />
-
-                        @error('url')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
@@ -164,20 +150,6 @@
                             focus="{{ false }}" error="competence" />
 
                         @error('competence')
-                            <span class="text-red-500 flex">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <x-labels colorSpan="hidden" id="url_noticies">
-                            URL da Noticia
-                        </x-labels>
-
-                        <x-inputs id="url_noticies" form="form-control" placeholder="Informe a URL da noticia"
-                            value="{{ old('url_noticies') }}" type="text" name="url_noticies"
-                            focus="{{ false }}" error="url_noticies" />
-
-                        @error('url')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
@@ -210,7 +182,36 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-3">
+                        <x-labels colorSpan="hidden" id="url">
+                            URL do Processo
+                        </x-labels>
+
+                        <x-inputs id="url" form="form-control" placeholder="Informe a URL do processo"
+                            value="{{ $administrative->url_collective }}" type="text" name="url"
+                            focus="{{ false }}" error="url" />
+
+                        @error('url')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+
+                    <div class="col-md-3 mb-3">
+                        <x-labels colorSpan="hidden" id="url_noticies">
+                            URL da Noticia
+                        </x-labels>
+
+                        <x-inputs id="url_noticies" form="form-control" placeholder="Informe a URL da noticia"
+                            value="{{ old('url_noticies') }}" type="text" name="url_noticies"
+                            focus="{{ false }}" error="url_noticies" />
+
+                        @error('url')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- <div class="col-md-3">
                         <x-labels colorSpan="text-red-500" id="user_id">
                             Selecione o cliente que você deseja
                         </x-labels>
@@ -233,7 +234,7 @@
                         @error('user_id')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-3">
                         <x-labels colorSpan="hidden" id="status">
@@ -299,6 +300,41 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="flex justify-center items-center bg-red-500 mt-4 mb-3">
+                    <h4 class="m-0 text-bold text-white text-lg">Polo Passivo (Réu)</h4>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <x-labels colorSpan="text-red-500" id="defendant">
+                            Nome
+                        </x-labels>
+
+                        <x-inputs id="defendant" form="form-control" placeholder="Informe o nome do REU"
+                            value="{{ $defendant->defendant }}" type="text" name="defendant"
+                            focus="{{ false }}" error="defendant" />
+
+                        @error('defendant')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                        <x-labels colorSpan="hidden" id="cnpj">
+                            CNPJ
+                            <span class="text-xs text-red-500">(Não obrigatório)</span>
+                        </x-labels>
+
+                        <x-inputs id="cnpj" form="form-control" placeholder="Informe o CNPJ do REU"
+                            value="{{ $defendant->cnpj }}" type="text" name="cnpj" focus="{{ false }}"
+                            error="cnpj" />
+
+                        @error('cnpj')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
 
                     <div class="col-md-12 mt-3">
                         <input type="submit"
@@ -313,6 +349,10 @@
 
     <script>
         $('#cause_value').mask("#.##0,00", {
+            reverse: true
+        });
+
+        $('#cnpj').mask('00.000.000/0000-00', {
             reverse: true
         });
     </script>

@@ -385,11 +385,17 @@ class IndividualController extends Controller
     {
         $individual = JudicialIndividual::find($id);
         $user = User::all();
+        $defendant =  Defendant::where('judicial_individual_id', $id)->get();
+
+        foreach ($defendant as $defendants) {
+            $defendants;
+        }
 
         if ($individual) {
             return view('admin.individual.judicial.edit', [
                 'individual' => $individual,
                 'users' => $user,
+                'defendant' => $defendants
             ]);
         }
 
@@ -403,6 +409,7 @@ class IndividualController extends Controller
     public function update(Request $request, string $id)
     {
         $individual = JudicialIndividual::find($id);
+        $defendants =  Defendant::where('judicial_individual_id', $id)->get();
 
         if ($individual) {
             $data = $request->only('individuals', 'url', 'subject', 'jurisdiction', 'cause_value', 'priority', 'judgmental_organ', 'url_noticies', 'email_corp', 'email_client', 'user_id', 'status');
@@ -421,11 +428,38 @@ class IndividualController extends Controller
                 return redirect()->route('individual.edit', ['individual' => $individual])->withErrors($validator);
             }
 
+            $defendant = $request->only('defendant', 'cnpj');
+
+            $validatorDefendant = $this->validatorDefendant($defendant);
+
+            if ($request->cnpj != null) {
+                if (strlen($request->cnpj) < 18) {
+                    $validator->errors()->add('cnpj', 'Informe um CNPJ válido');
+
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+            }
+
+            if ($validatorDefendant->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatorDefendant)
+                    ->withInput();
+            }
+
+            foreach($defendants as $defendant){
+                $defendant->defendant = $request->defendant;
+                $defendant->cnpj = $request->cnpj;
+            }
+
+            $defendant->save();
+
             $individual->name = $data['individuals'];
             $individual->url_individuals = $data['url'];
 
             $individual->url_noticies = $data['url_noticies'];
-            $individual->user_id = $data['user_id'];
+            // $individual->user_id = $data['user_id'];
 
             $individual->subject = $data['subject'];
             $individual->jurisdiction = $data['jurisdiction'];

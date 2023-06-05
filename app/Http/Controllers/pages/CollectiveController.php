@@ -439,11 +439,17 @@ class CollectiveController extends Controller
     {
         $collective = JudicialCollective::find($id);
         $user = User::all();
+        $defendant =  Defendant::where('judicial_collective_id', $id)->get();
+
+        foreach ($defendant as $defendants) {
+            $defendants;
+        }
 
         if ($collective) {
             return view('admin.collective.judicial.edit', [
                 'proccess' => $collective,
                 'users' => $user,
+                'defendant' => $defendants
             ]);
         }
 
@@ -457,6 +463,7 @@ class CollectiveController extends Controller
     public function update(Request $request, string $id)
     {
         $collective = JudicialCollective::find($id);
+        $defendants =  Defendant::where('judicial_collective_id', $id)->get();
 
         if ($collective) {
             $data = $request->only('collective', 'url', 'url_noticies', 'subject', 'jurisdiction', 'priority', 'judgmental_organ', 'judicial_office', 'competence', 'email_corp', 'email_client', 'user_id', 'status');
@@ -475,11 +482,38 @@ class CollectiveController extends Controller
                 return redirect()->route('collective.edit', ['collective' => $collective])->withErrors($validator);
             }
 
+            $defendant = $request->only('defendant', 'cnpj');
+
+            $validatorDefendant = $this->validatorDefendant($defendant);
+
+            if ($request->cnpj != null) {
+                if (strlen($request->cnpj) < 18) {
+                    $validator->errors()->add('cnpj', 'Informe um CNPJ válido');
+
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+            }
+
+            if ($validatorDefendant->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatorDefendant)
+                    ->withInput();
+            }
+
+            foreach($defendants as $defendant){
+                $defendant->defendant = $request->defendant;
+                $defendant->cnpj = $request->cnpj;
+            }
+
+            $defendant->save();
+
             $collective->name = $data['collective'];
             $collective->url_collective = $data['url'];
 
             $collective->url_noticies = $data['url_noticies'];
-            $collective->user_id = $data['user_id'];
+            // $collective->user_id = $data['user_id'];
 
             $collective->subject = $data['subject'];
             $collective->jurisdiction = $data['jurisdiction'];

@@ -32,7 +32,7 @@
 
                     <div class="col-md-3">
                         <label for="name">
-                            Usuário <span class="text-red-500">*</span>
+                            Nome <span class="text-red-500">*</span>
                         </label>
 
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
@@ -61,7 +61,8 @@
                             Acesso <span class="text-red-500">*</span>
                         </label>
 
-                        <select name="admin" id="admin" class="form-control @error('admin') is-invalid @enderror">
+                        <select name="admin" id="admin"
+                            class="valueAdmin form-control @error('admin') is-invalid @enderror">
                             <option value="error" selected>Informe um acesso</option>
 
                             @if ($loggedId->admin == 1)
@@ -82,7 +83,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 organ">
                         <x-labels id="organ" colorSpan="text-red-500">
                             Orgão
                         </x-labels>
@@ -95,7 +96,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2 office">
                         <x-labels id="office" colorSpan="text-red-500">
                             Cargo
                         </x-labels>
@@ -108,7 +109,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 capacity">
                         <x-labels id="capacity" colorSpan="text-red-500">
                             Lotação
                         </x-labels>
@@ -121,7 +122,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4 telephone">
                         <x-labels id="telephone" colorSpan="text-red-500">
                             Telefone
                         </x-labels>
@@ -130,6 +131,32 @@
                             class="form-control @error('telephone') is-invalid @enderror">
 
                         @error('telephone')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 cpf">
+                        <x-labels id="cpf" colorSpan="text-red-500">
+                            CPF
+                        </x-labels>
+
+                        <input placeholder="Informe o CPF" id="cpf" name="cpf" type="text"
+                            class="form-control @error('cpf') is-invalid @enderror">
+
+                        @error('cpf')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 oab">
+                        <x-labels id="oab" colorSpan="text-red-500">
+                            OAB
+                        </x-labels>
+
+                        <input placeholder="Informe sua OAB" id="oab" name="oab" type="text"
+                            class="form-control @error('oab') is-invalid @enderror">
+
+                        @error('oab')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>
@@ -170,5 +197,7 @@
 
     <script>
         $('#telephone').mask('(00) 00000-0000');
+
+        $('#cpf').mask('000.000.000-00', {reverse: true});
     </script>
 @endsection

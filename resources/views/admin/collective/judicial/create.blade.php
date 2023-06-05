@@ -274,7 +274,7 @@
 
                         <div class="input-group">
                             <select name="lawyers[]" id="lawyers"
-                                class="js-example-basic-multiple js-states js-example-responsive form-control" multiple>
+                                class="form-control" multiple>
                                 <option value="error" disabled>Selecione um Advogado</option>
 
                                 @foreach ($lawyer as $lawyers)

@@ -187,11 +187,17 @@ class AdministrativeCollectiveController extends Controller
     {
         $adm_collective = AdministrativeCollective::find($id);
         $user = User::all();
+        $defendant =  Defendant::where('administrative_collective_id', $id)->get();
+
+        foreach ($defendant as $defendants) {
+            $defendants;
+        }
 
         if ($adm_collective) {
             return view('admin.collective.administrative.edit', [
                 'administrative' => $adm_collective,
                 'users' => $user,
+                'defendant' => $defendants
             ]);
         }
 
@@ -205,6 +211,7 @@ class AdministrativeCollectiveController extends Controller
     public function update(Request $request, string $id)
     {
         $adm_collective = AdministrativeCollective::find($id);
+        $defendants =  Defendant::where('administrative_collective_id', $id)->get();
 
         if ($adm_collective) {
             $data = $request->only('collective', 'url', 'url_noticies', 'subject', 'jurisdiction',  'cause_value', 'priority', 'judgmental_organ', 'judicial_office', 'competence', 'email_corp', 'email_client', 'user_id', 'status');
@@ -223,11 +230,41 @@ class AdministrativeCollectiveController extends Controller
                 return redirect()->route('administrative_collective.edit', ['administrative_collective' => $adm_collective])->withErrors($validator);
             }
 
+
+            $defendant = $request->only('defendant', 'cnpj');
+
+            $validatorDefendant = $this->validatorDefendant($defendant);
+
+            if ($request->cnpj != null) {
+                if (strlen($request->cnpj) < 18) {
+                    $validator->errors()->add('cnpj', 'Informe um CNPJ válido');
+
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+            }
+
+            if ($validatorDefendant->fails()) {
+                return redirect()->back()
+                    ->withErrors($validatorDefendant)
+                    ->withInput();
+            }
+
+            foreach ($defendants as $defendant) {
+                $defendant->defendant = $request->defendant;
+                $defendant->cnpj = $request->cnpj;
+
+                // dd($defendant);
+            }
+
+            $defendant->save();
+
             $adm_collective->name = $data['collective'];
             $adm_collective->url_collective = $data['url'];
 
             $adm_collective->url_noticies = $data['url_noticies'];
-            $adm_collective->user_id = $data['user_id'];
+            // $adm_collective->user_id = $data['user_id'];
 
             $adm_collective->judicial_office = $data['judicial_office'];
             $adm_collective->competence = $data['competence'];
@@ -361,6 +398,20 @@ class AdministrativeCollectiveController extends Controller
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
                 'email_client.unique' => 'Já existe um e-mail como esse.',
+            ]
+        );
+    }
+
+    public function validatorDefendant($defendant)
+    {
+        return Validator::make(
+            $defendant,
+            [
+                'defendant' => ['required', 'max:100']
+            ],
+            [
+                'defendant.required' => 'Preencha esse campo.',
+                'defendant.max' => 'Máximo 100 caracteres.',
             ]
         );
     }

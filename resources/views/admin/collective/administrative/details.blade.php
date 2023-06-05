@@ -255,7 +255,7 @@
                     </div>
 
                     <div class="flex flex-1">
-                        @include('admin.partials.collective.lawyer')
+                        @include('admin.partials.lawyer')
                     </div>
 
                 </div>

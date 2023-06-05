@@ -62,7 +62,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('name', 'email', 'organ', 'office', 'capacity', 'telephone', 'password', 'password_confirmation', 'admin');
+        $data = $request->only('name', 'email', 'organ', 'office', 'capacity', 'telephone', 'cpf', 'oab', 'password', 'password_confirmation', 'admin');
 
         $validator = $this->validator($data);
 
@@ -90,6 +90,8 @@ class UserController extends Controller
             'office' => $data['office'],
             'capacity' => $data['capacity'],
             'telephone' => $data['telephone'],
+            'cpf' => $data['cpf'],
+            'oab' => $data['oab'],
         ]);
         $user->save();
 
@@ -283,10 +285,6 @@ class UserController extends Controller
                 'name' => ['required', 'min:5', 'string', 'max:100'],
                 'email' => ['required', 'email', 'string', 'max:100', 'unique:users'],
                 'password' => ['required', 'string', 'min:5', 'confirmed'],
-                'organ' => ['required', 'string'],
-                'office' =>  ['required', 'string'],
-                'capacity' =>  ['required', 'string'],
-                'telephone' =>  ['required'],
             ],
             [
                 'name.required' => 'Preencha esse campo.',
@@ -301,11 +299,6 @@ class UserController extends Controller
                 'password.required' => 'Preencha esse campo.',
                 'password.min' => 'Minimo 5 caracteres.',
                 'password.confirmed' => 'Senhas não coincidem.',
-
-                'organ.required' => 'Preencha esse campo',
-                'office.required' => 'Preencha esse campo',
-                'capacity.required' => 'Preencha esse campo',
-                'telephone.required' => 'Preencha esse campo'
             ]
         );
     }

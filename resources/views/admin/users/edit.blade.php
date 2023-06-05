@@ -97,7 +97,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 organ">
                         <x-labels id="organ" colorSpan="text-red-500">
                             Orgão
                         </x-labels>
@@ -110,7 +110,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2 office">
                         <x-labels id="office" colorSpan="text-red-500">
                             Cargo
                         </x-labels>
@@ -123,7 +123,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 capacity">
                         <x-labels id="capacity" colorSpan="text-red-500">
                             Lotação
                         </x-labels>
@@ -136,7 +136,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4 telephone">
                         <x-labels id="telephone" colorSpan="text-red-500">
                             Telefone
                         </x-labels>
@@ -145,6 +145,32 @@
                             class="form-control @error('telephone') is-invalid @enderror" value="{{ $users->telephone }}">
 
                         @error('telephone')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 cpf">
+                        <x-labels id="cpf" colorSpan="text-red-500">
+                            CPF
+                        </x-labels>
+
+                        <input placeholder="Informe o CPF" id="cpf" name="cpf" type="text"
+                            class="form-control @error('cpf') is-invalid @enderror">
+
+                        @error('cpf')
+                            <span class="text-red-500 flex">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 oab">
+                        <x-labels id="oab" colorSpan="text-red-500">
+                            OAB
+                        </x-labels>
+
+                        <input placeholder="Informe sua OAB" id="oab" name="oab" type="text"
+                            class="form-control @error('oab') is-invalid @enderror">
+
+                        @error('oab')
                             <span class="text-red-500 flex">{{ $message }}</span>
                         @enderror
                     </div>

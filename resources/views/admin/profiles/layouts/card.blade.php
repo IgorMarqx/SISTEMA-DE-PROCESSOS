@@ -1,4 +1,4 @@
-<div class="col-md-5">
+<div class="col-md-12">
     <div class="card card-widget widget-user">
         <div class="widget-user-header bg-danger">
             <h3 class="widget-user-username">

@@ -22,7 +22,8 @@ Route::post('login_action', [LoginController::class, 'login_action'])->name('log
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [ProfileController::class, 'index'])->name('welcome');
+    // PROFILE
+    Route::get('/', [ProfileController::class, 'index'])->name('profile');
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('users', [UserController::class, 'index'])->name('users');
@@ -60,4 +61,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('individual', IndividualController::class);
     Route::resource('administrative_individual', AdministrativeIndividualController::class);
     Route::resource('requeriments', RequerimentController::class);
+    Route::resource('profile', ProfileController::class);
 });

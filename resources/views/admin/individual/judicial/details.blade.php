@@ -248,20 +248,9 @@
                     </div>
 
                     <div class="flex flex-1">
-                        @include('admin.partials.collective.lawyer')
+                        @include('admin.partials.lawyer')
                     </div>
 
-                </div>
-
-                <div
-                    class="flex justify-center items-center gap-16 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
-                    <x-details title="Autuação">
-                        {{ date('d/m/Y H:i', strtotime($individual->created_at)) }}
-                    </x-details>
-
-                    <x-details title="Última Distribuição">
-                        {{ date('d/m/Y H:i', strtotime($individual->updated_at)) }}
-                    </x-details>
                 </div>
 
                 <div class="flex items-center justify-center text-black bg-gray-200 mt-4">
