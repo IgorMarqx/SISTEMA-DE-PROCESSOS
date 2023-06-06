@@ -148,18 +148,6 @@
                                     </a>
                                     @include('admin.modals.users')
                                 @endif
-
-                                {{-- @if ($loggedId->id !== intval($user->id))
-                                    <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                        class="text-red-500 hover:text-red-600 ml-1">
-                                        <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
-                                        Excluir
-                                    </a>
-                                    @include('admin.modals.users')
-                                @else
-                                    <span class="text-green-500"><i class="fa-solid fa-globe text-sm mr-[0.2rem]"></i>
-                                        Logado</span>
-                                @endif --}}
                             </td>
                         </tr>
                     @endforeach

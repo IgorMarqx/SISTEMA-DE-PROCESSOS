@@ -70,19 +70,13 @@
                                     Editar
                                 </x-button>
 
-                                <x-button route="{{ route('finish', ['id' => $requeriments->id]) }}" color="text-sky-500"
-                                    hover="hover:text-sky-600" margin="mr-1"
-                                    icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
-                                    Finalizar
-                                </x-button>
-
                                 <a href="" data-bs-toggle="modal"
                                     onclick="exibirModalExclusao({{ $requeriments->id }})"
                                     class="text-red-500 hover:text-red-600 ml-1">
                                     <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                                     Excluir
                                 </a>
-                                @include('admin.modals.collective')
+                                @include('admin.modals.requeriments.requeriment')
                             </td>
 
                             <td class="xl:hidden 2xl:hidden">
@@ -104,12 +98,6 @@
                                             <span class="text-green-500">
                                                 <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
                                                 Editar
-                                            </span>
-                                        </a>
-                                        <a class="dropdown-item" href="{{ route('finish', ['id' => $requeriments->id]) }}">
-                                            <span class="text-sky-500">
-                                                <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
-                                                Finalizar
                                             </span>
                                         </a>
                                         <a href="" data-bs-toggle="modal"

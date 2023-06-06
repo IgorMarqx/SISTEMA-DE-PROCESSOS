@@ -75,7 +75,16 @@ class RequerimentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $requeriment = Requeriment::find($id);
+
+        if ($requeriment) {
+            return view('admin.requeriments.details', [
+                'requeriment' => $requeriment,
+            ]);
+        }
+
+        session()->flash('warning', 'Requerimento não encontrado.');
+        return redirect()->back();
     }
 
     /**
@@ -83,7 +92,16 @@ class RequerimentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $requeriment =  Requeriment::find($id);
+
+        if ($requeriment) {
+            return view('admin.requeriments.edit', [
+                'requeriment' => $requeriment
+            ]);
+        }
+
+        session()->flash('warning', 'Requerimento não encontrado.');
+        return redirect()->back();
     }
 
     /**
@@ -91,7 +109,29 @@ class RequerimentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $requeriment = Requeriment::find($id);
+
+        $data = $request->only('destinatario', 'office', 'subject', 'description', 'coord_1', 'coord_2', 'coord_3');
+
+        $validator = $this->validator($data);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $requeriment->destinatario = $data['destinatario'];
+        $requeriment->office = $data['office'];
+        $requeriment->subject = $data['subject'];
+        $requeriment->description = $data['description'];
+        $requeriment->coord_1 = $data['coord_1'];
+        $requeriment->coord_2 = $data['coord_2'];
+        $requeriment->coord_3 = $data['coord_3'];
+        $requeriment->save();
+
+        session()->flash('success', 'Requerimento atualizado com sucesso.');
+        return redirect()->route('requeriments.index');
     }
 
     /**
@@ -99,7 +139,17 @@ class RequerimentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $requeriment =  Requeriment::find($id);
+
+        if ($requeriment) {
+            $requeriment->delete();
+
+            session()->flash('success', 'Requerimento deletado com sucesso.');
+            return redirect()->back();
+        }
+
+        session()->flash('warning', 'Requerimento não encontrado.');
+        return redirect()->back();
     }
 
     public function validator($data)
