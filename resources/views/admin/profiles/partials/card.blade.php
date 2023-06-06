@@ -26,8 +26,8 @@
 
                 <div class="col-sm-4">
                     <div class="description-block">
-                        <h5 class="description-header">3,200</h5>
-                        <span class="description-text">SALES</span>
+                        <h5 class="description-header">{{ $count_adm + $count_judicial }}</h5>
+                        <span class="description-text">Total</span>
                     </div>
                 </div>
             </div>

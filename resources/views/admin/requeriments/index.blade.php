@@ -5,47 +5,132 @@
 
 @section('content_header')
     <div class="mb-2">
-        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Requerimentos</h3>
     </div>
 @endsection
 
 @section('content')
-    <div class="mb-2 flex">
-        <a href="{{ route('collective.index') }}"
-            class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600">
-            <i class="fa-solid fa-reply"></i>
+    @if (session('success'))
+        @include('components.success')
+    @endif
+
+    @if (session('error'))
+        @include('components.error')
+    @endif
+
+    @if (session('warning'))
+        @include('components.warning')
+    @endif
+
+    <div class="mb-4">
+        <a href="{{ route('requeriments.create') }}"
+            class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600 mr-2">
+            Novo Requerimento
         </a>
 
-        <div class="bg-green-500 hover:bg-green-600 ml-2 flex items-center text-white p-2 rounded">
-            <span class="">Criação de Requerimentos</span>
-        </div>
-    </div>
+        <div class="card mt-3 ">
+            <div class="bg-red-500 h-1">
 
-    <div class="card">
-        <div class="bg-red-500 h-1">
+            </div>
 
-        </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-valign-middle">
+                    <tr>
+                        <th class="w-[10rem] text-center">Oficio N°</th>
+                        <th class="w-[10rem] text-center">Assunto</th>
+                        <th class="w-[10rem] text-center">Destinatario</th>
+                        <th class="w-[10rem] text-center">Ações</th>
+                    </tr>
+                    @foreach ($requeriment as $requeriments)
+                        <tr>
+                            <td class="text-center">
+                                {{ $requeriments->oficio_num }}
+                            </td>
 
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <x-labels id="name" colorSpan="text-red-500">
-                        Nome
-                    </x-labels>
+                            <td class="text-center">
+                                {{ $requeriments->subject }}
+                            </td>
 
-                    <x-inputs id="name" form="form-control" placeholder="Informe o nome" value="{{ old('name') }}"
-                        type="text" name="name" focus="{{ true }}" error="name" />
-                </div>
+                            <td class="text-center">
+                                <span
+                                    class="bg-blue-500 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-blue-400">
+                                    {{ $requeriments->office }}
+                                </span>
+                            </td>
 
-                <div class="col-md-6">
-                    <x-labels id="name" colorSpan="text-red-500">
-                        Nome
-                    </x-labels>
+                            <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:flex 2xl:flex">
+                                <x-button route="{{ route('requeriments.show', ['requeriment' => $requeriments->id]) }}"
+                                    color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
+                                    icon="fa-solid fa-eye text-sm mr-[0.2rem]">
+                                    Detalhes
+                                </x-button>
 
-                    <x-inputs id="name" form="form-control" placeholder="Informe o nome" value="{{ old('name') }}"
-                        type="text" name="name" focus="{{ true }}" error="name" />
-                </div>
+                                <x-button route="{{ route('requeriments.edit', ['requeriment' => $requeriments->id]) }}"
+                                    color="text-green-500" hover="hover:text-green-600" margin="mr-2"
+                                    icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                    Editar
+                                </x-button>
+
+                                <x-button route="{{ route('finish', ['id' => $requeriments->id]) }}" color="text-sky-500"
+                                    hover="hover:text-sky-600" margin="mr-1"
+                                    icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
+                                    Finalizar
+                                </x-button>
+
+                                <a href="" data-bs-toggle="modal"
+                                    onclick="exibirModalExclusao({{ $requeriments->id }})"
+                                    class="text-red-500 hover:text-red-600 ml-1">
+                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                    Excluir
+                                </a>
+                                @include('admin.modals.collective')
+                            </td>
+
+                            <td class="xl:hidden 2xl:hidden">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        Ações
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item"
+                                            href="{{ route('requeriments.show', ['requeriment' => $requeriments->id]) }}">
+                                            <span class="text-yellow-500">
+                                                <i class="fa-solid fa-eye text-sm mr-[0.2rem]"></i>
+                                                Detalhes
+                                            </span>
+                                        </a>
+                                        <a class="dropdown-item"
+                                            href="{{ route('requeriments.edit', ['requeriment' => $requeriments->id]) }}">
+                                            <span class="text-green-500">
+                                                <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
+                                                Editar
+                                            </span>
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('finish', ['id' => $requeriments->id]) }}">
+                                            <span class="text-sky-500">
+                                                <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
+                                                Finalizar
+                                            </span>
+                                        </a>
+                                        <a href="" data-bs-toggle="modal"
+                                            onclick="exibirModalExclusao({{ $requeriments->id }})"
+                                            class="dropdown-item text-danger">
+                                            <span class="text-red-500">
+                                                <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                                Excluir
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                    @endforeach
+
+                </table>
             </div>
         </div>
     </div>
+
+    {{ $requeriment->links('pagination::bootstrap-5') }}
 @endsection

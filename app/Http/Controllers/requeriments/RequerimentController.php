@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\requeriments;
 
 use App\Http\Controllers\Controller;
+use App\Models\Requeriment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RequerimentController extends Controller
 {
@@ -12,7 +14,11 @@ class RequerimentController extends Controller
      */
     public function index()
     {
-        return view('admin.requeriments.index');
+        $requeriment = Requeriment::paginate(8);
+
+        return view('admin.requeriments.index', [
+            'requeriment' => $requeriment,
+        ]);
     }
 
     /**
@@ -20,7 +26,7 @@ class RequerimentController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.requeriments.create');
     }
 
     /**
@@ -28,7 +34,40 @@ class RequerimentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only('destinatario', 'office', 'subject', 'description', 'coord_1', 'coord_2', 'coord_3');
+
+        $validator = $this->validator($data);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $ultimoOficio = Requeriment::orderBy('id', 'desc')->first();
+
+        if ($ultimoOficio) {
+            $numero = intval(substr($ultimoOficio->oficio_num, -4)) + 1;
+        } else {
+            $numero = 1;
+        }
+
+        $oficioNum = sprintf('%04d', $numero);
+
+        $requeriment = Requeriment::create([
+            'oficio_num' => $oficioNum,
+            'destinatario' => $data['destinatario'],
+            'office' => $data['office'],
+            'subject' => $data['subject'],
+            'description' => $data['description'],
+            'coord_1' => $data['coord_1'],
+            'coord_2' => $data['coord_2'],
+            'coord_3' => $data['coord_3'],
+        ]);
+        $requeriment->save();
+
+        session()->flash('success', 'Requerimento Criado com sucesso.');
+        return redirect()->route('requeriments.index');
     }
 
     /**
@@ -61,5 +100,30 @@ class RequerimentController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function validator($data)
+    {
+        return Validator::make(
+            $data,
+            [
+                'destinatario' => ['required'],
+                'office' => ['required'],
+                'subject' => ['required'],
+                'description' => ['required'],
+                'coord_1' => ['required'],
+            ],
+            [
+                'destinatario.required' => 'Preencha esse campo.',
+
+                'office.required' => 'Preencha esse campo.',
+
+                'subject.required' => 'Preencha esse campo',
+
+                'description.required' => 'Preencha esse campo.',
+
+                'coord_1.required' => 'Informe pelo menos um Coordenador.',
+            ],
+        );
     }
 }

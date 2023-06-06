@@ -210,31 +210,6 @@
                         @enderror
                     </div>
 
-                    {{-- <div class="col-md-3">
-                        <x-labels colorSpan="text-red-500" id="user_id">
-                            Selecione o cliente que você deseja
-                        </x-labels>
-
-                        <select name="user_id" id="user_id" class="form-control">
-                            @foreach ($users as $user)
-                                @if ($proccess->user_id == $user->id)
-                                    <option value="{{ $user->id }}" selected>{{ ucfirst($user->name) }}</option>
-                                @endif
-                            @endforeach
-
-                            @foreach ($users as $user)
-                                @if ($user->admin === 1)
-                                @else
-                                    <option value="{{ $user->id }}">{{ ucfirst($user->name) }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-
-                        @error('user_id')
-                            <span class="text-red-500 flex">{{ $message }}</span>
-                        @enderror
-                    </div> --}}
-
                     <div class="col-md-3">
                         <x-labels colorSpan="hidden" id="status">
                             Selecione o status do processo

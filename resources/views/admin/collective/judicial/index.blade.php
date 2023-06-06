@@ -30,11 +30,6 @@
             Novo Processo
         </a>
 
-        <a href="{{ route('requeriments.index') }}"
-            class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600 transition ease-in-out duration-600 mr-2">
-            Novo Requerimento
-        </a>
-
         <div class="row mt-3">
             <x-card quantity="{{ $proccessCount }}" size="col-md-3" icon="fa-solid fa-book">
                 Processos Judiciais
@@ -180,5 +175,5 @@
     </div>
 
 
-    {{ $proccess->links('pagination::bootstrap-4') }}
+    {{ $proccess->links('pagination::bootstrap-5') }}
 @endsection

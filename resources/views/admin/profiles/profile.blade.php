@@ -26,12 +26,11 @@
 
     <div class="row">
         <div class="col-lg-6">
-            @include('admin.profiles.layouts.card')
-            @include('admin.profiles.layouts.table')
+            @include('admin.profiles.partials.card')
         </div>
 
         <div class="col-lg-6">
-            @include('admin.profiles.layouts.profile')
+            @include('admin.profiles.partials.profile')
         </div>
     </div>
 

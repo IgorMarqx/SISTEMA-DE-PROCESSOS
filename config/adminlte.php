@@ -331,6 +331,15 @@ return [
                 request()->is('administrative_individual/*')
         ],
 
+        [
+            'text' => 'Requerimentos',
+            'url' => '/requeriments',
+            'icon' => 'fa-sharp fa-solid fa-clipboard-list',
+            'can' => ['manager-users'],
+            'active' => request()->is('requeriments/create') ||
+                request()->is('requeriments/*')
+        ],
+
         ['header' => 'Administração',  'can' => ['manager-users', 'manager-lawyer']],
         [
             'text'        => 'Usuários',
