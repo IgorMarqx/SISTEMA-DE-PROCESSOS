@@ -48,6 +48,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://cdn.tiny.cloud/1/cvmrofeujlttp57vef2phv21l1intn3mor17qduzsn0w19qq/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
 
     <script src="{{ asset('assets/js/login.js') }}"></script>
     <script src="{{ asset('assets/js/activeNav.js') }}"></script>

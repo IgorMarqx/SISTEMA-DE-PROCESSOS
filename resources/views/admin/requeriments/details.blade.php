@@ -13,6 +13,11 @@
         <a href="{{ route('requeriments.index') }}" class="p-2 bg-red-500 text-white hover:bg-red-600 rounded">
             <i class="fa-solid fa-reply"></i>
         </a>
+
+        <a href="{{ route('downloadPdf', ['id' => $requeriment->id]) }}"
+            class="bg-sky-500 text-white p-2 hover:bg-sky-600 rounded ml-2">
+            Gerar PDF
+        </a>
     </div>
 
     <div class="card mt-1">
@@ -67,8 +72,8 @@
             </div>
 
             <div class="flex flex-1 flex-wrap">
-                <div class="flex-col items-start justify-center overflow-y-auto h-[500px]">
-                    {{ $requeriment->description }}
+                <div class="flex-col items-center justify-center overflow-y-auto h-[500px]">
+                    {!! $requeriment->description !!}
                 </div>
             </div>
 

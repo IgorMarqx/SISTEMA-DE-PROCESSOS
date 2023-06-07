@@ -12,9 +12,10 @@ use App\Http\Controllers\pages\AdministrativeCollectiveController;
 
 use App\Http\Controllers\pages\AdministrativeIndividualController;
 use App\Http\Controllers\pages\IndividualController;
-
 use App\Http\Controllers\profile\ProfileController;
+
 use App\Http\Controllers\requeriments\RequerimentController;
+use App\Http\Controllers\PdfController;
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login_action', [LoginController::class, 'login_action'])->name('login_action');
@@ -53,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('adm_idividual_finish/{id}', [AdministrativeIndividualController::class, 'finish'])->name('adm_individual_finish');
 
     Route::get('requeriments', [RequerimentController::class, 'index'])->name('requeriments');
+    Route::get('downloadPdf/{id}', [PdfController::class, 'downloadPdf'])->name('downloadPdf');
 
     // RESOURCES
     Route::resource('users', UserController::class);

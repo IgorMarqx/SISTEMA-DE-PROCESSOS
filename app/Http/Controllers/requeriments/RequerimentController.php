@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 class RequerimentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:manager-lawyer');
+    }
     /**
      * Display a listing of the resource.
      */

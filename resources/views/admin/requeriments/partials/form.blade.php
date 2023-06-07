@@ -87,8 +87,8 @@
             </x-labels>
 
             <textarea id="description" name="description"
-                class="form-control @error('description') is-invalid @enderror"id="" cols="2" rows="7"
-                placeholder="Insira uma descrição">{{ old('description') }}</textarea>
+                class="form-control bodyfield @error('description') is-invalid @enderror"id="" cols="2"
+                rows="7" placeholder="Insira uma descrição">{{ old('description') }}</textarea>
 
             @error('description')
                 <span class="text-red-500 flex">{{ $message }}</span>
@@ -102,3 +102,13 @@
         </div>
     </div>
 </form>
+
+<script>
+    tinymce.init({
+        selector: 'textarea.bodyfield',
+        height: 300,
+        menubar: false,
+        plugins: ['link', 'table', 'image', 'autoresize', 'lists'],
+        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bulllist numlist',
+    })
+</script>
