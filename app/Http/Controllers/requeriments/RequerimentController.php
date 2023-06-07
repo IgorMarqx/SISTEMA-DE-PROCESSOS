@@ -16,8 +16,11 @@ class RequerimentController extends Controller
     {
         $requeriment = Requeriment::paginate(8);
 
+        $count_requeriment = Requeriment::count('id');
+
         return view('admin.requeriments.index', [
             'requeriment' => $requeriment,
+            'count_requeriment' => $count_requeriment
         ]);
     }
 

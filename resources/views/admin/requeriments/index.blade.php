@@ -21,13 +21,20 @@
         @include('components.warning')
     @endif
 
-    <div class="mb-4">
-        <a href="{{ route('requeriments.create') }}"
-            class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600 mr-2">
-            Novo Requerimento
-        </a>
+    <div class="">
+        <div class="flex mb-3 items-center">
+            <a href="{{ route('requeriments.create') }}"
+                class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition ease-in-out duration-600 mr-2">
+                Novo Requerimento
+            </a>
 
-        <div class="card mt-3 ">
+            <span class="bg-sky-500 text-white p-2 rounded hover:bg-sky-600">
+                Total de Requerimentos:
+                {{ $count_requeriment }}
+            </span>
+        </div>
+
+        <div class="card ">
             <div class="bg-red-500 h-1">
 
             </div>
@@ -52,8 +59,8 @@
 
                             <td class="text-center">
                                 <span
-                                    class="bg-blue-500 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-blue-400">
-                                    {{ $requeriments->office }}
+                                    class="bg-blue-500 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-blue-400 text-sm">
+                                    {{ strtoupper($requeriments->destinatario) }}
                                 </span>
                             </td>
 
