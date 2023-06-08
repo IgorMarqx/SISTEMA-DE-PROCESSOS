@@ -273,8 +273,7 @@
                         </x-labels>
 
                         <div class="input-group">
-                            <select name="lawyers[]" id="lawyers"
-                                class="form-control" multiple>
+                            <select name="lawyers[]" id="lawyers" class="form-control" multiple>
                                 <option value="error" disabled>Selecione um Advogado</option>
 
                                 @foreach ($lawyer as $lawyers)

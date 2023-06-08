@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Requeriment;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 class PdfController extends Controller
@@ -12,12 +13,17 @@ class PdfController extends Controller
     {
         $requeriment = Requeriment::find($id);
 
-        $mergeData = [
-            'footer' => 'Rodapé do documento',
-        ];
-        $encoding = 'UTF-8';
+        $imagemPath = public_path('assets/img/LOGO01.png');
+        $imagemData = File::get($imagemPath);
+        $imagemBase64 = base64_encode($imagemData);
 
-        $pdf = PDF::loadView('admin.pdf', $requeriment);
-        return $pdf->stream();
+        $data = [
+            'requeriment' => $requeriment,
+            'imagemBase64' => $imagemBase64,
+        ];
+
+        $pdf = PDF::loadView('admin.requeriments.pdf.pdf', ['data' => $data]);
+
+        return $pdf->stream('admin.requeriments.pdf.pdf');
     }
 }

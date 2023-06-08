@@ -71,9 +71,9 @@
                 <h4 class=" text-black m-0 text-bold">Descrição do Requerimento</h4>
             </div>
 
-            <div class="flex flex-1 flex-wrap">
+            <div class="flex flex-1 flex-wrap items-center justify-center">
                 <div class="flex-col items-center justify-center overflow-y-auto h-[500px]">
-                    {!! $requeriment->description !!}
+                        {!! $requeriment->description !!}
                 </div>
             </div>
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /* Defina estilos para o cabeçalho e o rodapé */
+        .header {
+            position: fixed;
+            top: -40;
+            left: 0;
+            right: 0;
+            height: 20px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="header" style="text-align: center;">
+        {{-- <img src="data:image/png;base64,{{ $data['imagemBase64'] }}" width="100px" alt=""> --}}
+        <p style="color: #fd7f7f;width: 20rem; font-size: .8rem; margin-left: 12rem;">
+            SINDICATO DOS TRABALHADORES DO PODER
+            JUDICIÁRIO FEDERAL NO ESTADO DA PARAÍBA
+        </p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="footer">
+        <br>
+        <p style="color:#fd7f7f; text-align:center;">
+            Rua Heráclito Cavalcante, 48, Centro. João Pessoa/PB. CEP 58.013-340. Fone/WA: 83.99634-4664
+            E-mail <a href="sindjuf@tre-pb.jus.br" target="_blank">sindjuf@tre-pb.jus.br</a> - Homepage sindjufpb.com.br
+            CNPJ
+            24.507.816/0001-74
+        </p>
+    </div>
+
+    @yield('content')
+</body>
+
+</html>
