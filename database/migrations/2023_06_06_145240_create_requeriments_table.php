@@ -19,8 +19,11 @@ return new class extends Migration
             $table->string('subject');
             $table->text('description')->nullable();
             $table->string('coord_1')->nullable();
+            $table->string('coord_office_1')->nullable();
             $table->string('coord_2')->nullable();
+            $table->string('coord_office_2')->nullable();
             $table->string('coord_3')->nullable();
+            $table->string('coord_office_3')->nullable();
             $table->timestamps();
         });
     }

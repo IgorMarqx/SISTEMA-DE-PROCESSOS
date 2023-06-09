@@ -42,7 +42,7 @@ class RequerimentController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('destinatario', 'office', 'subject', 'description', 'coord_1', 'coord_2', 'coord_3');
+        $data = $request->only('destinatario', 'office', 'subject', 'description', 'coord_1', 'coord_office_1', 'coord_2', 'coord_office_2', 'coord_3', 'coord_office_3');
 
         $validator = $this->validator($data);
 
@@ -51,6 +51,15 @@ class RequerimentController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        if ($data['coord_2'] != null && $data['coord_office_2'] == 'error') {
+            $validator->errors()->add('coord_2', 'Preencha esse campo.');
+
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+        dd($data['coord_2']);
 
         $ultimoOficio = Requeriment::orderBy('id', 'desc')->first();
 
@@ -170,6 +179,8 @@ class RequerimentController extends Controller
                 'subject' => ['required'],
                 'description' => ['required'],
                 'coord_1' => ['required'],
+                'coord_office_1' => ['required'],
+                'coord_office_2' => ['required_if:coord_2, !=, '],
             ],
             [
                 'destinatario.required' => 'Preencha esse campo.',
@@ -180,7 +191,11 @@ class RequerimentController extends Controller
 
                 'description.required' => 'Preencha esse campo.',
 
-                'coord_1.required' => 'Informe pelo menos um Coordenador.',
+                'coord_1.required' => 'Informe o Coordenador.',
+
+                'coord_office_1' => 'Escolha um cargo.',
+
+                'coord_office_2.required_if' => 'O Cargo do Requisitante 2 é obrigatório quando o campo Coordenador 2 está preenchido.',
             ],
         );
     }
