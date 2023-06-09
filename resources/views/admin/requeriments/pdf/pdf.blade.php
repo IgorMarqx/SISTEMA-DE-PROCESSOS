@@ -5,13 +5,12 @@
     <br>
     <br>
     <br>
+    <br>
     <div>
         <span>Oficio D.A. n°. {{ $data['requeriment']->oficio_num }}/2023-<strong>SINDJUF/PB</strong></span>
         <span style="position: absolute; margin-left: 12rem;">J. Pessoa/PB, 09 de setembro 2022.</span>
     </div>
 
-    <br>
-    <br>
     <br>
     <br>
 

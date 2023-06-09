@@ -200,4 +200,5 @@
 
         $('#cpf').mask('000.000.000-00', {reverse: true});
     </script>
+    <script src="{{ asset('assets/js/users.js') }}"></script>
 @endsection

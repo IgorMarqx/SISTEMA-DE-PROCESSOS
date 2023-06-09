@@ -174,6 +174,7 @@
         </div>
     </div>
 
+    <script src="{{ asset('assets/js/activeNav.js') }}"></script>
 
     {{ $proccess->links('pagination::bootstrap-5') }}
 @endsection

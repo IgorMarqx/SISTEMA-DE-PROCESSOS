@@ -25,4 +25,5 @@
             @include('admin.requeriments.partials.form')
         </div>
     </div>
+
 @endsection

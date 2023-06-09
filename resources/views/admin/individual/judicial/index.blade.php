@@ -174,6 +174,6 @@
         </div>
     </div>
 
-
+    <script src="{{ asset('assets/js/activeNav.js') }}"></script>
     {{ $individual->links('pagination::bootstrap-4') }}
 @endsection

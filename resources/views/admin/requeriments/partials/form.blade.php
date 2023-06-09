@@ -45,10 +45,23 @@
                 Coordenador 1
             </x-labels>
 
-            <input id="coord_1" type="text" class="form-control @error('coord_1') is-invalid @enderror"
+            <input id="coord_1" type="text" class="form-control coord1 @error('coord_1') is-invalid @enderror"
                 name="coord_1" placeholder="Informe um coordenador" autofocus value="{{ old('coord_1') }}">
 
             @error('coord_1')
+                <span class="text-red-500 flex">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div class="col-md-4 coord_office_1">
+            <x-labels id="coord_office_1" colorSpan="text-red-500">
+                Cargo do Coordenador 1
+            </x-labels>
+
+            <input id="coord_office_1" type="text" class="form-control coord1 @error('coord_office_1') is-invalid @enderror"
+                name="coord_office_1" placeholder="Informe o cargo do coordenador" autofocus value="{{ old('coord_office_1') }}">
+
+            @error('coord_office_1')
                 <span class="text-red-500 flex">{{ $message }}</span>
             @enderror
         </div>
@@ -112,3 +125,4 @@
         toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bulllist numlist',
     })
 </script>
+<script src="{{ asset('assets/js/requeriment.js') }}"></script>

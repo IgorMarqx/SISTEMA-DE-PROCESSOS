@@ -357,7 +357,7 @@ return [
         ],
         [
             'text'        => 'Meus Processos',
-            'url'         => '/proccess',
+            'url'         => '/singleProccess',
             'icon'        => 'fa-solid fa-suitcase',
         ],
 

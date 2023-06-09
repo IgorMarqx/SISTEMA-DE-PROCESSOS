@@ -22,8 +22,12 @@ class PdfController extends Controller
             'imagemBase64' => $imagemBase64,
         ];
 
+        // return view('admin.requeriments.pdf.pdf',[
+        //     'data' => $data,
+        // ]);
+
         $pdf = PDF::loadView('admin.requeriments.pdf.pdf', ['data' => $data]);
 
-        return $pdf->stream('admin.requeriments.pdf.pdf');
+        return $pdf->stream($requeriment->destinatario . '.pdf');
     }
 }

@@ -163,4 +163,7 @@
             @endforeach
         </x-tabela>
     </div>
+
+    <script src="{{ asset('assets/js/activeNav.js') }}"></script>
+
 @endsection

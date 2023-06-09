@@ -52,8 +52,6 @@
 
 
     <script src="{{ asset('assets/js/login.js') }}"></script>
-    <script src="{{ asset('assets/js/activeNav.js') }}"></script>
-    <script src="{{ asset('assets/js/users.js') }}"></script>
 </body>
 
 </html>

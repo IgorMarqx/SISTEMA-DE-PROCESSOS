@@ -5,7 +5,8 @@
 
 @section('content_header')
     <div class="mb-2">
-        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Processos Administrativos Individuais</h3>
+        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Processos Administrativos Individuais
+        </h3>
     </div>
 @endsection
 
@@ -51,8 +52,7 @@
         <div class="flex justify-center items-center gap-4 font-bold mb-3">
             <a id="" class="border-2 border-red-500 p-2 rounded text-red-500 hover:bg-red-500 hover:text-white"
                 href="{{ route('individual.index') }}">Judiciais</a>
-            <a id="judicial"
-                class="border-2 border-red-500 p-2 rounded text-red-500 hover:bg-red-500 hover:text-white"
+            <a id="judicial" class="border-2 border-red-500 p-2 rounded text-red-500 hover:bg-red-500 hover:text-white"
                 href="{{ route('administrative_individual.index') }}">Administrativos</a>
         </div>
 
@@ -101,20 +101,22 @@
                             @endif
 
                             <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:flex 2xl:flex">
-                                <x-button route="{{ route('administrative_individual.show', ['administrative_individual' => $individuals->id]) }}"
+                                <x-button
+                                    route="{{ route('administrative_individual.show', ['administrative_individual' => $individuals->id]) }}"
                                     color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
                                     icon="fa-solid fa-eye text-sm mr-[0.2rem]">
                                     Detalhes
                                 </x-button>
 
-                                <x-button route="{{ route('administrative_individual.edit', ['administrative_individual' => $individuals->id]) }}"
+                                <x-button
+                                    route="{{ route('administrative_individual.edit', ['administrative_individual' => $individuals->id]) }}"
                                     color="text-green-500" hover="hover:text-green-600" margin="mr-2"
                                     icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
                                     Editar
                                 </x-button>
 
-                                <x-button route="{{ route('adm_individual_finish', ['id' => $individuals->id]) }}" color="text-sky-500"
-                                    hover="hover:text-sky-600" margin="mr-1"
+                                <x-button route="{{ route('adm_individual_finish', ['id' => $individuals->id]) }}"
+                                    color="text-sky-500" hover="hover:text-sky-600" margin="mr-1"
                                     icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
                                     Finalizar
                                 </x-button>
@@ -175,6 +177,6 @@
         </div>
     </div>
 
-
+    <script src="{{ asset('assets/js/activeNav.js') }}"></script>
     {{ $individual->links('pagination::bootstrap-4') }}
 @endsection
