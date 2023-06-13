@@ -6,6 +6,7 @@ use App\Models\Requeriment;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PdfController extends Controller
 {
@@ -17,9 +18,12 @@ class PdfController extends Controller
         $imagemData = File::get($imagemPath);
         $imagemBase64 = base64_encode($imagemData);
 
+        $localDate = Carbon::parse($requeriment->created_at)->locale('pt_BR')->isoFormat('DD [de] MMMM [de] YYYY');
+
         $data = [
             'requeriment' => $requeriment,
             'imagemBase64' => $imagemBase64,
+            'localDate' =>$localDate
         ];
 
         // return view('admin.requeriments.pdf.pdf',[

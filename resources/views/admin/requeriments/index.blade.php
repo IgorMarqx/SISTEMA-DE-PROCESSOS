@@ -43,7 +43,6 @@
                 <table class="table table-hover table-valign-middle">
                     <tr>
                         <th class="w-[10rem] text-center">Oficio N°</th>
-                        <th class="w-[10rem] text-center">Assunto</th>
                         <th class="w-[10rem] text-center">Destinatario</th>
                         <th class="w-[10rem] text-center">Ações</th>
                     </tr>
@@ -53,9 +52,6 @@
                                 {{ $requeriments->oficio_num }}
                             </td>
 
-                            <td class="text-center">
-                                {{ $requeriments->subject }}
-                            </td>
 
                             <td class="text-center">
                                 <span
@@ -118,7 +114,6 @@
                                     </div>
                                 </div>
                             </td>
-
                         </tr>
                     @endforeach
 

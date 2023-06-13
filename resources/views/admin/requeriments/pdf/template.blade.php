@@ -4,17 +4,6 @@
 <head>
     <style>
         /* Defina estilos para o cabeçalho e o rodapé */
-        /* .header {
-            display: block;
-            position: fixed;
-            top: -40;
-            left: 0;
-            right: 0;
-            height: 20px;
-            padding: 10px;
-            text-align: center;
-        } */
-
         @page {
             margin: 200px 50px 80px 75px;
         }
@@ -41,7 +30,7 @@
 
 <body>
     <div class="header">
-        <img src="data:image/png;base64,{{ $data['imagemBase64'] }}" width="150px" alt="" style=" margin-top: -11rem;">
+        {{-- <img src="data:image/png;base64,{{ $data['imagemBase64'] }}" width="150px" alt="" style=" margin-top: -11rem;"> --}}
         <p
             style="color: #fd7f7f;width: 20rem; font-size: .8rem; margin-left: 11rem; margin-top: -4rem; font-weight: bold;">
             SINDICATO DOS TRABALHADORES DO PODER

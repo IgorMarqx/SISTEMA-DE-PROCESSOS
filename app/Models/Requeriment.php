@@ -18,7 +18,10 @@ class Requeriment extends Model
         'subject',
         'description',
         'coord_1',
+        'coord_office_1',
         'coord_2',
+        'coord_office_2',
         'coord_3',
+        'coord_office_3',
     ];
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Requeriment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RequerimentController extends Controller
 {
@@ -52,15 +53,6 @@ class RequerimentController extends Controller
                 ->withInput();
         }
 
-        if ($data['coord_2'] != null && $data['coord_office_2'] == 'error') {
-            $validator->errors()->add('coord_2', 'Preencha esse campo.');
-
-            return redirect()->back()
-            ->withErrors($validator)
-            ->withInput();
-        }
-        dd($data['coord_2']);
-
         $ultimoOficio = Requeriment::orderBy('id', 'desc')->first();
 
         if ($ultimoOficio) {
@@ -78,8 +70,11 @@ class RequerimentController extends Controller
             'subject' => $data['subject'],
             'description' => $data['description'],
             'coord_1' => $data['coord_1'],
+            'coord_office_1' => $data['coord_office_1'],
             'coord_2' => $data['coord_2'],
+            'coord_office_2' => $data['coord_office_2'],
             'coord_3' => $data['coord_3'],
+            'coord_office_3' => $data['coord_office_3'],
         ]);
         $requeriment->save();
 
@@ -171,32 +166,28 @@ class RequerimentController extends Controller
 
     public function validator($data)
     {
-        return Validator::make(
-            $data,
-            [
-                'destinatario' => ['required'],
-                'office' => ['required'],
-                'subject' => ['required'],
-                'description' => ['required'],
-                'coord_1' => ['required'],
-                'coord_office_1' => ['required'],
-                'coord_office_2' => ['required_if:coord_2, !=, '],
-            ],
-            [
-                'destinatario.required' => 'Preencha esse campo.',
+        $validator = Validator::make($data, [
+            'destinatario' => ['required'],
+            'office' => ['required'],
+            'subject' => ['required'],
+            'description' => ['required'],
+            'coord_1' => ['required'],
+            'coord_office_1' => ['required'],
+            'coord_2' => 'nullable',
+            'coord_office_2' => 'required_with:coord_2',
+            'coord_3' => 'nullable',
+            'coord_office_3' => 'required_with:coord_3',
+        ], [
+            'destinatario.required' => 'Preencha esse campo.',
+            'office.required' => 'Preencha esse campo.',
+            'subject.required' => 'Preencha esse campo.',
+            'description.required' => 'Preencha esse campo.',
+            'coord_1.required' => 'Informe o Coordenador.',
+            'coord_office_1.required' => 'Escolha um cargo.',
+            'coord_office_2' => 'Escolha um cargo.',
+            'coord_office_3' => 'Escolha um cargo.',
+        ]);
 
-                'office.required' => 'Preencha esse campo.',
-
-                'subject.required' => 'Preencha esse campo',
-
-                'description.required' => 'Preencha esse campo.',
-
-                'coord_1.required' => 'Informe o Coordenador.',
-
-                'coord_office_1' => 'Escolha um cargo.',
-
-                'coord_office_2.required_if' => 'O Cargo do Requisitante 2 é obrigatório quando o campo Coordenador 2 está preenchido.',
-            ],
-        );
+        return $validator;
     }
 }

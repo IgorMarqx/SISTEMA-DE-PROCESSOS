@@ -65,14 +65,14 @@
                     @if (old('coord_office_1'))
                         <option value="{{ old('coord_office_1') }}" selected>{{ old('coord_office_1') }}</option>
                     @else
-                        <option value="error" selected disabled>Selecione um Requisitante</option>
+                        <option value="error" selected disabled>Selecione o cargo do Requisitante</option>
                     @endif
                     <option value="Coordenador Geral">Coordenador Geral</option>
                     <option value="Coordenador de Finanças e Patrimônio">Coordenador de Finanças e Patrimônio</option>
                     <option value="Coordenador Jurídico">Coordenador Jurídico</option>
                     <option value="Coordenador de Comunicação e Imprensa">Coordenador de Comunicação e Imprensa</option>
                     <option value="Coordenador do Alto Sertão">Coordenador do Alto Sertão</option>
-                    <option value="Coordenador do Litoral, Brejo e Curimataú">Coordenador do Litoral, Brejo e Curimataú
+                    <option value="Coordenador do Litoral/Curimataú">Coordenador do Litoral, Brejo e Curimataú
                     </option>
                     <option value="Coordenador de Formação Sindical, Cultural, Esporte e Cidadania">Coordenador de
                         Formação Sindical, Cultural, Esporte e Cidadania</option>
@@ -105,16 +105,22 @@
                 Cargo do Requisitante 2
             </x-labels>
 
-            <div class="input-group">
+            <div class="">
                 <select name="coord_office_2" id="coord_office_2" class="form-control coord1">
-                    <option value="error" selected disabled>Selecione um Requisitante</option>
-                    <option value="">Coordenador Geral</option>
-                    <option value="">Coordenador de Finanças e Patrimônio</option>
-                    <option value="">Coordenador Jurídico</option>
-                    <option value="">Coordenador de Comunicação e Imprensa</option>
-                    <option value="">Coordenador do Alto Sertão</option>
-                    <option value="">Coordenador do Litoral, Brejo e Curimataú</option>
-                    <option value="">Coordenador de Formação Sindical, Cultural, Esporte e Cidadania</option>
+                    @if (old('coord_office_2'))
+                        <option value="{{ old('coord_office_2') }}" selected>{{ old('coord_office_2') }}</option>
+                    @else
+                        <option value="" selected>Selecione o cargo do Requisitante</option>
+                    @endif
+                    <option value="Coordenador Geral">Coordenador Geral</option>
+                    <option value="Coordenador de Finanças e Patrimônio">Coordenador de Finanças e Patrimônio</option>
+                    <option value="Coordenador Jurídico">Coordenador Jurídico</option>
+                    <option value="Coordenador de Comunicação e Imprensa">Coordenador de Comunicação e Imprensa</option>
+                    <option value="Coordenador do Alto Sertão">Coordenador do Alto Sertão</option>
+                    <option value="Coordenador do Litoral, Brejo e Curimataú">Coordenador do Litoral, Brejo e Curimataú
+                    </option>
+                    <option value="Coordenador de Formação Sindical, Cultural, Esporte e Cidadania">Coordenador de
+                        Formação Sindical, Cultural, Esporte e Cidadania</option>
                 </select>
 
                 @error('coord_office_2')
@@ -144,16 +150,23 @@
                 Cargo do Requisitante 3
             </x-labels>
 
-            <div class="input-group">
+            <div class="">
                 <select name="coord_office_3" id="coord_office_3" class="form-control coord1">
-                    <option value="error" selected disabled>Selecione um Requisitante</option>
-                    <option value="">Coordenador Geral</option>
-                    <option value="">Coordenador de Finanças e Patrimônio</option>
-                    <option value="">Coordenador Jurídico</option>
-                    <option value="">Coordenador de Comunicação e Imprensa</option>
-                    <option value="">Coordenador do Alto Sertão</option>
-                    <option value="">Coordenador do Litoral, Brejo e Curimataú</option>
-                    <option value="">Coordenador de Formação Sindical, Cultural, Esporte e Cidadania</option>
+                    @if (old('coord_office_3'))
+                        <option value="{{ old('coord_office_3') }}" selected>{{ old('coord_office_3') }}</option>
+                    @else
+                        <option value="" selected>Selecione o cargo do Requisitante</option>
+                    @endif
+                    <option value="Coordenador Geral">Coordenador Geral</option>
+                    <option value="Coordenador de Finanças e Patrimônio">Coordenador de Finanças e Patrimônio</option>
+                    <option value="Coordenador Jurídico">Coordenador Jurídico</option>
+                    <option value="Coordenador de Comunicação e Imprensa">Coordenador de Comunicação e Imprensa
+                    </option>
+                    <option value="Coordenador do Alto Sertão">Coordenador do Alto Sertão</option>
+                    <option value="Coordenador do Litoral, Brejo e Curimataú">Coordenador do Litoral, Brejo e Curimataú
+                    </option>
+                    <option value="Coordenador de Formação Sindical, Cultural, Esporte e Cidadania">Coordenador de
+                        Formação Sindical, Cultural, Esporte e Cidadania</option>
                 </select>
 
                 @error('coord_office_3')
