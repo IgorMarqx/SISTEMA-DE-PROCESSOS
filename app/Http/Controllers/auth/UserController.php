@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(7);
+        $users = User::latest()->paginate(7);
         $loggedId = User::find(intval(Auth::id()));
 
         $userCount = User::count();
@@ -254,7 +254,7 @@ class UserController extends Controller
                 'organ' => ['required', 'string'],
                 'office' =>  ['required', 'string'],
                 'capacity' =>  ['required', 'string'],
-                'telephone' =>  ['required'],
+                'telephone' =>  ['required', 'min:15'],
             ],
             [
                 'name.required' => 'Preencha esse campo.',
@@ -272,7 +272,9 @@ class UserController extends Controller
                 'organ.required' => 'Preencha esse campo',
                 'office.required' => 'Preencha esse campo',
                 'capacity.required' => 'Preencha esse campo',
-                'telephone.required' => 'Preencha esse campo'
+
+                'telephone.required' => 'Preencha esse campo',
+                'telephone.min' => 'Número inválido.',
             ]
         );
     }

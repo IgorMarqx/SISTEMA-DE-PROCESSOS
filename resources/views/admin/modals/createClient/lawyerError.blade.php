@@ -3,8 +3,7 @@
         $errors->has('emailLawyer') ||
         $errors->has('OAB') ||
         $errors->has('CPF') ||
-        $errors->has('password') ||
-        $errors->has('password_confirmation'))
+        $errors->has('password_lawyer'))
     <script>
         $(document).ready(function() {
             $('#lawyerModal').modal('show');

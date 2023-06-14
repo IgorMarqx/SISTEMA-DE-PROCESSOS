@@ -27,7 +27,7 @@ class CollectiveController extends Controller
      */
     public function index()
     {
-        $proccess = JudicialCollective::paginate(7);
+        $proccess = JudicialCollective::latest()->paginate(7);
         $loggedId = intval(Auth::id());
 
         $proccess_count = JudicialCollective::count();

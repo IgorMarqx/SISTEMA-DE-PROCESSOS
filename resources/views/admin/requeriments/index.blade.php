@@ -42,9 +42,9 @@
             <div class="table-responsive">
                 <table class="table table-hover table-valign-middle">
                     <tr>
-                        <th class="w-[10rem] text-center">Oficio N°</th>
-                        <th class="w-[10rem] text-center">Destinatario</th>
-                        <th class="w-[10rem] text-center">Ações</th>
+                        <th class="w-[25rem] text-center">Oficio N°</th>
+                        <th class="w-[25rem] text-center">Destinatario</th>
+                        <th class="text-center">Ações</th>
                     </tr>
                     @foreach ($requeriment as $requeriments)
                         <tr>
@@ -60,7 +60,7 @@
                                 </span>
                             </td>
 
-                            <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:flex 2xl:flex">
+                            <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:text-center 2xl:text-center">
                                 <x-button route="{{ route('requeriments.show', ['requeriment' => $requeriments->id]) }}"
                                     color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
                                     icon="fa-solid fa-eye text-sm mr-[0.2rem]">

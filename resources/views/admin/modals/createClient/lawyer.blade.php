@@ -73,10 +73,10 @@
                             </x-labels>
 
                             <input id="password" type="text"
-                                class="form-control @error('password') is-invalid @enderror" name="password"
+                                class="form-control @error('password_lawyer') is-invalid @enderror" name="password_lawyer"
                                 placeholder="Informe sua senha">
 
-                            @error('password')
+                            @error('password_lawyer')
                                 <span class="text-red-500 flex">{{ $message }}</span>
                             @enderror
                         </div>
@@ -87,7 +87,7 @@
                             </x-labels>
 
                             <input id="password_confirmation" type="text"
-                                class="form-control @error('password') is-invalid @enderror"
+                                class="form-control @error('password_lawyer') is-invalid @enderror"
                                 name="password_confirmation" placeholder="Confirme a senha">
                         </div>
                     </div>

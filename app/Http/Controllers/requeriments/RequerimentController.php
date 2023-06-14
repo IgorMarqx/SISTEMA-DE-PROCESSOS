@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Requeriment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class RequerimentController extends Controller
 {
@@ -20,7 +19,7 @@ class RequerimentController extends Controller
      */
     public function index()
     {
-        $requeriment = Requeriment::paginate(8);
+        $requeriment = Requeriment::latest()->paginate(8);
 
         $count_requeriment = Requeriment::count('id');
 
@@ -123,7 +122,7 @@ class RequerimentController extends Controller
     {
         $requeriment = Requeriment::find($id);
 
-        $data = $request->only('destinatario', 'office', 'subject', 'description', 'coord_1', 'coord_2', 'coord_3');
+        $data = $request->only('destinatario', 'office', 'subject', 'description', 'coord_1', 'coord_office_1', 'coord_2', 'coord_office_2', 'coord_3', 'coord_office_3');
 
         $validator = $this->validator($data);
 
@@ -138,8 +137,11 @@ class RequerimentController extends Controller
         $requeriment->subject = $data['subject'];
         $requeriment->description = $data['description'];
         $requeriment->coord_1 = $data['coord_1'];
+        $requeriment->coord_office_1 = $data['coord_office_1'];
         $requeriment->coord_2 = $data['coord_2'];
+        $requeriment->coord_office_2 = $data['coord_office_2'];
         $requeriment->coord_3 = $data['coord_3'];
+        $requeriment->coord_office_3 = $data['coord_office_3'];
         $requeriment->save();
 
         session()->flash('success', 'Requerimento atualizado com sucesso.');

@@ -30,9 +30,9 @@
 
 <body>
     <div class="header">
-        {{-- <img src="data:image/png;base64,{{ $data['imagemBase64'] }}" width="150px" alt="" style=" margin-top: -11rem;"> --}}
+        <img src="data:image/png;base64,{{ $data['imagemBase64'] }}" width="120px" alt="" style=" margin-top: -11rem;">
         <p
-            style="color: #fd7f7f;width: 20rem; font-size: .8rem; margin-left: 11rem; margin-top: -4rem; font-weight: bold;">
+            style="color: #fd7f7f;width: 20rem; font-size: .8rem; margin-left: 11rem; margin-top: -5.5rem; font-weight: bold;">
             SINDICATO DOS TRABALHADORES DO PODER
             JUDICIÁRIO FEDERAL NO ESTADO DA PARAÍBA
         </p>

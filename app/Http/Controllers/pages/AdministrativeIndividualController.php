@@ -23,7 +23,7 @@ class AdministrativeIndividualController extends Controller
      */
     public function index()
     {
-        $individual = AdministrativeIndividual::paginate(7);
+        $individual = AdministrativeIndividual::latest()->paginate(7);
 
         $individual_count =  AdministrativeIndividual::count();
 

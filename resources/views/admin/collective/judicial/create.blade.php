@@ -304,7 +304,13 @@
                         </x-labels>
 
                         <select name="type" id="type" class="form-control">
-                            <option value="error" selected>Informe o tipo do processo</option>
+                            @if (old('type') == 1)
+                                <option value="1" selected>Processo Judicial</option>
+                            @elseif(old('type') == 2)
+                                <option value="2" selected>Processo Administrativo</option>
+                            @else
+                                <option value="error" selected>Informe o tipo do processo</option>
+                            @endif
                             <option value="1">Processo Judicial</option>
                             <option value="2">Processo Administrativo</option>
                         </select>
@@ -320,7 +326,13 @@
                         </x-labels>
 
                         <select name="action_type" id="action_type" class="form-control">
-                            <option value="error" selected>Informe o tipo da ação</option>
+                            @if (old('action_type') == 1)
+                                <option value="1" selected>Coletivo Judicial Funcional</option>
+                            @elseif(old('action_type') == 2)
+                                <option value="2" selected>Coletivo Judicial Particular</option>
+                            @else
+                                <option value="error" selected>Informe o tipo da ação</option>
+                            @endif
                             <option value="1">Coletivo Judicial Funcional</option>
                             <option value="2">Coletivo Judicial Particular</option>
                         </select>

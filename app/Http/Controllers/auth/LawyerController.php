@@ -12,7 +12,7 @@ class LawyerController extends Controller
 {
     public function store(Request $request)
     {
-        $data = $request->only('lawyer', 'emailLaw', 'password', 'password_confirmation', 'OAB', 'CPF', 'admin');
+        $data = $request->only('lawyer', 'emailLaw', 'password_lawyer', 'password_confirmation', 'OAB', 'CPF', 'admin');
 
         $validator = $this->validator($data);
 
@@ -25,7 +25,7 @@ class LawyerController extends Controller
         $user = User::create([
             'name' => $data['lawyer'],
             'email' => $data['emailLaw'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['password_lawyer']),
             'oab' => $data['OAB'],
             'cpf' => $data['CPF'],
             'admin' => $data['admin'],
@@ -43,16 +43,16 @@ class LawyerController extends Controller
             [
                 'lawyer' => ['required'],
                 'emailLaw' => ['required', 'unique:users,email'],
-                'password' => ['required', 'string', 'min:5', 'confirmed'],
+                'password_lawyer' => ['required', 'string', 'min:5'],
                 'OAB' => ['required', 'unique:users'],
-                'CPF' => ['required', 'unique:users'],
+                'CPF' => ['required', 'unique:users', 'min:14'],
             ],
             [
                 'lawyer.required' => 'Preencha esse campo.',
 
-                'password.required' => 'Preencha esse campo.',
-                'password.confirmed' => 'Senhas não coincidem.',
-                'password.min' => 'Tamanho minimo de 5 caracteres.',
+                'password_lawyer.required' => 'Preencha esse campo.',
+                'password_lawyer.confirmed' => 'Senhas não coincidem.',
+                'password_lawyer.min' => 'Tamanho minimo de 5 caracteres.',
 
                 'emailLaw.required' => 'Preencha esse campo.',
                 'emailLaw.email' => 'Insira um e-mail válido.',
@@ -63,6 +63,7 @@ class LawyerController extends Controller
 
                 'CPF.required' => 'Preencha esse campo.',
                 'CPF.unique' => 'Já existe esse CPF.',
+                'CPF.min' => 'CPF inválido.',
             ]
         );
     }

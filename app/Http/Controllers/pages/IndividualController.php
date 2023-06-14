@@ -23,7 +23,7 @@ class IndividualController extends Controller
      */
     public function index()
     {
-        $individual = JudicialIndividual::paginate(7);
+        $individual = JudicialIndividual::latest()->paginate(7);
 
         $individual_count =  JudicialIndividual::count();
 

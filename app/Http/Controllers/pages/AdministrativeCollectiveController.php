@@ -25,7 +25,7 @@ class AdministrativeCollectiveController extends Controller
      */
     public function index()
     {
-        $administrative =  AdministrativeCollective::paginate(7);
+        $administrative =  AdministrativeCollective::latest()->paginate(7);
 
         $administrative_count = AdministrativeCollective::count();
 

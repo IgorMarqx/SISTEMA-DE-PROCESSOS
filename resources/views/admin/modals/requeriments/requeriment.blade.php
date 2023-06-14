@@ -4,12 +4,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title fs-5 text-red-500" id="exampleModalLabel">Deletando
-                    Processo</h4>
+                    Requerimento</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <span class="text-red-500">Atenção!</span>
-                <p class="text-red-500">Tem certeza que você deseja apagar esse Processo</p>
+                <p class="text-red-500">Tem certeza que você deseja apagar esse Requerimento?</p>
             </div>
 
             <form id="deleteForm" method="POST">
