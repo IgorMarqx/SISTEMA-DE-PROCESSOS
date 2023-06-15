@@ -14,21 +14,15 @@ class PdfController extends Controller
     {
         $requeriment = Requeriment::find($id);
 
-        $imagemPath = public_path('assets/img/LOGO01.png');
-        $imagemData = File::get($imagemPath);
-        $imagemBase64 = base64_encode($imagemData);
+        $imagemPath = public_path('assets/img/logoSind.png');
 
         $localDate = Carbon::parse($requeriment->created_at)->locale('pt_BR')->isoFormat('DD [de] MMMM [de] YYYY');
 
         $data = [
             'requeriment' => $requeriment,
-            'imagemBase64' => $imagemBase64,
+            'imagemPath' => $imagemPath,
             'localDate' =>$localDate
         ];
-
-        // return view('admin.requeriments.pdf.pdf',[
-        //     'data' => $data,
-        // ]);
 
         $pdf = PDF::loadView('admin.requeriments.pdf.pdf', ['data' => $data]);
 

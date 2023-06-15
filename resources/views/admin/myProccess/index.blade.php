@@ -14,24 +14,22 @@
 
         </div>
 
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover table-valign-middle">
-                    <tr>
-                        <th class="w-[15rem] text-center">Meu Processo</th>
-                        <th class="w-[15rem] text-center">Tipo da ação</th>
-                        <th class="w-[20rem] text-center">Status do Processo</th>
-                        <th class="text-center">Ações</th>
-                    </tr>
+        <div class="table-responsive">
+            <table class="table table-hover table-valign-middle">
+                <tr>
+                    <th class="w-[15rem] text-center">Meu Processo</th>
+                    <th class="w-[15rem] text-center">Tipo da ação</th>
+                    <th class="w-[20rem] text-center">Status do Processo</th>
+                    <th class="text-center">Ações</th>
+                </tr>
 
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
 
-            </div>
         </div>
     </div>
 @endsection

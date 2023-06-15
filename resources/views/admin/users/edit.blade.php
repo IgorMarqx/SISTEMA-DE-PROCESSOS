@@ -211,4 +211,6 @@
     <script>
         $('#telephone').mask('(00) 00000-0000');
     </script>
+
+    <script src="{{ asset('assets/js/editUsers.js') }}"></script>
 @endsection

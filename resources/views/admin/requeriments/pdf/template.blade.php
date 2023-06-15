@@ -30,7 +30,7 @@
 
 <body>
     <div class="header">
-        <img src="data:image/png;base64,{{ $data['imagemBase64'] }}" width="120px" alt="" style=" margin-top: -11rem;">
+        <img src="{{ $data['imagemPath'] }}" width="120px" alt="" style=" margin-top: -12rem;">
         <p
             style="color: #fd7f7f;width: 20rem; font-size: .8rem; margin-left: 11rem; margin-top: -5.5rem; font-weight: bold;">
             SINDICATO DOS TRABALHADORES DO PODER
@@ -39,7 +39,8 @@
     </div>
 
     <div class="footer">
-        <p style="color:#fd7f7f; text-align:center; font-weight: bold; border-top:1px solid #ccc; font-size: .9rem; margin-top:4rem;">
+        <p
+            style="color:#fd7f7f; text-align:center; font-weight: bold; border-top:1px solid #ccc; font-size: .9rem; margin-top:4rem;">
             Rua Heráclito Cavalcante, 48, Centro. João Pessoa/PB. CEP 58.013-340. Fone/WA: 83.99634-4664
             E-mail <a href="sindjuf@tre-pb.jus.br" target="_blank">sindjuf@tre-pb.jus.br</a> - Homepage
             sindjufpb.com.br

@@ -11,6 +11,7 @@ use App\Models\Lawyer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,6 +28,7 @@ class CollectiveController extends Controller
      */
     public function index()
     {
+
         $proccess = JudicialCollective::latest()->paginate(7);
         $loggedId = intval(Auth::id());
 
@@ -502,7 +504,7 @@ class CollectiveController extends Controller
                     ->withInput();
             }
 
-            foreach($defendants as $defendant){
+            foreach ($defendants as $defendant) {
                 $defendant->defendant = $request->defendant;
                 $defendant->cnpj = $request->cnpj;
             }

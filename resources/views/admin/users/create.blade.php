@@ -198,7 +198,9 @@
     <script>
         $('#telephone').mask('(00) 00000-0000');
 
-        $('#cpf').mask('000.000.000-00', {reverse: true});
+        $('#cpf').mask('000.000.000-00', {
+            reverse: true
+        });
     </script>
     <script src="{{ asset('assets/js/users.js') }}"></script>
 @endsection

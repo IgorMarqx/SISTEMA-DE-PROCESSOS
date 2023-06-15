@@ -5,7 +5,8 @@
 
 @section('content_header')
     <div class="mb-2">
-        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Processos Administrativos Coletivos</h3>
+        <h3 class="text-red-500 font-bold underline flex justify-center items-center">Processos Administrativos Coletivos
+        </h3>
     </div>
 @endsection
 
@@ -92,7 +93,7 @@
                         </x-status>
                     @endif
 
-                    <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:flex 2xl:flex">
+                    <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:text-center 2xl:text-center">
                         <x-button
                             route="{{ route('administrative_collective.show', ['administrative_collective' => $administratives->id]) }}"
                             color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
@@ -100,12 +101,15 @@
                             Detalhes
                         </x-button>
 
-                        <x-button
-                            route="{{ route('administrative_collective.edit', ['administrative_collective' => $administratives->id]) }}"
-                            color="text-green-500" hover="hover:text-green-600" margin="mr-2"
-                            icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
-                            Editar
-                        </x-button>
+                        @if ($administratives->finish_collective == 1)
+                        @else
+                            <x-button
+                                route="{{ route('administrative_collective.edit', ['administrative_collective' => $administratives->id]) }}"
+                                color="text-green-500" hover="hover:text-green-600" margin="mr-2"
+                                icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                Editar
+                            </x-button>
+                        @endif
 
                         <x-button route="{{ route('adm_finish', ['id' => $administratives->id]) }}" color="text-sky-500"
                             hover="hover:text-sky-600" margin="mr-1" icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
@@ -134,13 +138,18 @@
                                         Detalhes
                                     </span>
                                 </a>
-                                <a class="dropdown-item"
-                                    href="{{ route('administrative_collective.edit', ['administrative_collective' => $administratives->id]) }}">
-                                    <span class="text-green-500">
-                                        <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
-                                        Editar
-                                    </span>
-                                </a>
+
+                                @if ($administratives->finish_collective == 1)
+                                @else
+                                    <a class="dropdown-item"
+                                        href="{{ route('administrative_collective.edit', ['administrative_collective' => $administratives->id]) }}">
+                                        <span class="text-green-500">
+                                            <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
+                                            Editar
+                                        </span>
+                                    </a>
+                                @endif
+
                                 <a class="dropdown-item" href="{{ route('adm_finish', ['id' => $administratives->id]) }}">
                                     <span class="text-sky-500">
                                         <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>

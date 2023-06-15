@@ -100,7 +100,7 @@
                                 </x-status>
                             @endif
 
-                            <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:flex 2xl:flex">
+                            <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:text-center 2xl:text-center">
                                 <x-button
                                     route="{{ route('administrative_individual.show', ['administrative_individual' => $individuals->id]) }}"
                                     color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
@@ -108,12 +108,15 @@
                                     Detalhes
                                 </x-button>
 
-                                <x-button
-                                    route="{{ route('administrative_individual.edit', ['administrative_individual' => $individuals->id]) }}"
-                                    color="text-green-500" hover="hover:text-green-600" margin="mr-2"
-                                    icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
-                                    Editar
-                                </x-button>
+                                @if ($individuals->finish_individuals == 1)
+                                @else
+                                    <x-button
+                                        route="{{ route('administrative_individual.edit', ['administrative_individual' => $individuals->id]) }}"
+                                        color="text-green-500" hover="hover:text-green-600" margin="mr-2"
+                                        icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                        Editar
+                                    </x-button>
+                                @endif
 
                                 <x-button route="{{ route('adm_individual_finish', ['id' => $individuals->id]) }}"
                                     color="text-sky-500" hover="hover:text-sky-600" margin="mr-1"
@@ -144,13 +147,18 @@
                                                 Detalhes
                                             </span>
                                         </a>
-                                        <a class="dropdown-item"
-                                            href="{{ route('individual.edit', ['individual' => $individuals->id]) }}">
-                                            <span class="text-green-500">
-                                                <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
-                                                Editar
-                                            </span>
-                                        </a>
+
+                                        @if ($individuals->finish_individuals == 1)
+                                        @else
+                                            <a class="dropdown-item"
+                                                href="{{ route('individual.edit', ['individual' => $individuals->id]) }}">
+                                                <span class="text-green-500">
+                                                    <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
+                                                    Editar
+                                                </span>
+                                            </a>
+                                        @endif
+
                                         <a class="dropdown-item"
                                             href="{{ route('adm_individual_finish', ['id' => $individuals->id]) }}">
                                             <span class="text-sky-500">

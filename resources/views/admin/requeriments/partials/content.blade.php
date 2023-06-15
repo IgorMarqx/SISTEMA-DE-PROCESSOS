@@ -4,14 +4,6 @@
             <i class="fa-solid fa-circle-check text-sm text-green-500 mr-1"></i>
             <span class="text-bold">Requerimento de N°: {{ $requeriment->oficio_num }}</span>
         </div>
-
-        {{-- <div class="text-bold">
-            Assunto:
-        </div> --}}
-
-        {{-- <div class="pl-2">
-        </div> --}}
-
         <div class="">
             <h6 class="m-0 p-0 text-bold">Destinatário:</h6>
             <div class="pl-2 mb-2">
@@ -23,7 +15,7 @@
                 {{ ucfirst($requeriment->office) }}
             </div>
 
-            <h6 class="m-0 p-0 text-bold">Cargo:</h6>
+            <h6 class="m-0 p-0 text-bold">Assunto:</h6>
             <div class="pl-2 mb-2">
                 {{ ucfirst($requeriment->subject) }}
             </div>
