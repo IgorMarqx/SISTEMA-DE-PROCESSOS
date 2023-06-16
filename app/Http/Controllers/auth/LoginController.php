@@ -46,7 +46,7 @@ class LoginController extends Controller
                 }
             }
 
-            return redirect()->route('profile');
+            return redirect()->route('singleProccess.index');
         } else {
             $validator->errors()->add('email', 'E-mail ou senha incorretos');
 

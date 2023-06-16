@@ -18,6 +18,7 @@ use App\Http\Controllers\PdfController;
 
 use App\Http\Controllers\profile\SingleProccessController;
 use App\Http\Controllers\profile\ProfileController;
+use App\Http\Controllers\profile\SingleProccessAdministrativeController;
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login_action', [LoginController::class, 'login_action'])->name('login_action');
@@ -59,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('downloadPdf/{id}', [PdfController::class, 'downloadPdf'])->name('downloadPdf');
 
     Route::get('singleProccess', [SingleProccessController::class, 'index'])->name('singleProccess');
+    Route::get('administrativeIndex', [SingleProccessController::class, 'administrativeIndex'])->name('administrativeIndex');
 
     // RESOURCES
     Route::resource('users', UserController::class);
@@ -68,4 +70,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('administrative_individual', AdministrativeIndividualController::class);
     Route::resource('requeriments', RequerimentController::class);
     Route::resource('profile', ProfileController::class);
+    Route::resource('singleProccess', SingleProccessController::class);
 });

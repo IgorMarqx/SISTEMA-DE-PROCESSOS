@@ -9,6 +9,7 @@ use App\Models\Defendant;
 use App\Models\JudicialCollective;
 use App\Models\Lawyer;
 use App\Models\User;
+use App\Models\UserProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -189,6 +190,12 @@ class CollectiveController extends Controller
             ]);
             $reu->save();
 
+            $userprocess = UserProcess::create([
+                'user_id' => $data['user_id'],
+                'judicial_collective_id' => $collective->id,
+            ]);
+            $userprocess->save();
+
             session()->flash('success', 'Processo Judicial criado com sucesso.');
             return redirect()->route('collective.index');
         } else {
@@ -300,6 +307,12 @@ class CollectiveController extends Controller
                 'administrative_collective_id' => $collective->id,
             ]);
             $reu->save();
+
+            $userprocess = UserProcess::create([
+                'user_id' => $data['user_id'],
+                'administrative_collective_id' => $collective->id,
+            ]);
+            $userprocess->save();
 
             session()->flash('success', 'Processo Administrativo criado com sucesso.');
             return redirect()->route('administrative_collective.index');

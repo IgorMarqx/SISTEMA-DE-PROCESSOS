@@ -9,6 +9,7 @@ use App\Models\Defendant;
 use App\Models\JudicialIndividual;
 use App\Models\Lawyer;
 use App\Models\User;
+use App\Models\UserProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -171,6 +172,12 @@ class IndividualController extends Controller
             ]);
             $reu->save();
 
+            $userprocess = UserProcess::create([
+                'user_id' => $data['user_id'],
+                'judicial_individual_id' => $individual->id,
+            ]);
+            $userprocess->save();
+
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('individual.index');
         } else {
@@ -282,6 +289,12 @@ class IndividualController extends Controller
                 'administrative_individual_id' => $individual->id,
             ]);
             $reu->save();
+
+            $userprocess = UserProcess::create([
+                'user_id' => $data['user_id'],
+                'administrative_individual_id' => $individual->id,
+            ]);
+            $userprocess->save();
 
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('administrative_individual.index');

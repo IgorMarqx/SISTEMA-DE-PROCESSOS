@@ -10,11 +10,21 @@ class SingleProccessController extends Controller
 {
     public function index()
     {
-        $loggedId = auth()->user()->id;
-        $judicialCollective = JudicialCollective::where('user_id', $loggedId)->get();
+        $loggedId = auth()->user();
 
-        return view('admin.myProccess.index', [
-            'data' => $judicialCollective,
+        $judicialCollective = $loggedId->judicialCollectives;
+        $judicialIndividual = $loggedId->judicialIndividuals;
+        $administrativeCollective = $loggedId->administrativeCollectives;
+        $administrativeIndividual = $loggedId->administrativeIndividuals;
+
+        $process = $judicialCollective
+            ->concat($judicialIndividual)
+            ->concat($administrativeCollective)
+            ->concat($administrativeIndividual);
+
+
+        return view('admin.myProccess.judicial.index', [
+            'process' => $process,
         ]);
     }
 }

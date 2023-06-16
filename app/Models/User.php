@@ -90,4 +90,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Lawyer::class, 'user_id_4', 'id');
     }
+
+    public function judicialCollectives()
+    {
+        return $this->belongsToMany(JudicialCollective::class, 'userprocess', 'user_id', 'judicial_collective_id');
+    }
+
+    public function judicialIndividuals()
+    {
+        return $this->belongsToMany(JudicialIndividual::class, 'userprocess', 'user_id', 'judicial_individual_id');
+    }
+
+    public function administrativeCollectives()
+    {
+        return $this->belongsToMany(AdministrativeCollective::class, 'userprocess', 'user_id', 'administrative_collective_id');
+    }
+
+    public function administrativeIndividuals()
+    {
+        return $this->belongsToMany(AdministrativeIndividual::class, 'userprocess', 'user_id', 'administrative_individual_id');
+    }
 }
