@@ -18,7 +18,6 @@ use App\Http\Controllers\PdfController;
 
 use App\Http\Controllers\profile\SingleProccessController;
 use App\Http\Controllers\profile\ProfileController;
-use App\Http\Controllers\profile\SingleProccessAdministrativeController;
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login_action', [LoginController::class, 'login_action'])->name('login_action');
