@@ -34,6 +34,7 @@ class AdministrativeIndividual extends Model
         'finish_individuals',
         'update_individuals',
         'action_type',
+        'is_AdmIndividual',
     ];
 
 

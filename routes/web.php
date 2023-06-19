@@ -59,7 +59,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('downloadPdf/{id}', [PdfController::class, 'downloadPdf'])->name('downloadPdf');
 
     Route::get('singleProccess', [SingleProccessController::class, 'index'])->name('singleProccess');
-    Route::get('administrativeIndex', [SingleProccessController::class, 'administrativeIndex'])->name('administrativeIndex');
+    // Route::get('administrativeIndex', [SingleProccessController::class, 'administrativeIndex'])->name('administrativeIndex');
 
     // RESOURCES
     Route::resource('users', UserController::class);

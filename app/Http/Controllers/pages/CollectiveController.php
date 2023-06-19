@@ -12,7 +12,6 @@ use App\Models\User;
 use App\Models\UserProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
@@ -162,6 +161,7 @@ class CollectiveController extends Controller
                 'email_client' => $data['email_client'],
                 'progress_collective' => intval($progress),
                 'action_type' => $data['type'],
+                'is_collective' => 1,
             ]);
             $collective->save();
 
@@ -192,6 +192,7 @@ class CollectiveController extends Controller
 
             $userprocess = UserProcess::create([
                 'user_id' => $data['user_id'],
+                'lawyer_id' => $lawyer->id,
                 'judicial_collective_id' => $collective->id,
             ]);
             $userprocess->save();
@@ -280,6 +281,7 @@ class CollectiveController extends Controller
                 'email_client' => $data['email_client'],
                 'progress_collective' => intval($progress),
                 'action_type' => $data['type'],
+                'is_AdmCollective' => 1,
             ]);
             $collective->save();
 
@@ -310,6 +312,7 @@ class CollectiveController extends Controller
 
             $userprocess = UserProcess::create([
                 'user_id' => $data['user_id'],
+                'lawyer_id' => $lawyer->id,
                 'administrative_collective_id' => $collective->id,
             ]);
             $userprocess->save();

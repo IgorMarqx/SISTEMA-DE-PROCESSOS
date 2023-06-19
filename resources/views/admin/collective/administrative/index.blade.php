@@ -121,8 +121,9 @@
                             <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                             Excluir
                         </a>
-                        @include('admin.modals.administrative.administrative')
                     </td>
+
+                    @include('admin.modals.administrative.administrative')
 
                     <td class="xl:hidden 2xl:hidden">
                         <div class="btn-group">

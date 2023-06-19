@@ -143,7 +143,8 @@ class IndividualController extends Controller
                 'email_coorporative' => $data['email_corp'],
                 'email_client' => $data['email_client'],
                 'progress_individuals' => intval($progress),
-                'action_type' => $data['action_type']
+                'action_type' => $data['action_type'],
+                'is_individual' => 1,
             ]);
             $individual->save();
 
@@ -174,6 +175,7 @@ class IndividualController extends Controller
 
             $userprocess = UserProcess::create([
                 'user_id' => $data['user_id'],
+                'lawyer_id' => $lawyer->id,
                 'judicial_individual_id' => $individual->id,
             ]);
             $userprocess->save();
@@ -261,7 +263,8 @@ class IndividualController extends Controller
                 'email_coorporative' => $data['email_corp'],
                 'email_client' => $data['email_client'],
                 'progress_individuals' => intval($progress),
-                'action_type' => $data['action_type']
+                'action_type' => $data['action_type'],
+                'is_AdmIndividual' => 1,
             ]);
             $individual->save();
 
@@ -292,6 +295,7 @@ class IndividualController extends Controller
 
             $userprocess = UserProcess::create([
                 'user_id' => $data['user_id'],
+                'lawyer_id' => $lawyer->id,
                 'administrative_individual_id' => $individual->id,
             ]);
             $userprocess->save();

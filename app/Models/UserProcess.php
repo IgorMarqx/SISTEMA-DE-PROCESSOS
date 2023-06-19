@@ -13,9 +13,15 @@ class UserProcess extends Model
 
     protected $fillable = [
         'user_id',
+        'lawyer_id',
         'judicial_collective_id',
         'judicial_individual_id',
         'administrative_collective_id',
         'administrative_individual_id',
     ];
+
+    public function lawyer()
+    {
+        return $this->belongsTo(Lawyer::class, 'lawyer_id', 'id');
+    }
 }

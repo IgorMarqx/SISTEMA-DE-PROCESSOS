@@ -23,8 +23,13 @@ class SingleProccessController extends Controller
             ->concat($administrativeIndividual);
 
 
-        return view('admin.myProccess.judicial.index', [
+        return view('admin.myProccess.index', [
             'process' => $process,
         ]);
+    }
+
+    public function show(String $id)
+    {
+        return view('admin.myProccess.details');
     }
 }

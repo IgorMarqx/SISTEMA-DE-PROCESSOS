@@ -79,8 +79,9 @@
                                     <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                                     Excluir
                                 </a>
-                                @include('admin.modals.requeriments.requeriment')
                             </td>
+
+                            @include('admin.modals.requeriments.requeriment')
 
                             <td class="xl:hidden 2xl:hidden">
                                 <div class="btn-group">

@@ -34,6 +34,7 @@ class AdministrativeCollective extends Model
         'finish_collective',
         'update_collective',
         'action_type',
+        'is_AdmCollective',
     ];
 
     public function attachmentAdministrativeCollective()

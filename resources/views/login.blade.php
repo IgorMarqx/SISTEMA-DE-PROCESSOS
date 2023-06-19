@@ -5,10 +5,10 @@
 @section('content')
     <div class="h-[38rem] w-screen flex justify-center items-center">
 
-        <div class="w-[26rem] md:m-3 xs:m-4">
-            <div class="mb-8 mr-6 flex flex-col justify-center items-center xs:mr-0">
-                <img class="w-[12rem] mr-10 mb-8 " src="assets/img/logoSind.png" alt="">
-                <h3 class="font-bold text-xl md:text-[1rem] xs:text-[1rem]"><span class="text-red-500">SGP</span> - Sistema de
+        <div class="w-[26rem] md:m-3 xs:m-7">
+            <div class="mb-8 mr-2 flex flex-col justify-center items-center xs:mr-0">
+                <img class="w-[8rem] m-0 mb-3" src="assets/img/logoSind.png" alt="">
+                <h3 class="font-bold text-[1.2rem] text-xl md:text-[1rem] xs:text-[1rem]"><span class="text-red-500">SGP</span> - Sistema de
                     Gestão Processual</h3>
             </div>
 

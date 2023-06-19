@@ -36,6 +36,7 @@ return new class extends Migration
             $table->boolean('finish_individuals')->default(0);
             $table->boolean('update_individuals')->default(0);
             $table->string('action_type');
+            $table->integer('is_individual')->default(0);
             $table->timestamps();
         });
     }
