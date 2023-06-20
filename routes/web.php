@@ -59,7 +59,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('downloadPdf/{id}', [PdfController::class, 'downloadPdf'])->name('downloadPdf');
 
     Route::get('singleProccess', [SingleProccessController::class, 'index'])->name('singleProccess');
-    // Route::get('administrativeIndex', [SingleProccessController::class, 'administrativeIndex'])->name('administrativeIndex');
+    // SP = SingleProccess
+    Route::get('SPAdmCollective/{id}', [SingleProccessController::class, 'showAdmCollective'])->name('SPAdmCollective');
+    Route::get('SPAdmIndividual/{id}', [SingleProccessController::class, 'showAdmIndividual'])->name('SPAdmIndividual');
+    Route::get('SPJudicialCollective/{id}', [SingleProccessController::class, 'showJudicialCollective'])->name('SPJudicialCollective');
+    Route::get('SPJudicialIndividual/{id}', [SingleProccessController::class, 'showJudicialIndividual'])->name('SPJudicialIndividual');
+    // Attachment
+    Route::get('downloadAttachmentSingle/{id}', [SingleProccessController::class, 'downloadAttachment'])->name('downloadAttachmentSingle');
 
     // RESOURCES
     Route::resource('users', UserController::class);

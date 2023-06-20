@@ -6,7 +6,19 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <div class="mb-2"></div>
+    <div class="mb-2 flex justify-between">
+        <h1 class="underline font-bold text-red-500">Dashboard</h1>
+
+        <form method="get">
+            <select id="filterDays" name="filterDays"
+                class="w-[10rem] border border-1 rounded">
+                <option value="" selected>Últimos 30 dias</option>
+                <option value="US">Últimos 2 meses</option>
+                <option value="CA">Últimos 3 meses</option>
+                <option value="FR">Últimos 6 meses</option>
+            </select>
+        </form>
+    </div>
 @endsection
 
 @section('content')

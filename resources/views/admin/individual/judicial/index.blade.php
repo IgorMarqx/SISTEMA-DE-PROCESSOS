@@ -56,130 +56,139 @@
                 href="{{ route('administrative_individual.index') }}">Administrativos</a>
         </div>
 
-        <div class="card mt-1 ">
-            <div class="bg-red-500 h-1">
-
+        @if ($individual->isEmpty())
+            <div class="flex flex-col justify-center items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <span class="text-base">Você não possui processos!</span>
+                <span class="text-base">Seus Processos aparecerão aqui.</span>
             </div>
+        @else
+            <div class="card mt-1 ">
+                <div class="bg-red-500 h-1">
 
-            <div class="table-responsive">
-                <table class="table table-hover table-valign-middle">
-                    <tr>
-                        <th class="w-[5rem] text-center">ID</th>
-                        <th class="w-[15rem] text-center">Nome do Processo</th>
-                        <th class="w-[15rem] text-center">Tipo da ação</th>
-                        <th class="w-[20rem] text-center">Status do Processo</th>
-                        <th class="text-center">Ações</th>
-                    </tr>
+                </div>
 
-                    @foreach ($individual as $individuals)
+                <div class="table-responsive">
+                    <table class="table table-hover table-valign-middle">
                         <tr>
-                            <td class="text-center">{{ $individuals->id }}</td>
-                            <td class="text-center">{{ ucfirst($individuals->name) }} </td>
-                            <td class="text-center">
-                                @if ($individuals->action_type == 1)
-                                    Individual Judicial Funcional
-                                @else
-                                    Individual Judicial Particular
+                            <th class="w-[5rem] text-center">ID</th>
+                            <th class="w-[15rem] text-center">Nome do Processo</th>
+                            <th class="w-[15rem] text-center">Tipo da ação</th>
+                            <th class="w-[20rem] text-center">Status do Processo</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+
+                        @foreach ($individual as $individuals)
+                            <tr>
+                                <td class="text-center">{{ $individuals->id }}</td>
+                                <td class="text-center">{{ ucfirst($individuals->name) }} </td>
+                                <td class="text-center">
+                                    @if ($individuals->action_type == 1)
+                                        Individual Judicial Funcional
+                                    @else
+                                        Individual Judicial Particular
+                                    @endif
+                                </td>
+
+                                @if ($individuals->progress_individuals == 1)
+                                    <x-status textCenter="text-center" color="bg-primary">
+                                        <i class="fa-solid fa-gavel text-xs mr-1"></i>
+                                        Andamento
+                                    </x-status>
+                                @elseif($individuals->finish_individuals == 1)
+                                    <x-status textCenter="text-center" color="bg-danger">
+                                        <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
+                                        Finalizado
+                                    </x-status>
+                                @elseif($individuals->update_individuals == 1)
+                                    <x-status textCenter="text-center" color="bg-success">
+                                        <i class="fa-solid fa-circle-check text-xs mr-1"></i>
+                                        Atualizado
+                                    </x-status>
                                 @endif
-                            </td>
 
-                            @if ($individuals->progress_individuals == 1)
-                                <x-status textCenter="text-center" color="bg-primary">
-                                    <i class="fa-solid fa-gavel text-xs mr-1"></i>
-                                    Andamento
-                                </x-status>
-                            @elseif($individuals->finish_individuals == 1)
-                                <x-status textCenter="text-center" color="bg-danger">
-                                    <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
-                                    Finalizado
-                                </x-status>
-                            @elseif($individuals->update_individuals == 1)
-                                <x-status textCenter="text-center" color="bg-success">
-                                    <i class="fa-solid fa-circle-check text-xs mr-1"></i>
-                                    Atualizado
-                                </x-status>
-                            @endif
-
-                            <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:text-center 2xl:text-center">
-                                <x-button route="{{ route('individual.show', ['individual' => $individuals->id]) }}"
-                                    color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
-                                    icon="fa-solid fa-eye text-sm mr-[0.2rem]">
-                                    Detalhes
-                                </x-button>
-
-                                @if ($individuals->finish_individuals == 1)
-                                @else
-                                    <x-button route="{{ route('individual.edit', ['individual' => $individuals->id]) }}"
-                                        color="text-green-500" hover="hover:text-green-600" margin="mr-2"
-                                        icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
-                                        Editar
+                                <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:text-center 2xl:text-center">
+                                    <x-button route="{{ route('individual.show', ['individual' => $individuals->id]) }}"
+                                        color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
+                                        icon="fa-solid fa-eye text-sm mr-[0.2rem]">
+                                        Detalhes
                                     </x-button>
-                                @endif
 
-                                <x-button route="{{ route('individual_finish', ['id' => $individuals->id]) }}"
-                                    color="text-sky-500" hover="hover:text-sky-600" margin="mr-1"
-                                    icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
-                                    Finalizar
-                                </x-button>
+                                    @if ($individuals->finish_individuals == 1)
+                                    @else
+                                        <x-button
+                                            route="{{ route('individual.edit', ['individual' => $individuals->id]) }}"
+                                            color="text-green-500" hover="hover:text-green-600" margin="mr-2"
+                                            icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                            Editar
+                                        </x-button>
+                                    @endif
 
-                                <a href="" data-bs-toggle="modal"
-                                    onclick="exibirModalExclusao({{ $individuals->id }})"
-                                    class="text-red-500 hover:text-red-600 ml-1">
-                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
-                                    Excluir
-                                </a>
-                            </td>
+                                    <x-button route="{{ route('individual_finish', ['id' => $individuals->id]) }}"
+                                        color="text-sky-500" hover="hover:text-sky-600" margin="mr-1"
+                                        icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
+                                        Finalizar
+                                    </x-button>
 
-                            @include('admin.modals.individual.individual')
+                                    <a href="" data-bs-toggle="modal"
+                                        onclick="exibirModalExclusao({{ $individuals->id }})"
+                                        class="text-red-500 hover:text-red-600 ml-1">
+                                        <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                        Excluir
+                                    </a>
+                                </td>
 
-                            <td class="xl:hidden 2xl:hidden">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        Ações
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item"
-                                            href="{{ route('individual.show', ['individual' => $individuals->id]) }}">
-                                            <span class="text-yellow-500">
-                                                <i class="fa-solid fa-eye text-sm mr-[0.2rem]"></i>
-                                                Detalhes
-                                            </span>
-                                        </a>
-                                        @if ($individuals->finish_individuals == 1)
-                                        @else
+                                @include('admin.modals.individual.individual')
+
+                                <td class="xl:hidden 2xl:hidden">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            Ações
+                                        </button>
+                                        <div class="dropdown-menu">
                                             <a class="dropdown-item"
-                                                href="{{ route('individual.edit', ['individual' => $individuals->id]) }}">
-                                                <span class="text-green-500">
-                                                    <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
-                                                    Editar
+                                                href="{{ route('individual.show', ['individual' => $individuals->id]) }}">
+                                                <span class="text-yellow-500">
+                                                    <i class="fa-solid fa-eye text-sm mr-[0.2rem]"></i>
+                                                    Detalhes
                                                 </span>
                                             </a>
-                                        @endif
-                                        <a class="dropdown-item"
-                                            href="{{ route('individual_finish', ['id' => $individuals->id]) }}">
-                                            <span class="text-sky-500">
-                                                <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
-                                                Finalizar
-                                            </span>
-                                        </a>
-                                        <a href="" data-bs-toggle="modal"
-                                            onclick="exibirModalExclusao({{ $individuals->id }})"
-                                            class="dropdown-item text-danger">
-                                            <span class="text-red-500">
-                                                <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
-                                                Excluir
-                                            </span>
-                                        </a>
+                                            @if ($individuals->finish_individuals == 1)
+                                            @else
+                                                <a class="dropdown-item"
+                                                    href="{{ route('individual.edit', ['individual' => $individuals->id]) }}">
+                                                    <span class="text-green-500">
+                                                        <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
+                                                        Editar
+                                                    </span>
+                                                </a>
+                                            @endif
+                                            <a class="dropdown-item"
+                                                href="{{ route('individual_finish', ['id' => $individuals->id]) }}">
+                                                <span class="text-sky-500">
+                                                    <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
+                                                    Finalizar
+                                                </span>
+                                            </a>
+                                            <a href="" data-bs-toggle="modal"
+                                                onclick="exibirModalExclusao({{ $individuals->id }})"
+                                                class="dropdown-item text-danger">
+                                                <span class="text-red-500">
+                                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                                    Excluir
+                                                </span>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
+                                </td>
 
-                        </tr>
-                    @endforeach
-                </table>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             </div>
-        </div>
+        @endif
     </div>
 
     <script src="{{ asset('assets/js/activeNav.js') }}"></script>

@@ -98,43 +98,8 @@
                     <h4 class="m-0 text-bold">Informações do Autor</h4>
                 </div>
 
-                <div
-                    class="flex justify-center items-center gap-8 mt-2 flex-wrap hover:bg-gray-100 p-4 border border-gray-200">
-
-                    {{-- <x-clientDetails title="Nome do Autor">
-                        {{ ucfirst($user->name) }}
-                    </x-clientDetails> --}}
-
-                    <x-clientDetails title="E-mail do Autor">
-                        {{ ucfirst($user->email) }}
-                    </x-clientDetails>
-
-                    <x-clientDetails title="Orgão">
-                        {{ ucfirst($user->organ) }}
-                    </x-clientDetails>
-
-                    <x-clientDetails title="Cargo">
-                        {{ ucfirst($user->office) }}
-                    </x-clientDetails>
-
-                    <x-clientDetails title="Lotação">
-                        {{ ucfirst($user->capacity) }}
-                    </x-clientDetails>
-
-                    <x-clientDetails title="Telefone">
-                        {{ ucfirst($user->telephone) }}
-                    </x-clientDetails>
-
-                    @if ($user->created_at == null)
-                        <x-clientDetails title="Data de Criação">
-                            <span class="text-red-500">Data não informada</span>
-                        </x-clientDetails>
-                    @else
-                        <x-clientDetails title="Autuação">
-                            {{ date('d/m/Y H:i', strtotime($user->created_at)) }}
-                        </x-clientDetails>
-                    @endif
-
+                <div class="flex justify-center items-center">
+                    @include('admin.myProccess.partials.user')
                 </div>
 
                 <div class="flex items-center justify-center bg-gray-200 mt-4">

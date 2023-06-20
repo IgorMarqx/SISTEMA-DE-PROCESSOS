@@ -55,131 +55,146 @@
                 href="{{ route('administrative_collective.index') }}">Administrativos</a>
         </div>
 
-        <div class="card mt-1 ">
-            <div class="bg-red-500 h-1">
-
+        @if ($proccess->isEmpty())
+            <div class="flex flex-col justify-center items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <span class="text-base">Nenhum processo foi criado!</span>
+                <span class="text-base">Seus Processos aparecerão aqui.</span>
             </div>
+        @else
+            <div class="card mt-1 ">
+                <div class="bg-red-500 h-1">
 
-            <div class="table-responsive">
-                <table class="table table-hover table-valign-middle">
-                    <tr>
-                        <th class="w-[5rem] text-center">ID</th>
-                        <th class="w-[15rem] text-center">Nome do Processo</th>
-                        <th class="w-[15rem] text-center">Tipo da ação</th>
-                        <th class="w-[20rem] text-center">Status do Processo</th>
-                        <th class="text-center">Ações</th>
-                    </tr>
+                </div>
 
-                    @foreach ($proccess as $proccesses)
+                <div class="table-responsive">
+                    <table class="table table-hover table-valign-middle">
                         <tr>
-                            <td class="text-center">{{ $proccesses->id }}</td>
-                            <td class="text-center">{{ ucfirst($proccesses->name) }} </td>
-                            <td class="text-center">
-                                @if ($proccesses->action_type == 1)
-                                    Coletivo Judicial Funcional
-                                @else
-                                    Coletivo Judicial Particular
+                            <th class="w-[5rem] text-center">ID</th>
+                            <th class="w-[15rem] text-center">Nome do Processo</th>
+                            <th class="w-[15rem] text-center">Tipo da ação</th>
+                            <th class="w-[20rem] text-center">Status do Processo</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+
+                        @foreach ($proccess as $proccesses)
+                            <tr>
+                                <td class="text-center">{{ $proccesses->id }}</td>
+
+                                <td class="flex justify-center items-center">
+                                    <p class="text-center truncate overflow-ellipsis w-[10rem] m-0 p-0">
+                                        {{ ucfirst($proccesses->name) }}
+                                    </p>
+                                </td>
+
+                                <td class="text-center">
+                                    @if ($proccesses->action_type == 1)
+                                        Coletivo Judicial Funcional
+                                    @else
+                                        Coletivo Judicial Particular
+                                    @endif
+                                </td>
+
+                                @if ($proccesses->progress_collective == 1)
+                                    <x-status textCenter="text-center" color="bg-primary">
+                                        <i class="fa-solid fa-gavel text-xs mr-1"></i>
+                                        Andamento
+                                    </x-status>
+                                @elseif($proccesses->finish_collective == 1)
+                                    <x-status textCenter="text-center" color="bg-danger">
+                                        <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
+                                        Finalizado
+                                    </x-status>
+                                @elseif($proccesses->update_collective == 1)
+                                    <x-status textCenter="text-center" color="bg-success">
+                                        <i class="fa-solid fa-circle-check text-xs mr-1"></i>
+                                        Atualizado
+                                    </x-status>
                                 @endif
-                            </td>
 
-                            @if ($proccesses->progress_collective == 1)
-                                <x-status textCenter="text-center" color="bg-primary">
-                                    <i class="fa-solid fa-gavel text-xs mr-1"></i>
-                                    Andamento
-                                </x-status>
-                            @elseif($proccesses->finish_collective == 1)
-                                <x-status textCenter="text-center" color="bg-danger">
-                                    <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
-                                    Finalizado
-                                </x-status>
-                            @elseif($proccesses->update_collective == 1)
-                                <x-status textCenter="text-center" color="bg-success">
-                                    <i class="fa-solid fa-circle-check text-xs mr-1"></i>
-                                    Atualizado
-                                </x-status>
-                            @endif
-
-                            <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:text-center 2xl:text-center">
-                                <x-button route="{{ route('collective.show', ['collective' => $proccesses->id]) }}"
-                                    color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
-                                    icon="fa-solid fa-eye text-sm mr-[0.2rem]">
-                                    Detalhes
-                                </x-button>
-
-                                @if ($proccesses->finish_collective == 1)
-                                @else
-                                    <x-button route="{{ route('collective.edit', ['collective' => $proccesses->id]) }}"
-                                        color="text-green-500" hover="hover:text-green-600" margin="mr-2"
-                                        icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
-                                        Editar
+                                <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:text-center 2xl:text-center">
+                                    <x-button route="{{ route('collective.show', ['collective' => $proccesses->id]) }}"
+                                        color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
+                                        icon="fa-solid fa-eye text-sm mr-[0.2rem]">
+                                        Detalhes
                                     </x-button>
-                                @endif
 
-                                <x-button route="{{ route('finish', ['id' => $proccesses->id]) }}" color="text-sky-500"
-                                    hover="hover:text-sky-600" margin="mr-1"
-                                    icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
-                                    Finalizar
-                                </x-button>
+                                    @if ($proccesses->finish_collective == 1)
+                                    @else
+                                        <x-button route="{{ route('collective.edit', ['collective' => $proccesses->id]) }}"
+                                            color="text-green-500" hover="hover:text-green-600" margin="mr-2"
+                                            icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                            Editar
+                                        </x-button>
+                                    @endif
 
-                                <a href="" data-bs-toggle="modal"
-                                    onclick="exibirModalExclusao({{ $proccesses->id }})"
-                                    class="text-red-500 hover:text-red-600 ml-1">
-                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
-                                    Excluir
-                                </a>
-                            </td>
+                                    <x-button route="{{ route('finish', ['id' => $proccesses->id]) }}" color="text-sky-500"
+                                        hover="hover:text-sky-600" margin="mr-1"
+                                        icon="fa-solid fa-flag-checkered text-sm mr-[0.2rem]">
+                                        Finalizar
+                                    </x-button>
 
-                            @include('admin.modals.collective')
+                                    <a href="" data-bs-toggle="modal"
+                                        onclick="exibirModalExclusao({{ $proccesses->id }})"
+                                        class="text-red-500 hover:text-red-600 ml-1">
+                                        <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                        Excluir
+                                    </a>
+                                </td>
 
-                            <td class="xl:hidden 2xl:hidden">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        Ações
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item"
-                                            href="{{ route('collective.show', ['collective' => $proccesses->id]) }}">
-                                            <span class="text-yellow-500">
-                                                <i class="fa-solid fa-eye text-sm mr-[0.2rem]"></i>
-                                                Detalhes
-                                            </span>
-                                        </a>
+                                @include('admin.modals.collective')
 
-                                        @if ($proccesses->finish_collective == 1)
-                                        @else
+                                <td class="xl:hidden 2xl:hidden">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            Ações
+                                        </button>
+                                        <div class="dropdown-menu">
                                             <a class="dropdown-item"
-                                                href="{{ route('collective.edit', ['collective' => $proccesses->id]) }}">
-                                                <span class="text-green-500">
-                                                    <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
-                                                    Editar
+                                                href="{{ route('collective.show', ['collective' => $proccesses->id]) }}">
+                                                <span class="text-yellow-500">
+                                                    <i class="fa-solid fa-eye text-sm mr-[0.2rem]"></i>
+                                                    Detalhes
                                                 </span>
                                             </a>
-                                        @endif
 
-                                        <a class="dropdown-item" href="{{ route('finish', ['id' => $proccesses->id]) }}">
-                                            <span class="text-sky-500">
-                                                <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
-                                                Finalizar
-                                            </span>
-                                        </a>
-                                        <a href="" data-bs-toggle="modal"
-                                            onclick="exibirModalExclusao({{ $proccesses->id }})"
-                                            class="dropdown-item text-danger">
-                                            <span class="text-red-500">
-                                                <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
-                                                Excluir
-                                            </span>
-                                        </a>
+                                            @if ($proccesses->finish_collective == 1)
+                                            @else
+                                                <a class="dropdown-item"
+                                                    href="{{ route('collective.edit', ['collective' => $proccesses->id]) }}">
+                                                    <span class="text-green-500">
+                                                        <i class="fa-solid fa-pencil text-sm mr-[0.2rem]"></i>
+                                                        Editar
+                                                    </span>
+                                                </a>
+                                            @endif
+
+                                            <a class="dropdown-item"
+                                                href="{{ route('finish', ['id' => $proccesses->id]) }}">
+                                                <span class="text-sky-500">
+                                                    <i class="fa-solid fa-flag-checkered text-sm mr-[0.2rem]"></i>
+                                                    Finalizar
+                                                </span>
+                                            </a>
+                                            <a href="" data-bs-toggle="modal"
+                                                onclick="exibirModalExclusao({{ $proccesses->id }})"
+                                                class="dropdown-item text-danger">
+                                                <span class="text-red-500">
+                                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                                    Excluir
+                                                </span>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
+                                </td>
 
-                        </tr>
-                    @endforeach
-                </table>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             </div>
-        </div>
+        @endif
     </div>
 
     <script src="{{ asset('assets/js/activeNav.js') }}"></script>
