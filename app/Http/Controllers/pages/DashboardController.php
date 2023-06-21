@@ -23,8 +23,14 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $filter = intval($request->input('filterDays', 30));
+        $filterYear =  intval($request->input('filterYear', date('Y')));
+
         if ($filter > 365) {
             $filter = 365;
+        }
+
+        if($filterYear < 2023 || $filterYear > date('Y')){
+            $filterYear = date('Y');
         }
 
         $filterDate = date('Y-m-d', strtotime('-' . $filter . ' days'));
