@@ -313,22 +313,22 @@ return [
             'url' => '/collective',
             'icon' => 'fa-solid fa-user-tie',
             'can' => ['manager-users', 'manager-lawyer'],
-            'active' =>
-            request()->is('collective/create') ||
-                request()->is('collective/*') ||
-                request()->is('administrative_collective') ||
-                request()->is('administrative_collective/create') ||
-                request()->is('administrative_collective/*')
+            // 'active' =>
+            // request()->is('collective/create') ||
+            //     request()->is('collective/*') ||
+            //     request()->is('administrative_collective') ||
+            //     request()->is('administrative_collective/create') ||
+            //     request()->is('administrative_collective/*')
         ],
         [
             'text' => 'Individuais',
             'url' => '/individual',
             'icon' => 'fa-brands fa-black-tie',
             'can' => ['manager-users'],
-            'active' => request()->is('individual/create') ||
-                request()->is('individual/*') ||
-                request()->is('administrative_individual') ||
-                request()->is('administrative_individual/*')
+            // 'active' => request()->is('individual/create') ||
+            //     request()->is('individual/*') ||
+            //     request()->is('administrative_individual') ||
+            //     request()->is('administrative_individual/*')
         ],
 
         [
@@ -336,8 +336,8 @@ return [
             'url' => '/requeriments',
             'icon' => 'fa-sharp fa-solid fa-clipboard-list',
             'can' => ['manager-users'],
-            'active' => request()->is('requeriments/create') ||
-                request()->is('requeriments/*')
+            // 'active' => request()->is('requeriments/create') ||
+            //     request()->is('requeriments/*')
         ],
 
         ['header' => 'Administração',  'can' => ['manager-users', 'manager-lawyer']],
@@ -346,8 +346,8 @@ return [
             'url'         => '/users',
             'icon'        => 'fa-solid fa-users',
             'can'         => ['manager-users', 'manager-lawyer'],
-            'active' => request()->is('users/create') ||
-                request()->is('users/*')
+            // 'active' => request()->is('users/create') ||
+            //     request()->is('users/*')
         ],
         ['header' => 'Bem vindo'],
         [
@@ -359,11 +359,11 @@ return [
             'text'        => 'Meus Processos',
             'url'         => '/singleProccess',
             'icon'        => 'fa-solid fa-suitcase',
-            'active' => request()->is('singleProccess/*') ||
-                request()->is('SPJudicialCollective/*') ||
-                request()->is('SPJudicialIndividual/*') ||
-                request()->is('SPAdmIndividual/*') ||
-                request()->is('SPAdmCollective/*')
+            // 'active' => request()->is('singleProccess/*') ||
+            //     request()->is('SPJudicialCollective/*') ||
+            //     request()->is('SPJudicialIndividual/*') ||
+            //     request()->is('SPAdmIndividual/*') ||
+            //     request()->is('SPAdmCollective/*')
         ],
 
     ],
