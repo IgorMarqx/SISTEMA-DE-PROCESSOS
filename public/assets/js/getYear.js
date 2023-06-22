@@ -1,35 +1,48 @@
 function year() {
     var selectAno = document.getElementById("filterYear");
-    var anoAtual = new Date().getFullYear(); // Obtém o ano atual
+    var anoAtual = new Date().getFullYear();
 
-    // Limpa as opções existentes
+    var urlParams = new URLSearchParams(window.location.search);
+    var anoSelecionado = urlParams.get("filterYear");
+
     selectAno.innerHTML = "";
 
-    // Adiciona as opções de anos
-    for (var i = anoAtual; i >= 2023; i--) {
+    for (var i = anoAtual; i >= 2022; i--) {
         var option = document.createElement("option");
-        option.text = 'Último ano ' + i;
+        option.text = i;
         option.value = i;
+
+        if (i == anoSelecionado) {
+            option.selected = true;
+        }
+
         selectAno.appendChild(option);
     }
 }
 
 function year2() {
     var selectAno = document.getElementById("filterYear2");
-    var anoAtual = new Date().getFullYear(); // Obtém o ano atual
+    var anoAtual = new Date().getFullYear();
 
-    // Limpa as opções existentes
+    var urlParams = new URLSearchParams(window.location.search);
+    var anoSelecionado = urlParams.get("filterYear");
+
     selectAno.innerHTML = "";
 
-    // Adiciona as opções de anos
     for (var i = anoAtual; i >= 2023; i--) {
         var option = document.createElement("option");
-        option.text = 'Último ano ' + i;
+        option.text = i;
         option.value = i;
+
+        if (i == anoSelecionado) {
+            option.selected = true;
+        }
+
         selectAno.appendChild(option);
     }
 }
 
-
-year();
-year2();
+window.onload = function () {
+    year();
+    year2();
+};

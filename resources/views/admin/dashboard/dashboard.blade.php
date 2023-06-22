@@ -19,11 +19,9 @@
                     <option {{ $filterDay == 180 ? 'selected="selected"' : '' }} value="180">Últimos 6 meses</option>
                     <option {{ $filterDay == 365 ? 'selected="selected"' : '' }} value="365">Últimos 12 meses</option>
                 </select>
-            </form>
 
-            <form method="get">
                 <select name="filterYear" id="filterYear" onchange="this.form.submit()"
-                    class="w-[7rem] border border-1 rounded focus:ring-1 focus:ring-red-500">
+                    class="w-[6rem] border border-1 rounded focus:ring-1 focus:ring-red-500">
                 </select>
             </form>
         </div>
@@ -35,16 +33,14 @@
     <div class="2xl:hidden xl:hidden lg:hidden md:flex sm:flex xs:flex  mb-2 justify-end">
         <form method="get" class="mr-2">
             <select id="filterDays" name="filterDays" onchange="this.form.submit()"
-                class="w-[11rem] border border-1 rounded focus:ring-1 focus:ring-red-500">
+                class="w-[6rem] border border-1 rounded focus:ring-1 focus:ring-red-500">
                 <option {{ $filterDay == 30 ? 'selected="selected"' : '' }} value="30">Últimos 30 dias</option>
                 <option {{ $filterDay == 60 ? 'selected="selected"' : '' }} value="60">Últimos 2 meses</option>
                 <option {{ $filterDay == 120 ? 'selected="selected"' : '' }} value="120">Últimos 4 meses</option>
                 <option {{ $filterDay == 180 ? 'selected="selected"' : '' }} value="180">Últimos 6 meses</option>
                 <option {{ $filterDay == 365 ? 'selected="selected"' : '' }} value="365">Últimos 12 meses</option>
             </select>
-        </form>
 
-        <form method="get">
             <select name="filterYear" id="filterYear2" onchange="this.form.submit()"
                 class="w-[7rem] border border-1 rounded focus:ring-1 focus:ring-red-500">
             </select>
