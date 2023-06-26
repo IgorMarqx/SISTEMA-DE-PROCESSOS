@@ -125,11 +125,14 @@ class IndividualController extends Controller
                     ->withInput();
             }
 
+            $cause_value = preg_replace("/[^0-9,]/", "", $data['cause_value']);
+            $cause_value = str_replace(',', '.', $cause_value);
+
             $individual = JudicialIndividual::create([
                 'name' => $data['individuals'],
                 'subject' => $data['subject'],
                 'jurisdiction' => $data['jurisdiction'],
-                'cause_value' => $data['cause_value'],
+                'cause_value' => $cause_value,
                 'justice_secret' => $justiceSecret,
                 'free_justice' => $freeJustice,
                 'tutelar' => $tutelar,
@@ -245,11 +248,14 @@ class IndividualController extends Controller
                     ->withInput();
             }
 
+            $cause_value = preg_replace("/[^0-9,]/", "", $data['cause_value']);
+            $cause_value = str_replace(',', '.', $cause_value);
+
             $individual = AdministrativeIndividual::create([
                 'name' => $data['individuals'],
                 'subject' => $data['subject'],
                 'jurisdiction' => $data['jurisdiction'],
-                'cause_value' => $data['cause_value'],
+                'cause_value' => $cause_value,
                 'justice_secret' => $justiceSecret,
                 'free_justice' => $freeJustice,
                 'tutelar' => $tutelar,
@@ -465,7 +471,7 @@ class IndividualController extends Controller
                     ->withInput();
             }
 
-            foreach($defendants as $defendant){
+            foreach ($defendants as $defendant) {
                 $defendant->defendant = $request->defendant;
                 $defendant->cnpj = $request->cnpj;
             }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('subject');
             $table->string('jurisdiction');
-            $table->string('cause_value')->nullable();
+            $table->decimal('cause_value', 20, 2)->nullable();
             $table->boolean('justice_secret')->default(0);
             $table->boolean('free_justice')->default(0);
             $table->boolean('tutelar')->default(0);

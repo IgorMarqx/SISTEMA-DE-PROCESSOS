@@ -32,7 +32,7 @@
 
     <div class="2xl:hidden xl:hidden lg:hidden md:flex sm:flex xs:flex  mb-2 justify-end">
         <form method="get" class="mr-2">
-            <select id="filterDays" name="filterDays" onchange="this.form.submit()"
+            <select id="filterDays2" name="filterDays" onchange="this.form.submit()"
                 class="w-[6rem] border border-1 rounded focus:ring-1 focus:ring-red-500">
                 <option {{ $filterDay == 30 ? 'selected="selected"' : '' }} value="30">Últimos 30 dias</option>
                 <option {{ $filterDay == 60 ? 'selected="selected"' : '' }} value="60">Últimos 2 meses</option>
@@ -101,12 +101,12 @@
                     <div class="card p-2">
                         <div class="card-header">
                             <h3 class="card-title">
-                                Status dos processos
+                                Valor das causas
                             </h3>
                         </div>
 
                         <div class="m-7 flex justify-center items-center">
-                            <canvas id="pieChart"></canvas>
+                            <canvas id="pieChart" class="h-[22rem]"></canvas>
                         </div>
                     </div>
                 </div>
@@ -378,26 +378,32 @@
         const pie = document.getElementById('pieChart').getContext('2d')
 
         new Chart(pie, {
-            type: 'pie',
+            type: 'doughnut',
             data: {
-                labels: ['Ganhos', 'Perdidos', 'Andamento'],
+                labels: ['Coletivos Judiciais', 'Coletivos Administrativos', 'Individuais Judiciais',
+                    'Individuais Administrativos'
+                ],
                 datasets: [{
-                    label: 'Proccesos',
-                    data: [9, 2, 5, ],
+                    label: 'R$:',
+                    data: [{!! $causeValueJudicial !!}, {!! $causeValueAdmCollective !!}, {!! $causeValueIndividual !!},
+                        {!! $causeValueAdmIndividual !!}
+                    ],
                     backgroundColor: [
-                        'rgb(75, 192, 192)',
                         'rgb(255, 99, 132)',
-                        'rgb(255, 205, 86)'
+                        'rgb(255, 205, 86)',
+                        'rgb(54, 162, 235)',
+                        'rgba(201, 203, 207)'
                     ],
                     borderColor: [
-                        'rgb(75, 192, 192,0.2)',
+                        'rgb(255,255,255)',
                     ],
-                    borderWidth: 1,
+                    borderWidth: 2,
                     tension: 0.1,
                 }],
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
             }
         });
     </script>

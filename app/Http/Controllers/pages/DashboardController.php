@@ -22,9 +22,6 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        // if ($filterYear < 2023 || $filterYear > date('Y')) {
-        //     $filterYear = date('Y');
-        // }
         $filter = intval($request->input('filterDays', 30));
         $filterYear = intval($request->input('filterYear', date('Y')));
 
@@ -32,31 +29,22 @@ class DashboardController extends Controller
             $filter = 365;
         }
 
-        // Obtém a data atual
-        $currentDate = date('Y-m-d');
-
-        // Verifica se o ano selecionado é o ano atual
-        if ($filterYear == date('Y')) {
-            // Define a data de filtro como a data atual
-            $filterDate = $currentDate;
-        } else {
-            // Obtém o último dia do ano selecionado
-            $filterDate = $filterYear . '-12-31';
+        if ($filterYear < 2023 || $filterYear > date('Y')) {
+            $filterYear = date('Y');
         }
 
-        // Se o filtro for em meses, atualiza a data de filtro para o último mês do ano selecionado
-        if ($filter > 30) {
-            $filterDate = date('Y-m-d', strtotime($filterDate . ' -' . ($filter - 1) . ' months'));
-        }
+        $filterDate = date('Y-m-d', strtotime('-' . $filter . ' days'));
 
         // COLETIVOS INICIO
-        $queryJudicial = JudicialCollective::where('updated_at', '>=', $filterDate);
-        $queryAdmJudicial = AdministrativeCollective::where('updated_at', '>=', $filterDate);
+        $queryJudicial = JudicialCollective::query();
+        $queryAdmJudicial = AdministrativeCollective::query();
 
-
-        if ($filterYear !== date('Y-m-d')) {
+        if ($filterYear !== date('Y')) {
             $queryJudicial->whereYear('updated_at', $filterYear);
             $queryAdmJudicial->whereYear('updated_at', $filterYear);
+        } else {
+            $queryJudicial->where('updated_at', '>=', $filterDate);
+            $queryAdmJudicial->where('updated_at', '>=', $filterDate);
         }
 
         $qtd_update_judicial = $queryJudicial->sum('qtd_update');
@@ -132,6 +120,21 @@ class DashboardController extends Controller
         $resultsMonths = json_encode($results);
         // OPEN PROCESS FIM
 
+        // VALOR DAS CAUSAS INICIO
+        $judicialValue = JudicialCollective::sum('cause_value');
+        $AdmCollectiveValue = AdministrativeCollective::sum('cause_value');
+
+        $individualValue = JudicialIndividual::sum('cause_value');
+        $AdmIndividualValue = AdministrativeIndividual::sum('cause_value');
+
+
+        $causeValueJudicial = json_encode($judicialValue);
+        $causeValueAdmCollective = json_encode($AdmCollectiveValue);
+
+        $causeValueIndividual = json_encode($individualValue);
+        $causeValueAdmIndividual = json_encode($AdmIndividualValue);
+        // VALOR DAS CAUSAS FIM
+
 
         return view('admin.dashboard.dashboard', [
             'judicial_up' => $sum_update_judicial,
@@ -147,6 +150,12 @@ class DashboardController extends Controller
             'admIndividual_finish' => $sum_finish_admIndividual,
 
             'resultsMonths' => $resultsMonths,
+
+            'causeValueJudicial' => $causeValueJudicial,
+            'causeValueAdmCollective' => $causeValueAdmCollective,
+
+            'causeValueIndividual' => $causeValueIndividual,
+            'causeValueAdmIndividual' => $causeValueAdmIndividual,
 
             'filterDay' => $filter,
             'filterYear' => $filterYear,

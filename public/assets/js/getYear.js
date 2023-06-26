@@ -7,7 +7,7 @@ function year() {
 
     selectAno.innerHTML = "";
 
-    for (var i = anoAtual; i >= 2022; i--) {
+    for (var i = anoAtual; i >= 2023; i--) {
         var option = document.createElement("option");
         option.text = i;
         option.value = i;
@@ -42,7 +42,33 @@ function year2() {
     }
 }
 
+function displayYear() {
+    var selectAno = document.getElementById("filterYear");
+    var selectMes = document.getElementById("filterDays");
+    var anoAtual = new Date().getFullYear();
+
+    if (selectAno.value != anoAtual) {
+        selectMes.style.display = 'none';
+    } else {
+        selectMes.style.display = '';
+    }
+}
+
+function displayYear2() {
+    var selectAno = document.getElementById("filterYear2");
+    var selectMes = document.getElementById("filterDays2");
+    var anoAtual = new Date().getFullYear();
+
+    if (selectAno.value != anoAtual) {
+        selectMes.style.display = 'none';
+    } else {
+        selectMes.style.display = '';
+    }
+}
+
 window.onload = function () {
     year();
     year2();
+    displayYear();
+    displayYear2();
 };

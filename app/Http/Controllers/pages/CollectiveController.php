@@ -142,11 +142,14 @@ class CollectiveController extends Controller
                     ->withInput();
             }
 
+            $cause_value = preg_replace("/[^0-9,]/", "", $data['cause_value']);
+            $cause_value = str_replace(',', '.', $cause_value);
+
             $collective = JudicialCollective::create([
                 'name' => $data['collective'],
                 'subject' => $data['subject'],
                 'jurisdiction' => $data['jurisdiction'],
-                'cause_value' => $data['cause_value'],
+                'cause_value' => $cause_value,
                 'justice_secret' => $justiceSecret,
                 'free_justice' => $freeJustice,
                 'tutelar' => $tutelar,
@@ -262,11 +265,14 @@ class CollectiveController extends Controller
                     ->withInput();
             }
 
+            $cause_value = preg_replace("/[^0-9,]/", "", $data['cause_value']);
+            $cause_value = str_replace(',', '.', $cause_value);
+
             $collective = AdministrativeCollective::create([
                 'name' => $data['collective'],
                 'subject' => $data['subject'],
                 'jurisdiction' => $data['jurisdiction'],
-                'cause_value' => $data['cause_value'],
+                'cause_value' => $cause_value,
                 'justice_secret' => $justiceSecret,
                 'free_justice' => $freeJustice,
                 'tutelar' => $tutelar,
