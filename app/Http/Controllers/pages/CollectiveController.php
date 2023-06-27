@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AdmProcess;
+use App\Mail\CreateProcess;
+use App\Mail\update\CollectiveProcess;
 use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
 use App\Models\Defendant;
@@ -12,6 +15,7 @@ use App\Models\User;
 use App\Models\UserProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
@@ -149,7 +153,7 @@ class CollectiveController extends Controller
                 'name' => $data['collective'],
                 'subject' => $data['subject'],
                 'jurisdiction' => $data['jurisdiction'],
-                'cause_value' => $cause_value,
+                'cause_value' => $cause_value ? $cause_value : 0,
                 'justice_secret' => $justiceSecret,
                 'free_justice' => $freeJustice,
                 'tutelar' => $tutelar,
@@ -199,6 +203,14 @@ class CollectiveController extends Controller
                 'judicial_collective_id' => $collective->id,
             ]);
             $userprocess->save();
+
+            $sentMail = Mail::to($data['email_corp'])->send(new CreateProcess([
+                'fromName' => 'SINDJUF-PB',
+                'fromEmail' => 'sindjufpboficial@gmail.com',
+                'subject' => $data['collective'],
+                'message' => $data['subject'],
+                'id' => $collective->id,
+            ]));
 
             session()->flash('success', 'Processo Judicial criado com sucesso.');
             return redirect()->route('collective.index');
@@ -272,7 +284,7 @@ class CollectiveController extends Controller
                 'name' => $data['collective'],
                 'subject' => $data['subject'],
                 'jurisdiction' => $data['jurisdiction'],
-                'cause_value' => $cause_value,
+                'cause_value' => $cause_value ? $cause_value : 0,
                 'justice_secret' => $justiceSecret,
                 'free_justice' => $freeJustice,
                 'tutelar' => $tutelar,
@@ -322,6 +334,14 @@ class CollectiveController extends Controller
                 'administrative_collective_id' => $collective->id,
             ]);
             $userprocess->save();
+
+            $sentMail = Mail::to($data['email_corp'])->send(new AdmProcess([
+                'fromName' => 'SINDJUF-PB',
+                'fromEmail' => 'sindjufpboficial@gmail.com',
+                'subject' => $data['collective'],
+                'message' => $data['subject'],
+                'id' => $collective->id,
+            ]));
 
             session()->flash('success', 'Processo Administrativo criado com sucesso.');
             return redirect()->route('administrative_collective.index');
@@ -593,6 +613,14 @@ class CollectiveController extends Controller
 
                 session()->flash('success', 'Processo em andamento.');
             }
+
+            $sentMail = Mail::to($data['email_corp'])->send(new CollectiveProcess([
+                'fromName' => 'SINDJUF-PB',
+                'fromEmail' => 'sindjufpboficial@gmail.com',
+                'subject' => $data['collective'],
+                'message' => $data['subject'],
+                'id' => $collective->id,
+            ]));
 
             $collective->touch();
             $collective->save();

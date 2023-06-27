@@ -74,7 +74,7 @@
                             <th class="w-[5rem] text-center">ID</th>
                             <th class="w-[15rem] text-center">Nome do Processo</th>
                             <th class="w-[15rem] text-center">Tipo da ação</th>
-                            <th class="w-[20rem] text-center">Status do Processo</th>
+                            <th class="w-[15rem] text-center">Status do Processo</th>
                             <th class="text-center">Ações</th>
                         </tr>
 

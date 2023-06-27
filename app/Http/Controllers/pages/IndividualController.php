@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AdmIndividual;
+use App\Mail\IndividualProcess;
 use App\Models\AdministrativeIndividual;
 use App\Models\Attachment;
 use App\Models\Defendant;
@@ -12,6 +14,7 @@ use App\Models\User;
 use App\Models\UserProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class IndividualController extends Controller
 {
@@ -132,7 +135,7 @@ class IndividualController extends Controller
                 'name' => $data['individuals'],
                 'subject' => $data['subject'],
                 'jurisdiction' => $data['jurisdiction'],
-                'cause_value' => $cause_value,
+                'cause_value' => $cause_value ? $cause_value : 0,
                 'justice_secret' => $justiceSecret,
                 'free_justice' => $freeJustice,
                 'tutelar' => $tutelar,
@@ -182,6 +185,14 @@ class IndividualController extends Controller
                 'judicial_individual_id' => $individual->id,
             ]);
             $userprocess->save();
+
+            $sentMail = Mail::to($data['email_corp'])->send(new IndividualProcess([
+                'fromName' => 'SINDJUF-PB',
+                'fromEmail' => 'sindjufpboficial@gmail.com',
+                'subject' => $data['individuals'],
+                'message' => $data['subject'],
+                'id' => $individual->id,
+            ]));
 
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('individual.index');
@@ -255,7 +266,7 @@ class IndividualController extends Controller
                 'name' => $data['individuals'],
                 'subject' => $data['subject'],
                 'jurisdiction' => $data['jurisdiction'],
-                'cause_value' => $cause_value,
+                'cause_value' => $cause_value ? $cause_value : 0,
                 'justice_secret' => $justiceSecret,
                 'free_justice' => $freeJustice,
                 'tutelar' => $tutelar,
@@ -305,6 +316,14 @@ class IndividualController extends Controller
                 'administrative_individual_id' => $individual->id,
             ]);
             $userprocess->save();
+
+            $sentMail = Mail::to($data['email_corp'])->send(new AdmIndividual([
+                'fromName' => 'SINDJUF-PB',
+                'fromEmail' => 'sindjufpboficial@gmail.com',
+                'subject' => $data['individuals'],
+                'message' => $data['subject'],
+                'id' => $individual->id,
+            ]));
 
             session()->flash('success', 'Processo criado com sucesso.');
             return redirect()->route('administrative_individual.index');

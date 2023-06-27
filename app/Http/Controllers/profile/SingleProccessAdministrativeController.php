@@ -12,7 +12,13 @@ class SingleProccessAdministrativeController extends Controller
      */
     public function index()
     {
-
+        $data = [
+            'message' => 'Assistência Pré-Escolar',
+            'subject' => 'Cumprimento de sentença contra a fazenda pública'
+        ];
+        return view('mails.content', [
+            'data' => $data,
+        ]);
     }
 
     /**

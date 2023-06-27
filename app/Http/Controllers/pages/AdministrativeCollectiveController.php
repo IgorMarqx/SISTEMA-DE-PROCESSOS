@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
+use App\Mail\update\AdmUpProcess;
 use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
 use App\Models\Defendant;
 use App\Models\Lawyer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
@@ -273,7 +275,10 @@ class AdministrativeCollectiveController extends Controller
             $adm_collective->free_justice = $freeJustice;
             $adm_collective->tutelar = $tutelar;
 
-            $adm_collective->cause_value = $data['cause_value'];
+            $cause_value = preg_replace("/[^0-9,]/", "", $data['cause_value']);
+            $cause_value = str_replace(',', '.', $cause_value);
+
+            $adm_collective->cause_value = $cause_value;
 
             if ($adm_collective->email_client !== $data['email_client']) {
                 $hasEmail = AdministrativeCollective::where('email_client', $data['email_client'])->get();
@@ -330,6 +335,14 @@ class AdministrativeCollectiveController extends Controller
             $adm_collective->touch();
             $adm_collective->save();
         }
+
+        $sentMail = Mail::to($data['email_corp'])->send(new AdmUpProcess([
+            'fromName' => 'SINDJUF-PB',
+            'fromEmail' => 'sindjufpboficial@gmail.com',
+            'subject' => $data['collective'],
+            'message' => $data['subject'],
+            'id' => $adm_collective->id,
+        ]));
 
         return redirect()->route('administrative_collective.index');
     }
