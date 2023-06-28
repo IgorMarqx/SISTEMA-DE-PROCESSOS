@@ -89,11 +89,10 @@
                                 </td>
                             @endif
 
-                            <td>
-                                <x-button route="{{ route('users.show', ['user' => $user->id]) }}" color="text-yellow-400"
-                                    hover="hover:text-yellow-500" margin="mr-2"
+                            <td class="lg:hidden md:hidden sm:hidden xs:hidden xl:text-center 2xl:text-center">
+                                <x-button route="{{ route('users.show', ['user' => $user->id]) }}"
+                                    color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
                                     icon="fa-solid fa-circle-info text-sm mr-[0.2rem] ">
-
                                     Detalhes
                                 </x-button>
 
@@ -116,38 +115,120 @@
                                 @if (auth()->user()->can('admin-3'))
                                     @if ($user->admin == 0)
                                         <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                            onclick="exibirModalExclusao({{ $user->id }})"
                                             class="text-red-500 hover:text-red-600 ml-1">
                                             <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                                             Excluir
                                         </a>
                                         @include('admin.modals.users')
                                     @else
-                                        <span class="text-red-500"><i class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
+                                        <span class="text-red-500"><i
+                                                class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
                                             permissão</span>
                                     @endif
                                 @elseif(auth()->user()->can('admin-2'))
                                     @if ($user->admin == 0)
                                         <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                            onclick="exibirModalExclusao({{ $user->id }})"
                                             class="text-red-500 hover:text-red-600 ml-1">
                                             <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                                             Excluir
                                         </a>
                                         @include('admin.modals.users')
                                     @else
-                                        <span class="text-red-500"><i class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
+                                        <span class="text-red-500"><i
+                                                class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
                                             permissão</span>
                                     @endif
                                 @elseif($loggedId->id == intval($user->id))
-                                    <span class="text-red-500"><i class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
+                                    <span class="text-red-500"><i
+                                            class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
                                         permissão</span>
                                 @else
                                     <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        onclick="exibirModalExclusao({{ $user->id }})"
                                         class="text-red-500 hover:text-red-600 ml-1">
                                         <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
                                         Excluir
                                     </a>
                                     @include('admin.modals.users')
                                 @endif
+                            </td>
+
+                            @include('admin.modals.users')
+
+                            <td class="xl:hidden 2xl:hidden">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        Ações
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <x-button route="{{ route('users.show', ['user' => $user->id]) }}"
+                                            color="text-yellow-400" hover="hover:text-yellow-500" margin="mr-2"
+                                            icon="fa-solid fa-circle-info text-sm mr-[0.2rem] ">
+                                            Detalhes
+                                        </x-button>
+
+                                        @if (auth()->user()->can('admin-1'))
+                                            <x-button route="{{ route('users.edit', ['user' => $user->id]) }}"
+                                                color="text-green-500" hover="hover:text-green-600" margin="mr-1"
+                                                icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                                Editar
+                                            </x-button>
+                                        @elseif($loggedId->admin != 1)
+                                            @if ($user->admin != 1)
+                                                <x-button route="{{ route('users.edit', ['user' => $user->id]) }}"
+                                                    color="text-green-500" hover="hover:text-green-600" margin="mr-1"
+                                                    icon="fa-solid fa-pencil text-sm mr-[0.2rem]">
+                                                    Editar
+                                                </x-button>
+                                            @endif
+                                        @endif
+
+                                        @if (auth()->user()->can('admin-3'))
+                                            @if ($user->admin == 0)
+                                                <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                    onclick="exibirModalExclusao({{ $user->id }})"
+                                                    class="text-red-500 hover:text-red-600 ml-1">
+                                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                                    Excluir
+                                                </a>
+                                                @include('admin.modals.users')
+                                            @else
+                                                <span class="text-red-500"><i
+                                                        class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
+                                                    permissão</span>
+                                            @endif
+                                        @elseif(auth()->user()->can('admin-2'))
+                                            @if ($user->admin == 0)
+                                                <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                    onclick="exibirModalExclusao({{ $user->id }})"
+                                                    class="text-red-500 hover:text-red-600 ml-1">
+                                                    <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                                    Excluir
+                                                </a>
+                                                @include('admin.modals.users')
+                                            @else
+                                                <span class="text-red-500"><i
+                                                        class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
+                                                    permissão</span>
+                                            @endif
+                                        @elseif($loggedId->id == intval($user->id))
+                                            <span class="text-red-500"><i
+                                                    class="fa-solid fa-xmark text-sm mr-[0.2rem]"></i>Sem
+                                                permissão</span>
+                                        @else
+                                            <a href="" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                onclick="exibirModalExclusao({{ $user->id }})"
+                                                class="text-red-500 hover:text-red-600 ml-1">
+                                                <i class="fa-solid fa-trash-can text-sm mr-[0.2rem]"></i>
+                                                Excluir
+                                            </a>
+                                            @include('admin.modals.users')
+                                        @endif
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

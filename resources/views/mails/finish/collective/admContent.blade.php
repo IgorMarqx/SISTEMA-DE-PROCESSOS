@@ -8,11 +8,11 @@
 </div>
 
 <div>
-    <h2 style="text-align: center; color: #065cbe;">
-        Processo Criado com sucesso!
+    <h2 style="text-align: center; color: #be0606;">
+        Processo Finalizado com sucesso!
     </h2>
 
-    <p>Processo <strong>{{ $data['subject'] }}</strong> foi criado com sucesso.</p>
-    <a href="{{ 'https://sindjufpb.com.br/system/public/administrative_collective/' . $data['id'] }}">Clique aqui para ir para o
+    <p>Processo <strong>{{ $data['subject'] }}</strong> foi finalizado com sucesso.</p>
+    <a href="{{ 'https://sindjufpb.com.br/system/public/administrative_collective/' . $data['id']}}">Clique aqui para ir para o
         processo.</a>
 </div>

@@ -8,12 +8,12 @@
 </div>
 
 <div>
-    <h2 style="text-align: center; color: #06be06;">
-        Processo Atualizado com sucesso!
+    <h2 style="text-align: center; color: #be0606;">
+        Processo Finalizado com sucesso!
     </h2>
 
-    <p>Processo <strong>{{ $data['subject'] }}</strong> foi atualizado com sucesso.</p>
-    <a href="{{ 'https://sindjufpb.com.br/system/public/individual/' . $data['id']}}">Clique aqui para ir para
+    <p>Processo <strong>{{ $data['subject'] }}</strong> foi finalizado com sucesso.</p>
+    <a href="{{ 'https://sindjufpb.com.br/system/public/administrative_individual/' . $data['id']}}">Clique aqui para ir para
         o
         processo.</a>
 </div>

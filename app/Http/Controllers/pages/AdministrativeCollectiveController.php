@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
+use App\Mail\finish\AdmProcess;
 use App\Mail\update\AdmUpProcess;
 use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
@@ -175,6 +176,20 @@ class AdministrativeCollectiveController extends Controller
                 $collective->qtd_finish += 1;
             }
 
+            $recipients = [$collective['email_coorporative']];
+
+            if (!empty($collective['email_client'])) {
+                $recipients[] = $collective['email_client'];
+            }
+
+            $sentMail = Mail::to($recipients)->send(new AdmProcess([
+                'fromName' => 'SINDJUF-PB',
+                'fromEmail' => 'sindjufpboficial@gmail.com',
+                'subject' => $collective['name'],
+                'message' => $collective['subject'],
+                'id' => $collective->id,
+            ]));
+
             $collective->save();
         }
 
@@ -336,7 +351,13 @@ class AdministrativeCollectiveController extends Controller
             $adm_collective->save();
         }
 
-        $sentMail = Mail::to($data['email_corp'])->send(new AdmUpProcess([
+        $recipients = [$data['email_corp']];
+
+        if (!empty($data['email_client'])) {
+            $recipients[] = $data['email_client'];
+        }
+
+        $sentMail = Mail::to($recipients)->send(new AdmUpProcess([
             'fromName' => 'SINDJUF-PB',
             'fromEmail' => 'sindjufpboficial@gmail.com',
             'subject' => $data['collective'],
@@ -382,7 +403,7 @@ class AdministrativeCollectiveController extends Controller
                 'url' => ['max:2048'],
                 'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
-                'email_client' => ['max:100'],
+                'email_client' => 'nullable|email',
             ],
             [
                 'collective.required' => 'Preencha esse campo.',
@@ -410,7 +431,7 @@ class AdministrativeCollectiveController extends Controller
                 'email_corp.email' => 'Informe um e-mail válido.',
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
-                'email_client.unique' => 'Já existe um e-mail como esse.',
+                'email_client.email' => 'Informe um e-mail válido.'
             ]
         );
     }

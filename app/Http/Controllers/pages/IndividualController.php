@@ -4,7 +4,9 @@ namespace App\Http\Controllers\pages;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AdmIndividual;
+use App\Mail\finish\IndividualProcess as FinishIndividualProcess;
 use App\Mail\IndividualProcess;
+use App\Mail\update\IndividualProcess as UpdateIndividualProcess;
 use App\Models\AdministrativeIndividual;
 use App\Models\Attachment;
 use App\Models\Defendant;
@@ -186,7 +188,13 @@ class IndividualController extends Controller
             ]);
             $userprocess->save();
 
-            $sentMail = Mail::to($data['email_corp'])->send(new IndividualProcess([
+            $recipients = [$data['email_corp']];
+
+            if (!empty($data['email_client'])) {
+                $recipients[] = $data['email_client'];
+            }
+
+            $sentMail = Mail::to($recipients)->send(new IndividualProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['individuals'],
@@ -317,7 +325,13 @@ class IndividualController extends Controller
             ]);
             $userprocess->save();
 
-            $sentMail = Mail::to($data['email_corp'])->send(new AdmIndividual([
+            $recipients = [$data['email_corp']];
+
+            if (!empty($data['email_client'])) {
+                $recipients[] = $data['email_client'];
+            }
+
+            $sentMail = Mail::to($recipients)->send(new AdmIndividual([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['individuals'],
@@ -408,6 +422,20 @@ class IndividualController extends Controller
             $judicial_individual->qtd_finish += 1;
 
             $judicial_individual->save();
+
+            $recipients = [$judicial_individual['email_coorporative']];
+
+            if (!empty($judicial_individual['email_client'])) {
+                $recipients[] = $judicial_individual['email_client'];
+            }
+
+            $sentMail = Mail::to($recipients)->send(new FinishIndividualProcess([
+                'fromName' => 'SINDJUF-PB',
+                'fromEmail' => 'sindjufpboficial@gmail.com',
+                'subject' => $judicial_individual['name'],
+                'message' => $judicial_individual['subject'],
+                'id' => $judicial_individual->id,
+            ]));
 
             session()->flash('success', 'Processo finalizado com sucesso.');
             return redirect()->back();
@@ -506,7 +534,11 @@ class IndividualController extends Controller
             $individual->subject = $data['subject'];
             $individual->jurisdiction = $data['jurisdiction'];
 
-            $individual->cause_value = $data['cause_value'];
+            $cause_value = preg_replace("/[^0-9,]/", "", $data['cause_value']);
+            $cause_value = str_replace(',', '.', $cause_value);
+
+            $individual->cause_value = $cause_value;
+
             $individual->priority = $data['priority'];
             $individual->judgmental_organ = $data['judgmental_organ'];
 
@@ -559,6 +591,20 @@ class IndividualController extends Controller
             $individual->touch();
             $individual->save();
         }
+
+        $recipients = [$data['email_corp']];
+
+        if (!empty($data['email_client'])) {
+            $recipients[] = $data['email_client'];
+        }
+
+        $sentMail = Mail::to($recipients)->send(new UpdateIndividualProcess([
+            'fromName' => 'SINDJUF-PB',
+            'fromEmail' => 'sindjufpboficial@gmail.com',
+            'subject' => $data['individuals'],
+            'message' => $data['subject'],
+            'id' => $individual->id,
+        ]));
 
         return redirect()->route('individual.index');
     }
@@ -622,7 +668,7 @@ class IndividualController extends Controller
                 'priority' => ['required', 'max:100'],
                 'judgmental_organ' => ['required', 'max:100'],
                 'email_corp' => ['required', 'max:100', 'email'],
-                'email_client' => ['max:100'],
+                'email_client' => 'nullable|email',
             ],
             [
                 'individuals.required' => 'Preencha esse campo.',
@@ -647,7 +693,7 @@ class IndividualController extends Controller
                 'email_corp.email' => 'Informe um e-mail válido.',
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
-                'email_client.unique' => 'Já existe um e-mail como esse.',
+                'email_client.email' => 'Informe um e-mail válido.'
             ]
         );
     }

@@ -8,7 +8,7 @@
 </div>
 
 <div>
-    <h2 style="text-align: center; color: #06be06;">
+    <h2 style="text-align: center; color: #065cbe;">
         Processo Criado com sucesso!
     </h2>
 

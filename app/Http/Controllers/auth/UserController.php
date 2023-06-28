@@ -287,6 +287,12 @@ class UserController extends Controller
                 'name' => ['required', 'min:5', 'string', 'max:100'],
                 'email' => ['required', 'email', 'string', 'max:100', 'unique:users'],
                 'password' => ['required', 'string', 'min:5', 'confirmed'],
+                'telephone' => 'required_if:admin,2,3,0',
+                'cpf' => 'required_if:admin,2',
+                'oab' => 'required_if:admin,2',
+                'organ' => 'required_if:admin,3,0',
+                'office' => 'required_if:admin,3,0',
+                'capacity' => 'required_if:admin,3,0',
             ],
             [
                 'name.required' => 'Preencha esse campo.',
@@ -301,6 +307,14 @@ class UserController extends Controller
                 'password.required' => 'Preencha esse campo.',
                 'password.min' => 'Minimo 5 caracteres.',
                 'password.confirmed' => 'Senhas não coincidem.',
+
+                'telephone.required_if' => 'Preencha esse campo.',
+                'cpf.required_if' => 'Preencha esse campo.',
+                'oab.required_if' => 'Preencha esse campo.',
+
+                'organ' => 'Preencha esse campo.',
+                'office' => 'Preencha esse campo.',
+                'capacity' => 'Preencha esse campo.',
             ]
         );
     }

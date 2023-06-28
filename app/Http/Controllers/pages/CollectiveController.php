@@ -5,6 +5,7 @@ namespace App\Http\Controllers\pages;
 use App\Http\Controllers\Controller;
 use App\Mail\AdmProcess;
 use App\Mail\CreateProcess;
+use App\Mail\finish\CollectiveProcess as FinishCollectiveProcess;
 use App\Mail\update\CollectiveProcess;
 use App\Models\AdministrativeCollective;
 use App\Models\Attachment;
@@ -204,7 +205,13 @@ class CollectiveController extends Controller
             ]);
             $userprocess->save();
 
-            $sentMail = Mail::to($data['email_corp'])->send(new CreateProcess([
+            $recipients = [$data['email_corp']];
+
+            if (!empty($data['email_client'])) {
+                $recipients[] = $data['email_client'];
+            }
+
+            $sentMail = Mail::to($recipients)->send(new CreateProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['collective'],
@@ -335,7 +342,13 @@ class CollectiveController extends Controller
             ]);
             $userprocess->save();
 
-            $sentMail = Mail::to($data['email_corp'])->send(new AdmProcess([
+            $recipients = [$data['email_corp']];
+
+            if (!empty($data['email_client'])) {
+                $recipients[] = $data['email_client'];
+            }
+
+            $sentMail = Mail::to($recipients)->send(new AdmProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['collective'],
@@ -559,6 +572,11 @@ class CollectiveController extends Controller
             $collective->url_noticies = $data['url_noticies'];
             // $collective->user_id = $data['user_id'];
 
+            $cause_value = preg_replace("/[^0-9,]/", "", $data['cause_value']);
+            $cause_value = str_replace(',', '.', $cause_value);
+
+            $collective->cause_value = $cause_value;
+
             $collective->subject = $data['subject'];
             $collective->jurisdiction = $data['jurisdiction'];
 
@@ -614,7 +632,13 @@ class CollectiveController extends Controller
                 session()->flash('success', 'Processo em andamento.');
             }
 
-            $sentMail = Mail::to($data['email_corp'])->send(new CollectiveProcess([
+            $recipients = [$data['email_corp']];
+
+            if (!empty($data['email_client'])) {
+                $recipients[] = $data['email_client'];
+            }
+
+            $sentMail = Mail::to($recipients)->send(new CollectiveProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['collective'],
@@ -662,6 +686,20 @@ class CollectiveController extends Controller
                 $collective->qtd_finish += 1;
             }
 
+            $recipients = [$collective['email_coorporative']];
+
+            if (!empty($collective['email_client'])) {
+                $recipients[] = $collective['email_client'];
+            }
+
+            $sentMail = Mail::to($recipients)->send(new FinishCollectiveProcess([
+                'fromName' => 'SINDJUF-PB',
+                'fromEmail' => 'sindjufpboficial@gmail.com',
+                'subject' => $collective['name'],
+                'message' => $collective['subject'],
+                'id' => $collective->id,
+            ]));
+
             $collective->save();
         }
 
@@ -684,7 +722,7 @@ class CollectiveController extends Controller
                 'url' => ['max:2048'],
                 'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
-                'email_client' => ['max:100'],
+                'email_client' => 'nullable|email',
             ],
             [
                 'collective.required' => 'Preencha esse campo.',
@@ -715,7 +753,7 @@ class CollectiveController extends Controller
                 'email_corp.email' => 'Informe um e-mail válido.',
 
                 'email_client.max' => 'Máximo de 100 caracteres.',
-                'email_client.unique' => 'Já existe um e-mail como esse.',
+                'email_client.email' => 'Informe um e-mail válido.'
             ]
         );
     }
