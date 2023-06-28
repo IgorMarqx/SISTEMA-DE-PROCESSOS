@@ -523,7 +523,7 @@ class CollectiveController extends Controller
         $defendants =  Defendant::where('judicial_collective_id', $id)->get();
 
         if ($collective) {
-            $data = $request->only('collective', 'url', 'url_noticies', 'subject', 'jurisdiction', 'priority', 'judgmental_organ', 'judicial_office', 'competence', 'email_corp', 'email_client', 'user_id', 'status');
+            $data = $request->only('collective', 'url', 'url_noticies', 'subject', 'jurisdiction', 'priority', 'judgmental_organ', 'judicial_office', 'competence', 'email_corp', 'email_client', 'user_id', 'status', 'cause_value');
 
             $justiceSecret = $request->input('justice_secret', []);
             $freeJustice = $request->input('free_justice', []);
@@ -596,7 +596,7 @@ class CollectiveController extends Controller
                 if (count($hasEmail) == 0) {
                     $collective->email_client = $data['email_client'];
                 } else {
-                    $validator->errors()->add('email', 'Já existe um e-mail com esse.');
+                    $validator->errors()->add('email_client', 'Já existe um e-mail com esse.');
                 }
             }
 
@@ -722,7 +722,7 @@ class CollectiveController extends Controller
                 'url' => ['max:2048'],
                 'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
-                'email_client' => 'nullable|email',
+                'email_client' => ['nullable' , 'email'],
             ],
             [
                 'collective.required' => 'Preencha esse campo.',
@@ -752,7 +752,6 @@ class CollectiveController extends Controller
                 'email_corp.max' => 'Máximo de 100 caracteres.',
                 'email_corp.email' => 'Informe um e-mail válido.',
 
-                'email_client.max' => 'Máximo de 100 caracteres.',
                 'email_client.email' => 'Informe um e-mail válido.'
             ]
         );

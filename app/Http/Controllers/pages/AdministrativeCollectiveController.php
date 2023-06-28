@@ -301,7 +301,7 @@ class AdministrativeCollectiveController extends Controller
                 if (count($hasEmail) == 0) {
                     $adm_collective->email_client = $data['email_client'];
                 } else {
-                    $validator->errors()->add('email', 'Já existe um e-mail com esse.');
+                    $validator->errors()->add('email_client', 'Já existe um e-mail com esse.');
                 }
             }
 
