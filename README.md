@@ -1,4 +1,4 @@
-# Sistema de Processos para a SINDJUF-PB
+# Sistema de Gestão Processual para a SINDJUF-PB
 
 Este projeto é um sistema desenvolvido para a SINDJUF-PB com o intuito de auxiliar no acompanhamento e visualização de processos. Ele foi construído utilizando a linguagem PHP em conjunto com o framework Laravel, e o banco de dados relacional MySQL. A interface do sistema foi construída utilizando o sistema de templates Blade do Laravel.
 
