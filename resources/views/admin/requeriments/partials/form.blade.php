@@ -1,5 +1,5 @@
 <form action="{{ route('requeriments.store') }}" method="post">
-    <div class="flex flex-wrap">
+    <div class="row">
         @csrf
         <div class="col-md-4">
             <x-labels id="destinatario" colorSpan="text-red-500">
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="flex mt-2">
+    <div class="flex flex-wrap mt-2">
         <div class="col-md-6">
             <x-labels id="coord_1" colorSpan="text-red-500">
                 Requisitante 1
@@ -85,7 +85,7 @@
         </div>
     </div>
 
-    <div class="flex mt-2">
+    <div class="flex flex-wrap mt-2">
         <div class="col-md-6 ">
             <x-labels id="coord_2" colorSpan="hidden">
                 Requisitante 2
@@ -130,7 +130,7 @@
         </div>
     </div>
 
-    <div class="flex mt-2">
+    <div class="flex flex-wrap mt-2">
         <div class="col-md-6">
             <x-labels id="coord_3" colorSpan="hidden">
                 Requisitante 3

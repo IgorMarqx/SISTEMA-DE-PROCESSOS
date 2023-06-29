@@ -171,7 +171,6 @@ class CollectiveController extends Controller
                 'action_type' => $data['type'],
                 'is_collective' => 1,
             ]);
-            $collective->save();
 
             $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('name') : null;
             $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('name') : null;
@@ -190,6 +189,8 @@ class CollectiveController extends Controller
                 'judicial_collective_id' => $collective->id,
             ]);
             $lawyer->save();
+            $collective->lawyer_id = $lawyer->id;
+            $collective->save();
 
             $reu = Defendant::create([
                 'defendant' => $defendant['defendant'],
@@ -327,6 +328,7 @@ class CollectiveController extends Controller
                 'administrative_collective_id' => $collective->id,
             ]);
             $lawyer->save();
+            $collective->lawyer_id = $lawyer->id;
 
             $reu = Defendant::create([
                 'defendant' => $defendant['defendant'],
@@ -722,7 +724,7 @@ class CollectiveController extends Controller
                 'url' => ['max:2048'],
                 'url_noticies' => ['max:2048'],
                 'email_corp' => ['required', 'max:100', 'email'],
-                'email_client' => ['nullable' , 'email'],
+                'email_client' => ['nullable', 'email'],
             ],
             [
                 'collective.required' => 'Preencha esse campo.',

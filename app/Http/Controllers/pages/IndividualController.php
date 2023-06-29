@@ -154,7 +154,6 @@ class IndividualController extends Controller
                 'action_type' => $data['action_type'],
                 'is_individual' => 1,
             ]);
-            $individual->save();
 
             $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('name') : null;
             $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('name') : null;
@@ -173,6 +172,8 @@ class IndividualController extends Controller
                 'judicial_individual_id' => $individual->id,
             ]);
             $lawyer->save();
+            $individual->lawyer_id = $lawyer->id;
+            $individual->save();
 
             $reu = Defendant::create([
                 'defendant' => $defendant['defendant'],
@@ -291,7 +292,6 @@ class IndividualController extends Controller
                 'action_type' => $data['action_type'],
                 'is_AdmIndividual' => 1,
             ]);
-            $individual->save();
 
             $lawyer_1 = isset($request->lawyers[0]) ? User::where('id', $request->lawyers[0])->value('name') : null;
             $lawyer_2 = isset($request->lawyers[1]) ? User::where('id', $request->lawyers[1])->value('name') : null;
@@ -310,6 +310,8 @@ class IndividualController extends Controller
                 'administrative_individual_id' => $individual->id,
             ]);
             $lawyer->save();
+            $individual->lawyer_id = $lawyer->id;
+            $individual->save();
 
             $reu = Defendant::create([
                 'defendant' => $defendant['defendant'],

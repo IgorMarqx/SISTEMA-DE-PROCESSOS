@@ -155,7 +155,7 @@
                         </x-labels>
 
                         <input placeholder="Informe o CPF" id="cpf" name="cpf" type="text"
-                            class="form-control @error('cpf') is-invalid @enderror">
+                            class="form-control @error('cpf') is-invalid @enderror" value="{{ $users->cpf }}">
 
                         @error('cpf')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -168,7 +168,7 @@
                         </x-labels>
 
                         <input placeholder="Informe sua OAB" id="oab" name="oab" type="text"
-                            class="form-control @error('oab') is-invalid @enderror">
+                            class="form-control @error('oab') is-invalid @enderror" value="{{ $users->oab }}">
 
                         @error('oab')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -210,6 +210,10 @@
 
     <script>
         $('#telephone').mask('(00) 00000-0000');
+
+        $('#cpf').mask('000.000.000-00', {
+            reverse: true
+        });
     </script>
 
     <script src="{{ asset('assets/js/editUsers.js') }}"></script>

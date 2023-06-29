@@ -89,7 +89,7 @@
                         </x-labels>
 
                         <input placeholder="Informe o orgão" id="organ" name="organ" type="text"
-                            class="form-control @error('organ') is-invalid @enderror">
+                            class="form-control @error('organ') is-invalid @enderror" value="{{ old('organ') }}" >
 
                         @error('organ')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -102,7 +102,7 @@
                         </x-labels>
 
                         <input placeholder="Informe o Cargo" id="office" name="office" type="text"
-                            class="form-control @error('office') is-invalid @enderror">
+                            class="form-control @error('office') is-invalid @enderror" value="{{ old('office') }}">
 
                         @error('office')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -115,7 +115,7 @@
                         </x-labels>
 
                         <input placeholder="Informe a lotação" id="capacity" name="capacity" type="text"
-                            class="form-control @error('capacity') is-invalid @enderror">
+                            class="form-control @error('capacity') is-invalid @enderror" value="{{ old('capacity') }}">
 
                         @error('capacity')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -128,7 +128,7 @@
                         </x-labels>
 
                         <input placeholder="Informe o telefone" id="telephone" name="telephone" type="text"
-                            class="form-control @error('telephone') is-invalid @enderror">
+                            class="form-control @error('telephone') is-invalid @enderror" value="{{ old('telephone') }}">
 
                         @error('telephone')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -141,7 +141,7 @@
                         </x-labels>
 
                         <input placeholder="Informe o CPF" id="cpf" name="cpf" type="text"
-                            class="form-control @error('cpf') is-invalid @enderror">
+                            class="form-control @error('cpf') is-invalid @enderror" value="{{ old('cpf') }}">
 
                         @error('cpf')
                             <span class="text-red-500 flex">{{ $message }}</span>
@@ -154,7 +154,7 @@
                         </x-labels>
 
                         <input placeholder="Informe sua OAB" id="oab" name="oab" type="text"
-                            class="form-control @error('oab') is-invalid @enderror">
+                            class="form-control @error('oab') is-invalid @enderror" value="{{ old('oab') }}"">
 
                         @error('oab')
                             <span class="text-red-500 flex">{{ $message }}</span>

@@ -43,15 +43,17 @@
         @if ($data['requeriment']->coord_2 != null)
             <div style="text-align: left; margin-top:3rem;">
                 <h4 style="text-decoration: underline; margin:0; margin-left:3rem;">{{ $data['requeriment']->coord_2 }}</h4>
-                <span>{{ $data['requeriment']->coord_office_2 }} - SINDJUF/PB</span>
+                <span style="margin-left: -4rem;">{{ $data['requeriment']->coord_office_2 }} - SINDJUF/PB</span>
             </div>
         @else
         @endif
 
         @if ($data['requeriment']->coord_3 != null)
             <div style="text-align: right; margin-top:-3rem; margin-right: 1.5rem;">
-                <h4 style="text-decoration: underline; margin:0; margin-right:2rem;">{{ $data['requeriment']->coord_3 }}</h4>
-                <span style="margin-right:-2rem;">{{ $data['requeriment']->coord_office_3 }} - SINDJUF/PB</span>
+                <h4 style="text-decoration: underline; margin:0; margin-right:6rem;">{{ $data['requeriment']->coord_3 }}</h4>
+                <div style="width: 15rem; margin-left: 22rem;">
+                    <span style="margin-right:-4rem;">{{ $data['requeriment']->coord_office_3 }} - SINDJUF/PB</span>
+                </div>
             </div>
         @else
         @endif

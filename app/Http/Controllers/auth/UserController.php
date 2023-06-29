@@ -166,7 +166,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if ($user) {
-            $data = $request->only('name', 'email', 'organ', 'office', 'capacity', 'telephone', 'password', 'password_confirmation', 'admin');
+            $data = $request->only('name', 'email', 'organ', 'office', 'cpf', 'oab', 'capacity', 'telephone', 'password', 'password_confirmation', 'admin');
 
             $validator = $this->validatorUpdate($data);
 
@@ -287,8 +287,12 @@ class UserController extends Controller
                 'name' => ['required', 'min:5', 'string', 'max:100'],
                 'email' => ['required', 'email', 'string', 'max:100', 'unique:users'],
                 'password' => ['required', 'string', 'min:5', 'confirmed'],
-                'telephone' => 'required_if:admin,2,3,0',
-                'cpf' => 'required_if:admin,2',
+                'telephone' => 'required_if:admin,2,3,0 | min:15',
+                'cpf' => [
+                    'required_if:admin,2',
+                    'nullable',
+                    'min:14',
+                ],
                 'oab' => 'required_if:admin,2',
                 'organ' => 'required_if:admin,3,0',
                 'office' => 'required_if:admin,3,0',
@@ -309,7 +313,11 @@ class UserController extends Controller
                 'password.confirmed' => 'Senhas não coincidem.',
 
                 'telephone.required_if' => 'Preencha esse campo.',
+                'telephone.min' => 'Informe um telefone válido.',
+
                 'cpf.required_if' => 'Preencha esse campo.',
+                'cpf.min' => 'Informe um CPF válido.',
+
                 'oab.required_if' => 'Preencha esse campo.',
 
                 'organ' => 'Preencha esse campo.',
@@ -329,15 +337,23 @@ class UserController extends Controller
                 'organ' => $data['organ'],
                 'office' => $data['office'],
                 'capacity' => $data['capacity'],
-                'telephone' => $data['telephone']
+                'telephone' => $data['telephone'],
+                'cpf' => $data['cpf'],
+                'oab' => $data['oab'],
             ],
             [
                 'name' => ['required', 'min:5', 'string', 'max:100'],
                 'email' => ['required', 'email', 'string', 'max:100'],
-                'organ' => ['required', 'string'],
-                'office' =>  ['required', 'string'],
-                'capacity' =>  ['required', 'string'],
-                'telephone' =>  ['required'],
+                'telephone' => 'required_if:admin,2,3,0 | min:15',
+                'cpf' => [
+                    'required_if:admin,2',
+                    'nullable',
+                    'min:14',
+                ],
+                'oab' => 'required_if:admin,2',
+                'organ' => 'required_if:admin,3,0',
+                'office' => 'required_if:admin,3,0',
+                'capacity' => 'required_if:admin,3,0',
             ],
             [
                 'name.required' => 'Preencha esse campo.',
@@ -348,10 +364,17 @@ class UserController extends Controller
                 'email.email' => 'Preencha o campo com um e-mail válido.',
                 'email.max' => 'Máximo 100 caracteres.',
 
-                'organ.required' => 'Preencha esse campo',
-                'office.required' => 'Preencha esse campo',
-                'capacity.required' => 'Preencha esse campo',
-                'telephone.required' => 'Preencha esse campo'
+                'telephone.required_if' => 'Preencha esse campo.',
+                'telephone.min' => 'Informe um telefone válido.',
+
+                'cpf.required_if' => 'Preencha esse campo.',
+                'cpf.min' => 'Informe um CPF válido.',
+
+                'oab.required_if' => 'Preencha esse campo.',
+
+                'organ' => 'Preencha esse campo.',
+                'office' => 'Preencha esse campo.',
+                'capacity' => 'Preencha esse campo.',
             ]
         );
     }
