@@ -18,17 +18,17 @@
             </div>
 
             <div>
-                @if ($proccess->progress_collective == 1)
+                @if ($proccess->progress_individuals == 1)
                     <x-status textCenter="text-center" color="bg-primary">
                         <i class="fa-solid fa-gavel text-xs mr-1"></i>
                         Andamento
                     </x-status>
-                @elseif($proccess->finish_collective == 1)
+                @elseif($proccess->finish_individuals == 1)
                     <x-status textCenter="text-center" color="bg-danger">
                         <i class="fa-solid fa-flag-checkered text-xs mr-1"></i>
                         Finalizado
                     </x-status>
-                @elseif($proccess->update_collective == 1)
+                @elseif($proccess->update_individuals == 1)
                     <x-status textCenter="text-center" color="bg-success">
                         <i class="fa-solid fa-circle-check text-xs mr-1"></i>
                         Atualizado
