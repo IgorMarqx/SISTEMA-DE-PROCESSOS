@@ -182,7 +182,7 @@ class AdministrativeCollectiveController extends Controller
                 $recipients[] = $collective['email_client'];
             }
 
-            $sentMail = Mail::to($recipients)->send(new AdmProcess([
+            $sentMail = Mail::to($recipients)->queue(new AdmProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $collective['name'],
@@ -357,7 +357,7 @@ class AdministrativeCollectiveController extends Controller
             $recipients[] = $data['email_client'];
         }
 
-        $sentMail = Mail::to($recipients)->send(new AdmUpProcess([
+        $sentMail = Mail::to($recipients)->queue(new AdmUpProcess([
             'fromName' => 'SINDJUF-PB',
             'fromEmail' => 'sindjufpboficial@gmail.com',
             'subject' => $data['collective'],

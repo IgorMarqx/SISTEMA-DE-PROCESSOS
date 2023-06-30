@@ -195,7 +195,7 @@ class IndividualController extends Controller
                 $recipients[] = $data['email_client'];
             }
 
-            $sentMail = Mail::to($recipients)->send(new IndividualProcess([
+            $sentMail = Mail::to($recipients)->queue(new IndividualProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['individuals'],
@@ -333,7 +333,7 @@ class IndividualController extends Controller
                 $recipients[] = $data['email_client'];
             }
 
-            $sentMail = Mail::to($recipients)->send(new AdmIndividual([
+            $sentMail = Mail::to($recipients)->queue(new AdmIndividual([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['individuals'],
@@ -431,7 +431,7 @@ class IndividualController extends Controller
                 $recipients[] = $judicial_individual['email_client'];
             }
 
-            $sentMail = Mail::to($recipients)->send(new FinishIndividualProcess([
+            $sentMail = Mail::to($recipients)->queue(new FinishIndividualProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $judicial_individual['name'],
@@ -600,7 +600,7 @@ class IndividualController extends Controller
             $recipients[] = $data['email_client'];
         }
 
-        $sentMail = Mail::to($recipients)->send(new UpdateIndividualProcess([
+        $sentMail = Mail::to($recipients)->queue(new UpdateIndividualProcess([
             'fromName' => 'SINDJUF-PB',
             'fromEmail' => 'sindjufpboficial@gmail.com',
             'subject' => $data['individuals'],

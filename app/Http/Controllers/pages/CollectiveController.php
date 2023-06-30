@@ -212,7 +212,7 @@ class CollectiveController extends Controller
                 $recipients[] = $data['email_client'];
             }
 
-            $sentMail = Mail::to($recipients)->send(new CreateProcess([
+            $sentMail = Mail::to($recipients)->queue(new CreateProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['collective'],
@@ -350,7 +350,7 @@ class CollectiveController extends Controller
                 $recipients[] = $data['email_client'];
             }
 
-            $sentMail = Mail::to($recipients)->send(new AdmProcess([
+            $sentMail = Mail::to($recipients)->queue(new AdmProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['collective'],
@@ -640,7 +640,7 @@ class CollectiveController extends Controller
                 $recipients[] = $data['email_client'];
             }
 
-            $sentMail = Mail::to($recipients)->send(new CollectiveProcess([
+            $sentMail = Mail::to($recipients)->queue(new CollectiveProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $data['collective'],
@@ -694,7 +694,7 @@ class CollectiveController extends Controller
                 $recipients[] = $collective['email_client'];
             }
 
-            $sentMail = Mail::to($recipients)->send(new FinishCollectiveProcess([
+            $sentMail = Mail::to($recipients)->queue(new FinishCollectiveProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $collective['name'],

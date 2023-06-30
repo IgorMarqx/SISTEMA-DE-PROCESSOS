@@ -306,7 +306,7 @@ class AdministrativeIndividualController extends Controller
             $recipients[] = $data['email_client'];
         }
 
-        $sentMail = Mail::to($recipients)->send(new AdmIndProcess([
+        $sentMail = Mail::to($recipients)->queue(new AdmIndProcess([
             'fromName' => 'SINDJUF-PB',
             'fromEmail' => 'sindjufpboficial@gmail.com',
             'subject' => $data['administrative_individuals'],
@@ -354,7 +354,7 @@ class AdministrativeIndividualController extends Controller
                 $recipients[] = $judicial_individual['email_client'];
             }
 
-            $sentMail = Mail::to($recipients)->send(new FinishAdmIndProcess([
+            $sentMail = Mail::to($recipients)->queue(new FinishAdmIndProcess([
                 'fromName' => 'SINDJUF-PB',
                 'fromEmail' => 'sindjufpboficial@gmail.com',
                 'subject' => $judicial_individual['name'],
