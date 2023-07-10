@@ -27,44 +27,15 @@
             .
         </div>
 
-        <div class="w-full bg-gray-200 flex items-center justify-center">
-            <h3 class="font-bold">Detalhes</h3>
-        </div>
 
         <div class="card-body">
 
-            <div class="flex items-center justify-center gap-20 border border-slate-500 p-4 hover:bg-gray-200 flex-wrap">
-
-                <div class="flex flex-col items-center justify-center">
-                    <h4 class="font-bold text-lg">Id</h4>
-                    <span>{{ $users->id }}</span>
-                </div>
-
-                <div class="flex flex-col items-center justify-center">
-                    <h4 class="font-bold text-lg">Nome</h4>
-                    <span>{{ $users->name }}</span>
-                </div>
-
-                <div class="flex flex-col items-center justify-center">
-                    <h4 class="font-bold text-lg">E-mail</h4>
-                    <span class="break-all break-words">{{ $users->email }}</span>
-                </div>
-
+            <div class="flex items-center justify-center text-black bg-gray-200">
+                <h4 class="m-0 text-bold">Informações do Autor</h4>
             </div>
 
-            <div
-                class="flex items-center justify-center gap-20 border border-slate-500 p-4 hover:bg-gray-200 flex-wrap mt-2">
-
-                <div class="flex flex-col items-center justify-center">
-                    <h4 class="font-bold text-lg">Data de criação</h4>
-                    <span>{{ date('d/m/Y H:i', strtotime($users->created_at)) }}</span>
-                </div>
-
-                <div class="flex flex-col items-center justify-center">
-                    <h4 class="font-bold text-lg">Data de Atualização</h4>
-                    <span>{{ date('d/m/Y H:i', strtotime($users->updated_at)) }}</span>
-                </div>
-
+            <div class="flex justify-center items-center">
+                @include('admin.users.partials.user')
             </div>
 
         </div>

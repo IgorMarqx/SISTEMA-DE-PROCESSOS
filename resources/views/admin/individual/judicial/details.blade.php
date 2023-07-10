@@ -95,7 +95,7 @@
 
             <div class="card-body">
                 <div class="flex items-center justify-center text-black bg-gray-200">
-                    <h4 class="m-0 text-bold">Informações do cliente</h4>
+                    <h4 class="m-0 text-bold">Informações do Autor</h4>
                 </div>
 
                 <div class="flex justify-center items-center">
